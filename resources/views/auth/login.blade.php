@@ -63,7 +63,7 @@
                 <div class="flex items-centre justify-center flex-col">
                     <img class="mx-24 mb-4" src="/images/data-ext.svg" alt="">
                     <h1 class="text-center font-extrabold text-2xl">Simplifying property management</h1>
-                    <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quibusdam amet iure magnam dignissimos, totam aliquam dicta asperiores delectus libero?</p>
+                    <p class="text-center mx-24">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quibusdam amet iure magnam dignissimos, totam aliquam dicta asperiores delectus libero?</p>
                 </div>
             </div>
         </div>
