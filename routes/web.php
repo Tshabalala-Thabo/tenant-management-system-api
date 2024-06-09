@@ -21,4 +21,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/tenants', function () {
+    return view('tenants');
+})->middleware(['auth'])->name('tenants');
+
+require __DIR__ . '/auth.php';

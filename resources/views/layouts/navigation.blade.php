@@ -1,6 +1,6 @@
 <nav class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+    <div class=" mx-auto px-4 sm:px-6 lg:px-0">
         <div class="flex justify-between h-16">
              <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">

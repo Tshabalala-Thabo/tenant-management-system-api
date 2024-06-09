@@ -23,46 +23,48 @@
 
         <div class="flex">
             <!-- Responsive Navigation Menu -->
-            <div :class="{'block': open, 'hidden': ! open}" class="pt-4 w-2/12 bg-gray-500">
+            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-gray-500">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
-                <div class="mx-6 pb-2">
-                    <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 bg-primary-100 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <ion-icon name="apps" class="size-6 text-black mr-6"></ion-icon> {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="pb-2 mx-6">
-                    <x-responsive-nav-link class="rounded-lg  py-2 pl-6 pr-6 bg-primary-100 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <ion-icon name="people-outline" class="size-6 text-black mr-6"></ion-icon>{{ __('Tenants') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="pb-2 mx-6">
-                    <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 bg-primary-100 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <ion-icon name="document-text-outline" class="size-6 text-black mr-6"></ion-icon> {{ __('Invoices') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="pb-2 mx-6 rounded-md">
-                    <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 bg-primary-100 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <ion-icon name="bed-outline" class="size-6 text-black mr-6"></ion-icon> {{ __('Rooms') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="pb-2 mx-6">
-                    <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 bg-primary-100 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <ion-icon name="hammer-outline" class="size-6 text-black mr-6"></ion-icon> {{ __('Maintenance') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <!-- Responsive Settings Options -->
-                <div class="pt-4 pb-1 border-t border-gray-200">
-                    <div class="px-4">
-                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div>
+                    <div class="mx-6 pb-2">
+                        <x-responsive-nav-link class="rounded-lg font-bold py-2 pl-6 pr-6 {{ Route::current()->getName() == 'dashboard' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <ion-icon name="apps" class="size-6 mr-6"></ion-icon> {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
                     </div>
 
-                    <div class="mt-3 space-y-1">
+                    <div class="pb-2 mx-6">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('tenants')" :active="request()->routeIs('tenants')">
+                            <ion-icon name="people-outline" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
+                        </x-responsive-nav-link>
+                    </div>
+
+                    <div class="pb-2 mx-6">
+                        <x-responsive-nav-link class="rounded-lg py-2 {{ Route::current()->getName() == 'invoices' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} pl-6 pr-6 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <ion-icon name="document-text-outline" class="size-6 mr-6"></ion-icon> {{ __('Invoices') }}
+                        </x-responsive-nav-link>
+                    </div>
+
+                    <div class="pb-2 mx-6 rounded-md">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <ion-icon name="bed-outline" class="size-6 mr-6"></ion-icon> {{ __('Rooms') }}
+                        </x-responsive-nav-link>
+                    </div>
+
+                    <div class="pb-2 mx-6 rounded-md">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <ion-icon name="hammer-outline" class="size-6 mr-6"></ion-icon> {{ __('Maintenance') }}
+                        </x-responsive-nav-link>
+                    </div>
+
+                </div>
+                <!-- Responsive Settings Options -->
+                <div class="">
+                    <!-- <div class="px-4">
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    </div> -->
+
+                    <div class="mt-3 space-y-1 bg-black text-white">
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -77,12 +79,40 @@
             </div>
 
             <!-- Page Content -->
-            <main class="w-10/12">
+            <main class="flex-grow">
                 <!-- Page Heading -->
 
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                <!-- <header class="bg-white shadow">
+                    <div class="mx-auto py-6 px-3 font-semibold text-md sm:px-6 lg:px-8">
+                        {{ ucfirst(Route::current()->getName()) }}
+                    </div>
+                </header> -->
+                <header class="flex-1">
+                    <div class="mx-auto py-6 px-3 font-semibold text-lg sm:px-6 lg:px-8">
+                        @if(Request::is('/') || Request::is('home'))
+                        <nav class="breadcrumbs">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                            </ul>
+                        </nav>
+                        @elseif(Request::is('tenants'))
+                        <nav class="breadcrumbs">
+                            <ul class="flex font-medium text-sm">
+                                <li class="mr-1"><a href="/">Home</a></li>
+                                <li class="mr-1"> > </li>
+                                <li class="mr-1"><a href="/products">Products</a></li>
+
+                            </ul>
+                        </nav>
+                        <!-- Add more conditions as needed for other routes -->
+                        @endif
+
+                        <!-- Your main content -->
+                        <div class="container">
+                            @yield('content')
+                        </div>
+
+                        {{ ucfirst(Route::current()->getName()) }}
                     </div>
                 </header>
                 {{ $slot }}

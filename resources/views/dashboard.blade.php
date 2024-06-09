@@ -48,7 +48,7 @@
                         <p class="text-lg">Invoices</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-10 py-4 flex justify-end rounded-b-lg text-white bg-black">
+                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
                     See more>>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <p class="text-lg">Tenants</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-10 py-4 flex justify-end rounded-b-lg text-white bg-black">
+                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
                     See more>>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         <p class="text-lg">Maintenance tickets</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-10 py-4 flex justify-end rounded-b-lg text-white bg-black">
+                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
                     See more>>
                 </div>
             </div>
@@ -90,13 +90,13 @@
                         <p class="text-lg">Rooms</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-10 py-4 flex justify-end rounded-b-lg text-white bg-black">
+                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
                     See more>>
                 </div>
             </div>
         </div>
 
-        <div class="px-2">
+        <div class="px-2 w-6/12">
             <h1 class="font-bold">Recent payments</h1>
             <!--div class="relative rounded-lg">
                 <div class="shadow-md border-solid border-black border-2 rounded-lg">
@@ -129,33 +129,97 @@
                     </table>
                 </div>
             </!--div-->
-            <table class="table w-6/12 rounded-lg shadow-md overflow-hidden">
+            <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
                 <thead class="table-active bg-gray-500">
                     <tr class="bg-gray-500">
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Invoice#</th>
+                        <th scope="col">Names</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <th scope="row">12</th>
+                        <td>Mark Buthelezi</td>
+                        <td>R 1000</td>
+                        <td>12 June</td>
                     </tr>
                     <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                        <th scope="row">13</th>
+                        <td>Jacob Malesa</td>
+                        <td>R1 000</td>
+                        <td>12 June</td>
                     </tr>
                     <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                        <th scope="row">14</th>
+                        <td>Larry Potter</td>
+                        <td>R1 000</td>
+                        <td>12 June</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="px-2 w-6/12">
+            <h1 class="font-bold">Recent maintenance tickets</h1>
+            <!--div class="relative rounded-lg">
+                <div class="shadow-md border-solid border-black border-2 rounded-lg">
+                    <table class="table-fixed border-spacing-y-2 text-sm">
+                        <thead class="bg-gray-700 text-white text-left">
+                            <tr class="px-4">
+                                <th>Song</th>
+                                <th>Artist</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-solid border-black border-t">
+                                <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+                                <td>Malcolm Lockyer</td>
+                                <td>1961</td>
+                            </tr>
+
+                            <tr class="border-solid border-black border-t">
+                                <td>Witchy Woman</td>
+                                <td>The Eagles</td>
+                                <td>1972</td>
+                            </tr>
+                            <tr class="border-solid border-black border-t">
+                                <td>Shining Star</td>
+                                <td>Earth, Wind, and Fire</td>
+                                <td>1975</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </!--div-->
+            <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
+                <thead class="table-active bg-gray-500">
+                    <tr class="bg-gray-500">
+                        <th scope="col">Invoice#</th>
+                        <th scope="col">Names</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">12</th>
+                        <td>Mark Buthelezi</td>
+                        <td>R 1000</td>
+                        <td>12 June</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">13</th>
+                        <td>Jacob Malesa</td>
+                        <td>R1 000</td>
+                        <td>12 June</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">14</th>
+                        <td>Larry Potter</td>
+                        <td>R1 000</td>
+                        <td>12 June</td>
                     </tr>
                 </tbody>
             </table>

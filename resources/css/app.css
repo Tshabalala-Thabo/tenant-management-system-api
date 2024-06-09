@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 @import '~ionicons/dist/scss/ionicons.scss';
+
+a{
+    text-decoration: none !important;
+    color:inherit !important;
+    border-left: none !important;
+}
