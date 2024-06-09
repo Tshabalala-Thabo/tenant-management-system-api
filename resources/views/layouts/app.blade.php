@@ -18,10 +18,10 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div x-data="{ open: true }" class="min-h-screen bg-gray-100">
+    <div x-data="{ open: true }" class="min-h-screen flex-col bg-gray-100">
         @include('layouts.navigation')
 
-        <div class="flex">
+        <div class="flex flex-1" style="height: calc(100vh - 4rem - 1px);">
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-gray-500">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
@@ -70,7 +70,9 @@
                             @csrf
 
                             <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                            this.closest('form').submit();">
+                                            this.closest('form').submit();" class="px-4 flex align-center">
+                                <ion-icon name="log-out-outline" class="size-6 mr-5 text-primary-200"></ion-icon>
+
                                 {{ __('Log Out') }}
                             </x-responsive-nav-link>
                         </form>
@@ -92,15 +94,15 @@
                         @if(Request::is('/') || Request::is('home'))
                         <nav class="breadcrumbs">
                             <ul>
-                                <li><a href="/">Home</a></li>
+                                <li><a href="/dashboard">Home</a></li>
                             </ul>
                         </nav>
                         @elseif(Request::is('tenants'))
                         <nav class="breadcrumbs">
                             <ul class="flex font-medium text-sm">
-                                <li class="mr-1"><a href="/">Home</a></li>
+                                <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
                                 <li class="mr-1"> > </li>
-                                <li class="mr-1"><a href="/products">Products</a></li>
+                                <li class="mr-1"><a href="/tenants">Tenants</a></li>
 
                             </ul>
                         </nav>
