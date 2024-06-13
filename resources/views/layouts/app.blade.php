@@ -90,7 +90,7 @@
                     </div>
                 </header> -->
                 <header class="flex-1">
-                    <div class="mx-auto py-6 px-3 font-semibold text-lg sm:px-6 lg:px-8">
+                    <div class="mx-auto py-6 pt-8 pb-2 font-semibold text-lg sm:px-6 lg:px-8">
                         @if(Request::is('/') || Request::is('home'))
                         <nav class="breadcrumbs">
                             <ul>
@@ -115,7 +115,14 @@
                         </div>
 
                         {{ ucfirst(Route::current()->getName()) }}
+
+                        
                     </div>
+
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Button
+                            </button>
+
                 </header>
                 {{ $slot }}
             </main>
