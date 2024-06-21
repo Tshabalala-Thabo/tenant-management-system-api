@@ -120,9 +120,11 @@
                     </div>
 
                     <div>
-                        <button class="bg-primary-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            +Add tenant
-                        </button>
+                        @if(Request::is('tenants'))
+                            <button class="bg-primary-700 hover:bg-primary-500 text-black font-bold py-2 px-4 rounded">
+                                + Add tenant
+                            </button>
+                        @endif
                     </div>
 
                 </header>
