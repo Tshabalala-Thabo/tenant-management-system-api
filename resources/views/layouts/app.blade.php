@@ -89,8 +89,8 @@
                         {{ ucfirst(Route::current()->getName()) }}
                     </div>
                 </header> -->
-                <header class="flex-1">
-                    <div class="mx-auto py-6 pt-8 pb-2 font-semibold text-lg sm:px-6 lg:px-8">
+                <header class="flex-1 flex items-center justify-between px-3 pt-8 pb-2">
+                    <div class=" font-semibold text-lg">
                         @if(Request::is('/') || Request::is('home'))
                         <nav class="breadcrumbs">
                             <ul>
@@ -119,9 +119,11 @@
                         
                     </div>
 
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Button
-                            </button>
+                    <div>
+                        <button class="bg-primary-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            +Add tenant
+                        </button>
+                    </div>
 
                 </header>
                 {{ $slot }}
