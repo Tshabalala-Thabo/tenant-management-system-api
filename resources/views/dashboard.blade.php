@@ -7,8 +7,8 @@
 
     <div class="flex flex-wrap gap-y-4 px-1 py-3">
         <div class="w-4/12 px-2">
-            <div class="bg-gray-700 sm:rounded-lg">
-                <div class="flex shadow-md py-6 justify-between items-center px-6 text-white">
+            <div class="bg-primary-700 shadow-md sm:rounded-lg">
+                <div class="flex py-6 justify-between items-center px-6 text-black">
                     <ion-icon name="cash-outline" class="size-12 text-white"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-3xl">R13 000</p>
@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="w-4/12 px-2">
-            <div class="bg-gray-700 sm:rounded-lg">
-                <div class="flex shadow-md py-6 justify-between items-center px-6 text-white">
+            <div class="bg-primary-700 shadow-md sm:rounded-lg">
+                <div class="flex py-6 justify-between items-center px-6 text-black">
                     <ion-icon name="warning-outline" class="size-12 text-white"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-3xl">3</p>
@@ -29,8 +29,8 @@
             </div>
         </div>
         <div class="w-4/12 px-2">
-            <div class="bg-gray-700 sm:rounded-lg">
-                <div class="shadow-md flex py-6 justify-between items-center px-6 text-white">
+            <div class="bg-primary-700 sm:rounded-lg">
+                <div class="flex py-6 justify-between items-center px-6 text-black">
                     <ion-icon name="pricetags-outline" class="size-12 text-white"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-3xl">3</p>
