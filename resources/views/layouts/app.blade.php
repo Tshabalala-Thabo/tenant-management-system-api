@@ -21,37 +21,37 @@
     <div x-data="{ open: true }" class="min-h-screen flex-col bg-gray-100">
         @include('layouts.navigation')
 
-        <div class="flex flex-1" style="height: calc(100vh - 4rem - 1px);">
+        <div class="flex flex-1 style="height: calc(100vh - 4rem - 1px);">
             <!-- Responsive Navigation Menu -->
-            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-gray-500">
+            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-700">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
                 <div>
                     <div class="mx-6 pb-2">
-                        <x-responsive-nav-link class="rounded-lg font-bold py-2 pl-6 pr-6 {{ Route::current()->getName() == 'dashboard' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link class="rounded-lg font-bold py-2 pl-6 pr-6 {{ Route::current()->getName() == 'dashboard' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="apps" class="size-6 mr-6"></ion-icon> {{ __('Dashboard') }}
                         </x-responsive-nav-link>
                     </div>
 
                     <div class="pb-2 mx-6">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('tenants')" :active="request()->routeIs('tenants')">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants')" :active="request()->routeIs('tenants')">
                             <ion-icon name="people-outline" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
                         </x-responsive-nav-link>
                     </div>
 
                     <div class="pb-2 mx-6">
-                        <x-responsive-nav-link class="rounded-lg py-2 {{ Route::current()->getName() == 'invoices' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} pl-6 pr-6 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link class="rounded-lg py-2 {{ Route::current()->getName() == 'invoices' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} pl-6 pr-6 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="document-text-outline" class="size-6 mr-6"></ion-icon> {{ __('Invoices') }}
                         </x-responsive-nav-link>
                     </div>
 
                     <div class="pb-2 mx-6 rounded-md">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="bed-outline" class="size-6 mr-6"></ion-icon> {{ __('Rooms') }}
                         </x-responsive-nav-link>
                     </div>
 
                     <div class="pb-2 mx-6 rounded-md">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-white' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="hammer-outline" class="size-6 mr-6"></ion-icon> {{ __('Maintenance') }}
                         </x-responsive-nav-link>
                     </div>

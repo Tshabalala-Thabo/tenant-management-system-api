@@ -4,15 +4,13 @@
             <div
                 class="flex flex-col justify-center items-center pt-6 pb-6 bg-primary-700 md:px-20 lg:px-24 lg:min-h-screen">
                 <div class="flex items-centre justify-center flex-col">
-                    <img class="h-48 md:h-96 lg:h-full mb-4" src="/images/data-ext.svg" alt="">
-                    <h1 class="text-center font-extrabold text-2xl">Simplifying property management</h1>
-                    <p class="text-center md:mx-6 lg:mx-24">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Soluta
-                        quibusdam amet iure magnam dignissimos, totam aliquam dicta asperiores delectus libero?</p>
+                    <img class="h-48 md:h-96 lg:h-96 mb-4" src="/images/data-ext.svg" alt="">
+                    <h1 class="text-center hidden sm:block font-extrabold text-2xl">Simplifying property management</h1>
+                    <p class="text-center md:mx-6 hidden sm:block lg:mx-24">Streamline tenant records, payments, maintenance, and communication efficiently with our intuitive and comprehensive tenant management system.</p>
                 </div>
             </div>
         </div>
-        <div class="w-full flex-1 bg-red-200 flex lg:w-5/12"> <!-- 5 columns wide -->
+        <div class="w-full flex-1 bg-gray-200 flex px-5 lg:w-5/12"> <!-- 5 columns wide -->
             <div class="flex flex-col flex-1 justify-center items-center pt-6 sm:pt-0 lg:min-h-screen">
                 <x-slot name="logo">
                     <a href="/">
@@ -28,7 +26,7 @@
                         <img src="./images/logo_black.png" width="200px">
                     </a>
                 </div>
-                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')" />
 
