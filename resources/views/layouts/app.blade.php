@@ -18,10 +18,10 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div x-data="{ open: true }" class="min-h-screen flex-col bg-gray-100">
+    <div x-data="{ open: true }" class="h-screen flex flex-col bg-gray-100">
         @include('layouts.navigation')
 
-        <div class="flex flex-1 style="height: calc(100vh - 4rem - 1px);">
+        <div class="flex flex-1"> <!-- style="height: calc(100vh - 4rem - 1px);" -->
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-700">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
@@ -46,7 +46,7 @@
 
                     <div class="pb-2 mx-6 rounded-md">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            <ion-icon name="bed-outline" class="size-6 mr-6"></ion-icon> {{ __('Rooms') }}
+                            <ion-icon name="business-outline" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
                         </x-responsive-nav-link>
                     </div>
 
@@ -81,7 +81,7 @@
             </div>
 
             <!-- Page Content -->
-            <main class="flex-grow">
+            <main class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
                 <!-- Page Heading -->
 
                 <!-- <header class="bg-white shadow">
@@ -121,7 +121,7 @@
 
                     <div>
                         @if(Request::is('tenants'))
-                            <button class="bg-primary-700 hover:bg-primary-500 text-black font-bold py-2 px-4 rounded">
+                            <button class="bg-primary-700 shadow-md hover:bg-primary-500 text-black font-bold py-2 px-4 rounded">
                                 + Add tenant
                             </button>
                         @endif
