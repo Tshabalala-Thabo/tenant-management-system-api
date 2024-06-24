@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandlordSiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +25,17 @@ Route::get('/dashboard', function () {
 Route::get('/tenants', function () {
     return view('tenants');
 })->middleware(['auth'])->name('tenants');
+
+Route::get('/sites', function () {
+    return view('sites');
+})->middleware(['auth'])->name('sites');
+
+Route::post('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
+
+
+// Route::middleware(['auth', 'landlord'])->group(function () {
+//     // Route::get('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
+    Route::post('sites', [LandlordSiteController::class, 'store'])->name('sites.store');
+// });
 
 require __DIR__ . '/auth.php';

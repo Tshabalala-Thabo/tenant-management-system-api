@@ -18,6 +18,10 @@
 
     <link rel="stylesheet" href="https://unpkg.com/@icon/ionicons/ionicons.css">
     <!-- Scripts -->
+
+    <!-- modal -->
+    <script src="{{ asset('js/app.js') }}"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -32,13 +36,13 @@
                 <div>
                     <div class="mx-6 pb-2">
                         <x-responsive-nav-link class="rounded-lg font-bold py-2 pl-6 pr-6 {{ Route::current()->getName() == 'dashboard' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            <ion-icon name="apps" class="size-6 mr-6"></ion-icon> {{ __('Dashboard') }}
+                            <ion-icon name="{{ Route::current()->getName() == 'dashboard' ? 'apps'  : 'apps-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Dashboard') }}
                         </x-responsive-nav-link>
                     </div>
 
                     <div class="pb-2 mx-6">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants')" :active="request()->routeIs('tenants')">
-                            <ion-icon name="people-outline" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
+                            <ion-icon name="{{ Route::current()->getName() == 'tenants' ? 'people'  : 'people-outline' }}" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
                         </x-responsive-nav-link>
                     </div>
 
@@ -49,8 +53,8 @@
                     </div>
 
                     <div class="pb-2 mx-6 rounded-md">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            <ion-icon name="business-outline" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'sites' ? 'bg-primary-100 text-black font-bold'  : 'bg-transparent text-black' }} flex align-center" :href="route('sites')" :active="request()->routeIs('dashboard')">
+                            <ion-icon name="{{ Route::current()->getName() == 'sites' ? 'business'  : 'business-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
                         </x-responsive-nav-link>
                     </div>
 
@@ -110,6 +114,15 @@
 
                             </ul>
                         </nav>
+                        @elseif(Request::is('sites'))
+                        <nav class="breadcrumbs">
+                            <ul class="flex font-medium text-sm">
+                                <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                                <li class="mr-1"> > </li>
+                                <li class="mr-1"><a href="/tenants">Sites</a></li>
+
+                            </ul>
+                        </nav>
                         <!-- Add more conditions as needed for other routes -->
                         @endif
 
@@ -125,9 +138,22 @@
 
                     <div>
                         @if(Request::is('tenants'))
-                        <button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <!--button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         + Add tenant
-                        </button>
+                        </button-->
+                        <div x-data="{ isOpen: false }">
+                            <button @click="isOpen = true" class="bg-primary-700 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add tenant</button>
+                            
+                        </div>
+                        @elseif(Request::is('sites'))
+                        <!--button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        + Add tenant
+                        </button-->
+                        <div x-data="{ isOpen: false }">
+                            <button @click="isOpen = true" class="bg-primary-700 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add site</button>
+                            
+                        </div>
+
                         @endif
                     </div>
 
@@ -140,26 +166,51 @@
     <!-- Add Tenant Modal -->
    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            ...
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('tenants') }}">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTenantModalLabel">Add Tenant</h5>
+                            <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button-->
+                        </div>
+                        <div class="modal-body">
+                            <!-- Your form fields go here -->
+                            <div class="grid grid-rows-2">
+                                <div class="">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <!-- Add more fields as needed -->
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>    
+            </div>
         </div>
     </div>
-    </div>
+
+    <!-- Add Tenant Modal -->
+    <!-- resources/views/components/add-user-modal.blade.php -->
+    
+
+
+
      <!-- Bootstrap JavaScript ->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
