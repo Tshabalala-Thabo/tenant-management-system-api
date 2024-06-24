@@ -6,7 +6,7 @@
                 <div class="flex items-centre justify-center flex-col">
                     <img class="h-48 md:h-96 lg:h-96 mb-4" src="/images/data-ext.svg" alt="">
                     <h1 class="text-center hidden sm:block font-extrabold text-2xl">Simplifying property management</h1>
-                    <p class="text-center md:mx-6 hidden sm:block lg:mx-24">Streamline tenant records, payments, maintenance, and communication efficiently with our intuitive and comprehensive tenant management system.</p>
+                    <p class="text-center hidden sm:block xl:mx-24">Streamline tenant records, payments, maintenance, and communication efficiently with our intuitive and comprehensive tenant management system.</p>
                 </div>
             </div>
         </div>
