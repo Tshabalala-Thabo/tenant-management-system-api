@@ -10,9 +10,13 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+   
+    <!-- Bootstrap -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!--link href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"-->
 
     <link rel="stylesheet" href="https://unpkg.com/@icon/ionicons/ionicons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -121,9 +125,9 @@
 
                     <div>
                         @if(Request::is('tenants'))
-                            <button class="bg-primary-700 shadow-md hover:bg-primary-500 text-black font-bold py-2 px-4 rounded">
-                                + Add tenant
-                            </button>
+                        <button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        + Add tenant
+                        </button>
                         @endif
                     </div>
 
@@ -132,6 +136,31 @@
             </main>
         </div>
     </div>
+
+    <!-- Add Tenant Modal -->
+   <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            ...
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+     <!-- Bootstrap JavaScript ->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script-->
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
