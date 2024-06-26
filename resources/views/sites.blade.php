@@ -6,7 +6,6 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-3">
-        <!--div class="container">
             <h1>Add New Site</h1>
             <form action="{{ route('sites.store') }}" method="POST">
                 @csrf
