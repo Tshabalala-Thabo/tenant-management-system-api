@@ -2,7 +2,7 @@
     <div class="flex min-h-screen bg-gray-200 flex-col lg:flex-row-reverse">
         <div class="w-full lg:w-7/12"> <!-- 7 columns wide -->
             <div
-                class="flex flex-col justify-center items-center pt-6 pb-6 bg-primary-700 md:px-20 lg:px-24 lg:min-h-screen">
+                class="flex flex-col justify-center items-center pt-6 pb-6 bg-primary-600 md:px-20 lg:px-24 lg:min-h-screen">
                 <div class="flex items-centre justify-center flex-col">
                     <img class="h-48 md:h-96 lg:h-96 mb-4" src="/images/data-ext.svg" alt="">
                     <h1 class="text-center hidden sm:block font-extrabold text-2xl">Simplifying property management</h1>
