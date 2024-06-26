@@ -99,10 +99,10 @@
                 </header> -->
                 <header class="flex-1 flex items-center justify-between px-3 pt-8 pb-2">
                     <div class=" font-semibold text-lg">
-                        @if(Request::is('/') || Request::is('home'))
+                        @if(Request::is('/') || Request::is('dashboard'))
                         <nav class="breadcrumbs">
                             <ul>
-                                <li><a href="/dashboard">Home</a></li>
+                                <li><a href="/dashboard">Dashboard</a></li>
                             </ul>
                         </nav>
                         @elseif(Request::is('tenants'))
@@ -114,15 +114,17 @@
 
                             </ul>
                         </nav>
+                        <h1>Tenants</h1>
                         @elseif(Request::is('sites'))
                         <nav class="breadcrumbs">
                             <ul class="flex font-medium text-sm">
                                 <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
                                 <li class="mr-1"> > </li>
-                                <li class="mr-1"><a href="/tenants">Sites</a></li>
+                                <li class="mr-1"><a href="/sites">Sites</a></li>
 
                             </ul>
                         </nav>
+                        <h1>Sites</h1>
                         <!-- Add more conditions as needed for other routes -->
                         @endif
 
@@ -131,7 +133,7 @@
                             @yield('content')
                         </div>
 
-                        {{ ucfirst(Route::current()->getName()) }}
+                        <!-- {{ ucfirst(Route::current()->getName()) }} -->
 
                         
                     </div>
