@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-3">
-        <div class="container">
+        <!--div class="container">
             <h1>Add New Site</h1>
             <form action="{{ route('sites.store') }}" method="POST">
                 @csrf
@@ -24,7 +24,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Add Site</button>
             </form>
-        </div>
-
+        </div-->
+        <ul>
+            @foreach ($sites as $site)
+                <li>{{ $site->name }} - {{ $site->address }}</li>
+            @endforeach
+        </ul>
     </div>
 </x-app-layout>

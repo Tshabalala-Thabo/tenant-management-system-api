@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandlordSiteController;
+use App\Http\Controllers\SiteController;
+use Spatie\Permission\Middlewares\RoleMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +27,27 @@ Route::get('/tenants', function () {
     return view('tenants');
 })->middleware(['auth'])->name('tenants');
 
-Route::get('/sites', function () {
-    return view('sites');
-})->middleware(['auth'])->name('sites');
+// Route::get('/sites', function () {
+//     return view('sites');
+// })->middleware(['auth'])->name('sites');
 
-Route::post('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
+//Route::post('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
 
 
 // Route::middleware(['auth', 'landlord'])->group(function () {
 //     // Route::get('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
-    Route::post('sites', [LandlordSiteController::class, 'store'])->name('sites.store');
+   // Route::post('sites', [LandlordSiteController::class, 'store'])->name('sites.store');
 // });
+
+// Route for viewing sites
+Route::middleware(['auth'])->group(function () {
+    Route::get('/sites', [SiteController::class, 'index'])->name('sites.index');
+});
+
+// Route for creating sites
+Route::middleware(['auth', 'role:landlord'])->group(function () {
+    Route::get('/create', [SiteController::class, 'create'])->name('sites.create');
+    Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
+});
 
 require __DIR__ . '/auth.php';
