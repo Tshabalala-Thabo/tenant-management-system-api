@@ -224,5 +224,15 @@
                 </tbody>
             </table>
         </div>
+        <!-- Check if the user has a specific role -->
+        @role('landlord')
+            <p>This is visible to users with the landlord role.</p>
+        @endrole
+
+        <!-- Check if the user has a specific permission -->
+        @can('edit sites')
+            <p>This is visible to users with the edit sites permission.</p>
+        @endcan
+
     </div>
 </x-app-layout>
