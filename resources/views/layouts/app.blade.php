@@ -33,7 +33,7 @@
 
         <div class="flex flex-1"> <!-- style="height: calc(100vh - 4rem - 1px);" -->
             <!-- Responsive Navigation Menu -->
-            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-600">
+            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-700">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
                 <div>
                     <div class="mx-6 pb-2">
@@ -53,13 +53,14 @@
                             <ion-icon name="document-text-outline" class="size-6 mr-6"></ion-icon> {{ __('Invoices') }}
                         </x-responsive-nav-link>
                     </div>
-
+                    @role('landlord')
+        
                     <div class="pb-2 mx-6 rounded-md">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'sites.index' ? 'bg-primary-100 text-black font-bold'  : 'bg-transparent text-black' }} flex align-center" :href="route('sites.index')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'sites.index' || Route::current()->getName() == 'sites.view' ? 'bg-primary-100 text-black font-bold'  : 'bg-transparent text-black' }} flex align-center" :href="route('sites.index')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="{{ Route::current()->getName() == 'sites' ? 'business'  : 'business-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
                         </x-responsive-nav-link>
                     </div>
-
+                    @endrole
                     <div class="pb-2 mx-6 rounded-md">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="hammer-outline" class="size-6 mr-6"></ion-icon> {{ __('Maintenance') }}
@@ -128,6 +129,31 @@
                         </nav>
                         <h1>Sites</h1>
                         <!-- Add more conditions as needed for other routes -->
+                         @endif
+                        @php
+                        $routeName = Route::currentRouteName();
+                        $siteId = Request::route('id');
+                        $siteName = null;
+
+                        if ($routeName === 'sites.view' && $siteId) {
+                            $site = \App\Models\Site::find($siteId);
+                            if ($site) {
+                                $siteName = $site->name;
+                            }
+                        }
+                        @endphp
+
+                        @if ($routeName === 'sites.view' && $siteName)
+                            <nav class="breadcrumbs">
+                                <ul class="flex font-medium text-sm">
+                                    <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                                    <li class="mr-1"> > </li>
+                                    <li class="mr-1"><a href="/sites">Sites</a></li>
+                                    <li class="mr-1"> > </li>
+                                    <li class="mr-1">{{ $siteName }}</li>
+                                </ul>
+                            </nav>
+                            <h1>{{ $siteName }}</h1>
                         @endif
 
                         <!-- Your main content -->
@@ -187,7 +213,14 @@
                                 <div @click="open = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
                             </div>
                         </div>
-
+                        @elseif($routeName === 'sites.view')
+                        <!--button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        + Add tenant
+                        </button-->
+                        <div x-data="{ isOpenRoomModal: false }">
+                            <button @click="isOpen = true" class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add room</button>
+                            
+                        </div>
                         @endif
                     </div>
 
