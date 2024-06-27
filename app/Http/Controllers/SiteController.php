@@ -36,6 +36,17 @@ class SiteController extends Controller
         return view('sites.edit', compact('site'));
     }
 
+    public function view_site($id)
+    {
+        $site = Site::findOrFail($id);
+
+        // Check if the user can view the site
+        $this->authorize('view', $site);
+
+        // Your view logic here
+        return view('sites.view', compact('site'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
