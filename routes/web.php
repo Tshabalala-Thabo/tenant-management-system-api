@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::get('/create', [SiteController::class, 'create'])->name('sites.create');
     Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
+    Route::get('/sites/view/{id}', [SiteController::class, 'view_site'])->name('sites.view');
 });
 
 require __DIR__ . '/auth.php';

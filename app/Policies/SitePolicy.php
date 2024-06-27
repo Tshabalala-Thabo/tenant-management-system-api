@@ -20,7 +20,7 @@ class SitePolicy
     public function view(User $user, Site $site)
     {
         // Allow only landlords to view their own sites
-        return $user->hasRole('landlord') && $site->user_id == $user->id;
+        return $user->hasRole('landlord') && $site->landlord_id == $user->id;
     }
 
     /**
