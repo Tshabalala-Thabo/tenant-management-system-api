@@ -12,11 +12,7 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run()
     {
         // Clear the cache to avoid issues with permission cache
-        try {
-            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        } catch (\Exception $e) {
-            $this->command->error('Unable to flush cache: ' . $e->getMessage());
-        }
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create roles
         $landlordRole = Role::firstOrCreate(['name' => 'landlord']);
