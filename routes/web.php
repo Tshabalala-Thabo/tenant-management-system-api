@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\RoomController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 
 /*
@@ -45,7 +46,7 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
 
 // Route for rooms
 Route::middleware(['auth', 'role:landlord'])->group(function () {
-    Route::post('/rooms', [SiteController::class, 'store'])->name('rooms.store');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 });
 
 

@@ -44,6 +44,8 @@ class SiteController extends Controller
         $this->authorize('view', $site);
 
         // Your view logic here
+        //return view('sites.view', compact('site'));
+        $site = Site::with('rooms')->findOrFail($id);
         return view('sites.view', compact('site'));
     }
 

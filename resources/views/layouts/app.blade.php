@@ -225,16 +225,17 @@
                                 <!-- Modal content -->
                                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
                                     <h2 class="text-xl font-bold mb-4">Add a new room</h2>
-                                    <form action="{{ route('sites.store') }}" method="POST">
+                                    <form action="{{ route('rooms.store') }}" method="POST">
                                         @csrf
                                         <div class="mb-4">
-                                            <label for="name" class="block text-sm font-medium text-gray-700">Site Name</label>
+                                            <label for="name" class="block text-sm font-medium text-gray-700">Room name</label>
                                             <input type="text" name="name" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" required>
                                         </div>
                                         <div class="mb-4">
-                                            <label for="description" class="block text-sm font-medium text-gray-700">Site Description</label>
+                                            <label for="description" class="block text-sm font-medium text-gray-700">Room description</label>
                                             <input type="text" name="description" id="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" required>
                                         </div>
+                                        <input type="hidden" name="site_id" value="{{ $site->id }}">
                                         <div class="flex justify-end">
                                             <button @click="open = false" type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel</button>
                                             <button type="submit" class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">Create room</button>
@@ -249,6 +250,18 @@
                     </div>
 
                 </header>
+                <!-- @if (session('success'))
+                    <div class="bg-green-500 text-white p-4 mb-4 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="bg-red-500 text-white p-4 mb-4 rounded">
+                        {{ session('error') }}
+                    </div>
+                @endif -->
+
                 {{ $slot }}
             </main>
         </div>
