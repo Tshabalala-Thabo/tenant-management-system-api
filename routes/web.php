@@ -15,8 +15,11 @@ use Spatie\Permission\Middlewares\RoleMiddleware;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.login');
+});
+Route::get('/', function () {
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
@@ -27,17 +30,6 @@ Route::get('/tenants', function () {
     return view('tenants');
 })->middleware(['auth'])->name('tenants');
 
-// Route::get('/sites', function () {
-//     return view('sites');
-// })->middleware(['auth'])->name('sites');
-
-//Route::post('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
-
-
-// Route::middleware(['auth', 'landlord'])->group(function () {
-//     // Route::get('sites/create', [LandlordSiteController::class, 'create'])->name('sites.create');
-   // Route::post('sites', [LandlordSiteController::class, 'store'])->name('sites.store');
-// });
 
 // Route for viewing sites
 Route::middleware(['auth'])->group(function () {
@@ -50,5 +42,12 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
     Route::get('/sites/view/{id}', [SiteController::class, 'view_site'])->name('sites.view');
 });
+
+// Route for rooms
+Route::middleware(['auth', 'role:landlord'])->group(function () {
+    Route::post('/rooms', [SiteController::class, 'store'])->name('rooms.store');
+});
+
+
 
 require __DIR__ . '/auth.php';
