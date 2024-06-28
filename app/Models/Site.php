@@ -16,4 +16,8 @@ class Site extends Model
     {
         return $this->belongsTo(User::class, 'landlord_id'); // Assuming User model for landlords
     }
+    public function rooms()
+    {
+        return $this->hasMany(Room::class, 'site_id');
+    }
 }
