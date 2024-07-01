@@ -7,8 +7,8 @@
 
     <div class="flex flex-wrap gap-y-4 px-3">
         <table class="table w-full w-100 mt-1 rounded-lg shadow-md overflow-hidden">
-            <thead class="table-active bg-gray-500">
-                <tr class="bg-gray-500">
+            <thead class="table-active bg-gray-400">
+                <tr class="text-left">
                     <th scope="col">Names</th>
                     <th scope="col">Room</th>
                     <th scope="col">Contacts</th>
