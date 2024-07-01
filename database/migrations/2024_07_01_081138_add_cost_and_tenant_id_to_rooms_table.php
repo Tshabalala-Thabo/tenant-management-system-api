@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('rooms', function (Blueprint $table) {
+            $table->decimal('cost', 8, 2)->after('description');
             $table->unsignedBigInteger('tenant_id')->nullable()->after('cost');
 
             // Assuming you have a users table
@@ -24,6 +25,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('rooms', function (Blueprint $table) {
+            $table->dropColumn('cost');
             $table->dropForeign(['tenant_id']);
             $table->dropColumn('tenant_id');
         });
