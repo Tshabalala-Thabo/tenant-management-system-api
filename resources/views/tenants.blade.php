@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-3">
-        <table class="table w-100 mt-1 rounded-lg shadow-md overflow-hidden">
+        <table class="table w-full w-100 mt-1 rounded-lg shadow-md overflow-hidden">
             <thead class="table-active bg-gray-500">
                 <tr class="bg-gray-500">
                     <th scope="col">Names</th>
