@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Tenant Management System') }}</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -33,7 +33,7 @@
 
         <div class="flex flex-1"> <!-- style="height: calc(100vh - 4rem - 1px);" -->
             <!-- Responsive Navigation Menu -->
-            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-700">
+            <div :class="{'block': open, 'hidden': ! open}" class="flex flex-col justify-between pt-4 bg-primary-600">
                 <!-- <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden"> -->
                 <div>
                     <div class="mx-6 pb-2">
