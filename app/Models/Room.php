@@ -10,11 +10,15 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'site_id',
+        'name', 'description', 'site_id', 'cost', 'tenant_id',
     ];
 
     public function site()
     {
         return $this->belongsTo(Site::class, 'id'); 
+    }
+    public function tenant()
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 }

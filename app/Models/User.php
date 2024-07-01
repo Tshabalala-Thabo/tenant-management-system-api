@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Site::class, 'landlord_id');
     }
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }
