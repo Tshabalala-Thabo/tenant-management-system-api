@@ -6,92 +6,47 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-1 py-3">
-        <div class="w-4/12 px-2">
-            <div class="bg-primary-700 shadow-md sm:rounded-lg">
-                <div class="flex py-6 justify-between items-center px-6 text-black">
-                    <ion-icon name="cash-outline" class="size-12 text-white"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-3xl">R13 000</p>
-                        <p>Rent collected</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-4/12 px-2">
-            <div class="bg-primary-700 shadow-md sm:rounded-lg">
-                <div class="flex py-6 justify-between items-center px-6 text-black">
-                    <ion-icon name="warning-outline" class="size-12 text-white"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-3xl">3</p>
-                        <p>Outstanding</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-4/12 px-2">
-            <div class="bg-primary-700 sm:rounded-lg">
-                <div class="flex py-6 justify-between items-center px-6 text-black">
-                    <ion-icon name="pricetags-outline" class="size-12 text-white"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-3xl">3</p>
-                        <p>Vacant rooms</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="w-3/12 px-2">
-            <div class="shadow-md bg-primary-700 sm:rounded-lg">
+            <div class="shadow-md bg-white sm:rounded-lg">
                 <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="document-text" class="size-16 text-primary-200"></ion-icon>
+                    <ion-icon name="document-text" class="size-16 text-primary-600"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-4xl font-semibold">9</p>
                         <p class="text-lg">Invoices</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
-                    See more>>
-                </div>
             </div>
         </div>
         <div class="w-3/12 px-2">
-            <div class="shadow-md bg-primary-700 sm:rounded-lg">
+            <div class="shadow-md bg-white sm:rounded-lg">
                 <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="people" class="size-16 text-primary-200"></ion-icon>
+                    <ion-icon name="people" class="size-16 text-primary-600"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-4xl font-semibold">13</p>
                         <p class="text-lg">Tenants</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
-                    See more>>
-                </div>
             </div>
         </div>
         <div class="w-3/12 px-2">
-            <div class="shadow-md bg-primary-700 sm:rounded-lg">
+            <div class="shadow-md bg-white sm:rounded-lg">
                 <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="hammer" class="size-16 text-primary-200"></ion-icon>
+                    <ion-icon name="hammer" class="size-16 text-primary-600"></ion-icon>
                     <div class="flex flex-col items-end">
                         <p class="text-4xl font-semibold">4</p>
                         <p class="text-lg">Maintenance tickets</p>
                     </div>
                 </div>
-                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
-                    See more>>
-                </div>
             </div>
         </div>
         <div class="w-3/12 px-2">
-            <div class="shadow-md bg-primary-700 sm:rounded-lg">
+            <div class="shadow-md bg-white sm:rounded-lg">
                 <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="bed" class="size-16 text-primary-200"></ion-icon>
+                    <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
                     <div class="flex flex-col items-end">
-                        <p class="text-4xl font-semibold">15</p>
-                        <p class="text-lg">Rooms</p>
+                        <p class="text-4xl font-semibold">5</p>
+                        <p class="text-lg">Sites</p>
                     </div>
-                </div>
-                <div class="w-1/1 px-6 py-3 flex justify-end rounded-b-lg text-white bg-black">
-                    See more>>
                 </div>
             </div>
         </div>
@@ -226,7 +181,7 @@
         </div>
         <!-- Check if the user has a specific role -->
         @role('landlord')
-            <p>This is visible to users with the landlord role.</p>
+        <p>This is visible to users with the landlord role.</p>
         @endrole
 
         <!-- Check if the user has a specific permission -->
