@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoomController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
-
+use App\Http\Controllers\UserController;
+    
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +50,6 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
 });
 
-
+Route::get('/users', [UserController::class, 'search']);
 
 require __DIR__ . '/auth.php';
