@@ -56,4 +56,13 @@ class RoomController extends Controller
             return response()->json(['message' => 'Error removing tenant.', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function destroy($roomId)
+    {
+        $room = Room::findOrFail($roomId);
+
+        $room->delete();
+
+        return response()->json(['message' => 'Room deleted successfully.'], 200);
+    }
 }

@@ -42,9 +42,13 @@
                                 @endif
 
                                 <!-- Modal -->
-                                <div x-show="isOpen"
-                                    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90"
-                                class="fixed z-50 inset-0 overflow-y-auto">
+                                <div x-show="isOpen" x-transition:enter="transition ease-out duration-300"
+                                    x-transition:enter-start="opacity-0 transform scale-90"
+                                    x-transition:enter-end="opacity-100 transform scale-100"
+                                    x-transition:leave="transition ease-in duration-300"
+                                    x-transition:leave-start="opacity-100 transform scale-100"
+                                    x-transition:leave-end="opacity-0 transform scale-90"
+                                    class="fixed z-50 inset-0 overflow-y-auto">
                                     <div
                                         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                         <div x-show="isOpen"
@@ -150,9 +154,65 @@
                                     class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
                                     <ion-icon name="pencil" class="text-black text-sm"></ion-icon> Edit
                                 </button>
-                                <button class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                <!-- Delete Button -->
+                                <button @click="openDeleteModal({{ $room->id }})"
+                                    class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
                                     <ion-icon name="trash" class="text-black text-sm"></ion-icon> Delete
                                 </button>
+
+                                <!-- Delete Modal -->
+                                <div x-show="isDeleteModalOpen" class="fixed z-10 inset-0 overflow-y-auto"
+                                    aria-labelledby="delete-modal-title" role="dialog" aria-modal="true">
+                                    <div
+                                        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                        <!-- Background overlay -->
+                                        <div x-show="isDeleteModalOpen"
+                                            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                            aria-hidden="true"></div>
+
+                                        <!-- Modal panel -->
+                                        <div x-show="isDeleteModalOpen"
+                                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                            <!-- Close button -->
+                                            <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                                                <button @click="closeDeleteModal"
+                                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    <span class="sr-only">Close</span>
+                                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <!-- Modal content -->
+                                            <div>
+                                                <div class="sm:flex sm:items-start">
+                                                    <div class="text-center sm:mt-0 sm:text-left">
+                                                        <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                            id="delete-modal-title">
+                                                            Delete Room Confirmation
+                                                        </h3>
+                                                        <div class="mt-2">
+                                                            <p class="text-sm text-gray-500">
+                                                                Are you sure you want to delete this room?
+                                                            </p>
+                                                            <div class="mt-4">
+                                                                <button @click="confirmDeleteRoom"
+                                                                    class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">Confirm
+                                                                    Deletion</button>
+                                                                <button @click="closeDeleteModal"
+                                                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </td>
                     </tr>
@@ -171,7 +231,7 @@
                 users: [],
                 selectedRoomId: null,
                 isConfirmationOpen: false,
-
+                isDeleteModalOpen: false,
 
                 openModal(roomId) {
                     this.selectedRoomId = roomId;
@@ -185,6 +245,28 @@
 
                 closeConfirmationModal() {
                     this.isConfirmationOpen = false;
+                },
+
+                openDeleteModal(roomId) {
+                    this.selectedRoomId = roomId;
+                    this.isDeleteModalOpen = true;
+                },
+
+                closeDeleteModal() {
+                    this.isDeleteModalOpen = false;
+                },
+
+                async confirmDeleteRoom() {
+                    try {
+                        const response = await axios.delete(`/rooms/${this.selectedRoomId}`);
+                        if (response.status === 200) {
+                            console.log('Room deleted successfully.');
+                            this.closeDeleteModal();
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting room:', error);
+                    }
                 },
 
                 async confirmRemoveTenant() {
