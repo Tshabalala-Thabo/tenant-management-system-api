@@ -5,7 +5,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoomController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use App\Http\Controllers\UserController;
-    
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,5 +51,7 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
 });
 
 Route::get('/users', [UserController::class, 'search']);
+Route::post('/rooms/{room}/assign', [RoomController::class, 'assignUser']);
+
 
 require __DIR__ . '/auth.php';

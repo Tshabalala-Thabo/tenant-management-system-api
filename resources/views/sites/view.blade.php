@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    <!-- In your Blade view file, e.g., resources/views/your-view.blade.php -->
-
     <div x-data="searchUsers()" class="flex flex-wrap gap-y-4 px-3">
         <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
             <thead class="bg-gray-400">
@@ -25,8 +23,7 @@
                         <td class="px-4 py-2">R{{ $room->cost }}</td>
                         <td class="px-4 py-2">
                             <div class="flex">
-                                <!-- Button to open the modal -->
-                                <button @click="isOpen = true"
+                                <button @click="openModal({{ $room->id }})"
                                     class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
                                     <ion-icon name="add" class="text-black text-sm"></ion-icon> Assign tenant
                                 </button>
@@ -40,7 +37,6 @@
                                             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                             aria-hidden="true"></div>
 
-                                        <!-- This element is to trick the browser into centering the modal contents. -->
                                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
                                             aria-hidden="true">&#8203;</span>
 
@@ -67,9 +63,12 @@
                                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                                             placeholder="Search users...">
                                                         <ul class="mt-4">
-                                                            <template x-for="user in users" :key="user . id">
-                                                                <li class="py-2 px-4 border-b border-gray-200"
-                                                                    x-text="user.name"></li>
+                                                            <template x-for="user in users" :key="user.id">
+                                                                <li class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
+                                                                    <span x-text="user.name"></span>
+                                                                    <button @click="assignUserToRoom(user.id)"
+                                                                        class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">Assign</button>
+                                                                </li>
                                                             </template>
                                                         </ul>
                                                     </div>
@@ -79,8 +78,7 @@
                                     </div>
                                 </div>
 
-                                <button
-                                    class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
+                                <button class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
                                     <ion-icon name="pencil" class="text-black text-sm"></ion-icon> Edit
                                 </button>
                                 <button class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
@@ -100,6 +98,13 @@
                 isOpen: false,
                 searchQuery: '',
                 users: [],
+                selectedRoomId: null,
+
+                openModal(roomId) {
+                    this.selectedRoomId = roomId;
+                    this.isOpen = true;
+                },
+
                 async searchUsers() {
                     if (this.searchQuery.length < 3) {
                         this.users = [];
@@ -112,13 +117,19 @@
                     } catch (error) {
                         console.error('Error fetching users:', error);
                     }
+                },
+                async assignUserToRoom(userId) {
+                    try {
+                        const response = await axios.post(`/rooms/${this.selectedRoomId}/assign`, { user_id: userId });
+                        if (response.status === 200) {
+                            this.isOpen = false;
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Error assigning user to room:', error);
+                    }
                 }
             }));
         });
     </script>
-
-
-
-
-
 </x-app-layout>

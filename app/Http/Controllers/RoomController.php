@@ -26,4 +26,15 @@ class RoomController extends Controller
         ]);
         return redirect()->route('sites.view', $validatedData['site_id'])->with('success', 'Room created successfully.');
     }
+    public function assignUser(Request $request, Room $room)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $room->tenant_id = $request->user_id;
+        $room->save();
+
+        return response()->json(['message' => 'User assigned successfully.'], 200);
+    }
 }
