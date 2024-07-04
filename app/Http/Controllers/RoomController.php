@@ -37,4 +37,23 @@ class RoomController extends Controller
 
         return response()->json(['message' => 'User assigned successfully.'], 200);
     }
+
+    public function removeTenant($roomId)
+    {
+        try {
+            $room = Room::findOrFail($roomId);
+
+            // Check if room has a tenant
+            if ($room->tenant_id) {
+                // Remove the tenant from the room
+                $room->update(['tenant_id' => null]);
+
+                return response()->json(['message' => 'Tenant removed successfully.'], 200);
+            } else {
+                return response()->json(['message' => 'No tenant assigned to this room.'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error removing tenant.', 'error' => $e->getMessage()], 500);
+        }
+    }
 }

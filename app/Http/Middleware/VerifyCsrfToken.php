@@ -13,5 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'rooms/*/assign',  // Add your route here
+        'rooms/*/temove-tenant',  // Add your route here
     ];
 }

@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
 
 Route::get('/users', [UserController::class, 'search']);
 Route::post('/rooms/{room}/assign', [RoomController::class, 'assignUser']);
+Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenant'])->name('rooms.remove-tenant');
 
 
 require __DIR__ . '/auth.php';

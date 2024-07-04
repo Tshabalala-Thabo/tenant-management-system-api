@@ -19,17 +19,30 @@
                 @foreach ($site->rooms as $room)
                     <tr class="border-t border-gray-300">
                         <td class="px-4 py-2">{{ $room->name }} ( {{ $room->description }})</td>
-                        <td class="px-4 py-2">N/A</td>
+                        <td class="px-4 py-2">
+                            @if ($room->tenant)
+                                {{ $room->tenant->name }} {{ $room->tenant->last_name }}
+                            @else
+                                N/A
+                            @endif 
+                        </td>
                         <td class="px-4 py-2">R{{ $room->cost }}</td>
                         <td class="px-4 py-2">
                             <div class="flex">
-                                <button @click="openModal({{ $room->id }})"
-                                    class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
-                                    <ion-icon name="add" class="text-black text-sm"></ion-icon> Assign tenant
-                                </button>
+                                @if ($room->tenant)
+                                    <button @click="openConfirmationModal({{ $room->id }})"
+                                        class="bg-red-600 flex items-center text-white px-2 py-1 rounded-md text-sm mr-1">
+                                        <ion-icon name="remove" class="text-white text-sm"></ion-icon> Remove Tenant
+                                    </button>
+                                @else
+                                    <button @click="openModal({{ $room->id }})"
+                                        class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
+                                        <ion-icon name="add" class="text-black text-sm"></ion-icon> Assign Tenant
+                                    </button>
+                                @endif
 
                                 <!-- Modal -->
-                                <div x-show="isOpen" class="fixed z-10 inset-0 overflow-y-auto"
+                                <div x-show="isOpen" class="fixed z-50 inset-0 overflow-y-auto"
                                     aria-labelledby="modal-title" role="dialog" aria-modal="true">
                                     <div
                                         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -63,8 +76,9 @@
                                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                                             placeholder="Search users...">
                                                         <ul class="mt-4">
-                                                            <template x-for="user in users" :key="user.id">
-                                                                <li class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
+                                                            <template x-for="user in users" :key="user . id">
+                                                                <li
+                                                                    class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
                                                                     <span x-text="user.name"></span>
                                                                     <button @click="assignUserToRoom(user.id)"
                                                                         class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">Assign</button>
@@ -78,7 +92,61 @@
                                     </div>
                                 </div>
 
-                                <button class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
+                                <!-- Confirmation Modal -->
+                                <div x-show="isConfirmationOpen" class="fixed z-10 inset-0 overflow-y-auto"
+                                    aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
+                                    <div
+                                        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                        <!-- Background overlay -->
+                                        <div x-show="isConfirmationOpen"
+                                            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                            aria-hidden="true"></div>
+
+                                        <!-- Modal panel -->
+                                        <div x-show="isConfirmationOpen"
+                                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                            <!-- Close button -->
+                                            <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                                                <button @click="closeConfirmationModal"
+                                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    <span class="sr-only">Close</span>
+                                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <!-- Modal content -->
+                                            <div>
+                                                <div class="sm:flex sm:items-start">
+                                                    <div class="text-center sm:mt-0 sm:text-left">
+                                                        <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                            id="confirmation-modal-title">
+                                                            Remove Tenant Confirmation
+                                                        </h3>
+                                                        <div class="mt-2">
+                                                            <p class="text-sm text-gray-500">
+                                                                Are you sure you want to remove the tenant from this room?
+                                                            </p>
+                                                            <div class="mt-4">
+                                                                <button @click="confirmRemoveTenant"
+                                                                    class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">Confirm
+                                                                    Removal</button>
+                                                                <button @click="closeConfirmationModal"
+                                                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
                                     <ion-icon name="pencil" class="text-black text-sm"></ion-icon> Edit
                                 </button>
                                 <button class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
@@ -92,6 +160,8 @@
         </table>
     </div>
 
+
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('searchUsers', () => ({
@@ -99,12 +169,37 @@
                 searchQuery: '',
                 users: [],
                 selectedRoomId: null,
+                isConfirmationOpen: false,
+
 
                 openModal(roomId) {
                     this.selectedRoomId = roomId;
                     this.isOpen = true;
                 },
 
+                openConfirmationModal(roomId) {
+                    this.selectedRoomId = roomId;
+                    this.isConfirmationOpen = true;
+                },
+
+                closeConfirmationModal() {
+                    this.isConfirmationOpen = false;
+                },
+
+                async confirmRemoveTenant() {
+                    try {
+                        const response = await axios.put(`/rooms/${this.selectedRoomId}/remove-tenant`);
+                        if (response.status === 200) {
+                            console.log('Tenant removed successfully.');
+                            // Optionally: Update UI or reload data after successful removal
+                            // Example: window.location.reload();
+                            this.closeConfirmationModal();
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Error removing tenant:', error);
+                    }
+                },
                 async searchUsers() {
                     if (this.searchQuery.length < 3) {
                         this.users = [];

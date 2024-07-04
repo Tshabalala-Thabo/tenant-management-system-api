@@ -19,6 +19,6 @@ class Room extends Model
     }
     public function tenant()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'tenant_id');
     }
 }
