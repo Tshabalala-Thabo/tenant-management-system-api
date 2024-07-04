@@ -98,7 +98,7 @@
                                 </div>
 
                                 <!-- Confirmation Modal -->
-                                <div x-show="isConfirmationOpen" class="fixed z-10 inset-0 overflow-y-auto"
+                                <div x-show="isConfirmationOpen" class="fixed flex z-50 inset-0 justify-center items-center"
                                     aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
                                     <div
                                         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
