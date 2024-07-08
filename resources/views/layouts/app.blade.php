@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="pb-2 mx-6">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants.index' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants.index')" :active="request()->routeIs('tenants.index')">
+                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants.index' || Route::current()->getName() == 'tenants.show' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants.index')" :active="request()->routeIs('tenants.index')">
                             <ion-icon name="{{ Route::current()->getName() == 'tenants.index' ? 'people'  : 'people-outline' }}" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
                         </x-responsive-nav-link>
                     </div>
@@ -125,18 +125,29 @@
                             </ul>
                         </nav>
                         <h1>Tenants</h1>
-                        @elseif(Request::is('sites'))
+                        @elseif(Request::is('tenant.show'))
                         <nav class="breadcrumbs">
                             <ul class="flex font-medium text-sm">
                                 <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
                                 <li class="mr-1"> > </li>
-                                <li class="mr-1"><a href="/sites">Sites</a></li>
+                                <li class="mr-1"><a href="/tenants">Tenants</a></li>
 
                             </ul>
                         </nav>
-                        <h1>Sites</h1>
-                        <!-- Add more conditions as needed for other routes -->
-                         @endif
+                        <h1>Tenants</h1>
+                        @endif
+                        @php
+                        $routeName = Route::currentRouteName();
+                        $tenantId = Request::route('id');
+                        $tenantName = null;
+                        if ($routeName === 'tenants.show' && $tenantId) {
+                            $tenant = \App\Models\User::find($tenantId);
+                            if ($tenant) {
+                                $tenantName = $tenant->name;
+                            }
+                        }
+
+                        @endphp
                         @php
                         $routeName = Route::currentRouteName();
                         $siteId = Request::route('id');

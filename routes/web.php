@@ -61,6 +61,8 @@ Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenan
 Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 // web.php
 Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('tenants.index');
+Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tenants.show');
+
 
 
 

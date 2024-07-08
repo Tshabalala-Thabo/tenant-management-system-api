@@ -21,7 +21,7 @@
                 <tbody class="bg-white">
                     @foreach($groupedTenants as $tenantId => $tenantRooms)
                             <tr class="border-t border-gray-300 cursor-pointer"
-                                onclick="window.location='{{ route('tenant.profile', $tenantRooms->first()['tenant']->id) }}'">
+                                onclick="window.location='{{ route('tenants.show', $tenantRooms->first()['tenant']->id) }}'">
                                 <td class="px-4 py-2">{{ ucfirst($tenantRooms->first()['tenant']->name) }}
                                     {{ ucfirst($tenantRooms->first()['tenant']->last_name) }}</td>
                                 <td class="px-4 py-2">{{ $tenantRooms->first()['tenant']->email }}</td>
