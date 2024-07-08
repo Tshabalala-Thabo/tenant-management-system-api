@@ -46,7 +46,7 @@
 
                     <div class="pb-2 mx-6">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants.index' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants.index')" :active="request()->routeIs('tenants.index')">
-                            <ion-icon name="{{ Route::current()->getName() == 'tenants' ? 'people'  : 'people-outline' }}" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
+                            <ion-icon name="{{ Route::current()->getName() == 'tenants.index' ? 'people'  : 'people-outline' }}" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
                         </x-responsive-nav-link>
                     </div>
 
@@ -59,7 +59,7 @@
         
                     <div class="pb-2 mx-6 rounded-md">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'sites.index' || Route::current()->getName() == 'sites.view' ? 'bg-primary-100 text-black font-bold'  : 'bg-transparent text-black' }} flex align-center" :href="route('sites.index')" :active="request()->routeIs('dashboard')">
-                            <ion-icon name="{{ Route::current()->getName() == 'sites' ? 'business'  : 'business-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
+                            <ion-icon name="{{ in_array(Route::currentRouteName(), ['sites.index', 'sites.view']) ? 'business'  : 'business-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Sites') }}
                         </x-responsive-nav-link>
                     </div>
                     @endrole
