@@ -28,9 +28,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/tenants', function () {
-    return view('tenants');
-})->middleware(['auth'])->name('tenants');
+// Route::get('/tenants', function () {
+//     return view('tenants');
+// })->middleware(['auth'])->name('tenants');
 
 
 // Route for viewing sites
@@ -55,7 +55,8 @@ Route::post('/rooms/{room}/assign', [RoomController::class, 'assignUser']);
 Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenant'])->name('rooms.remove-tenant');
 // Route to delete room
 Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('rooms.destroy');
-Route::get('landlord/{landlordId}/tenants', [UserController::class, 'getTenantsByLandlord']);
+// web.php
+Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('tenants.index');
 
 
 

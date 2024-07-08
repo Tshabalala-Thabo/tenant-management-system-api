@@ -6,71 +6,39 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-3">
-        <table class="table w-full w-100 mt-1 rounded-lg shadow-md overflow-hidden">
-            <thead class="table-active bg-gray-400">
-                <tr class="text-left">
-                    <th scope="col">Names</th>
-                    <th scope="col">Room</th>
-                    <th scope="col">Contacts</th>
-                    <th scope="col">Rent</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <a href="#"><td>Mark Buthelezi</td></a>
-                    <td>3</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-                <tr>
-                    <td>Jacob Malesa</td>
-                    <td>4</td>
-                    <td>079 876 1321</td>
-                    <td>3 months behind</td>
-                </tr>
-                <tr>
-                    <td>Larry Potter</td>
-                    <td>5</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-                <tr>
-                    <a href="#"><td>Mark Buthelezi</td></a>
-                    <td>3</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-                <tr>
-                    <td>Jacob Malesa</td>
-                    <td>4</td>
-                    <td>079 876 1321</td>
-                    <td>3 months behind</td>
-                </tr>
-                <tr>
-                    <td>Larry Potter</td>
-                    <td>5</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-                <tr>
-                    <a href="#"><td>Mark Buthelezi</td></a>
-                    <td>3</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-                <tr>
-                    <td>Jacob Malesa</td>
-                    <td>4</td>
-                    <td>079 876 1321</td>
-                    <td>3 months behind</td>
-                </tr>
-                <tr>
-                    <td>Larry Potter</td>
-                    <td>5</td>
-                    <td>079 132 4301</td>
-                    <td>Up to date</td>
-                </tr>
-            </tbody>
-        </table>
+        @if($groupedTenants->isEmpty())
+            <p>No tenants found.</p>
+        @else
+            <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
+                <thead class="bg-gray-300">
+                    <tr class="text-left">
+                        <th class="px-4 py-2">Names</th>
+                        <th class="px-4 py-2">Email</th>
+                        <th class="px-4 py-2">Sites and Rooms</th>
+                        <th class="px-4 py-2">Lease</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    @foreach($groupedTenants as $tenantId => $tenantRooms)
+                            <tr class="border-t border-gray-300">
+                                <td class="px-4 py-2">{{ ucfirst($tenantRooms->first()['tenant']->name) }}
+                                    {{ ucfirst($tenantRooms->first()['tenant']->last_name) }}
+                                </td>
+                                <td class="px-4 py-2">{{ $tenantRooms->first()['tenant']->email }}</td>
+                                <td class="px-4 py-2 flex flex-wrap">
+                                    @foreach($tenantRooms->groupBy('site.id') as $siteId => $siteRooms)
+                                                    <strong class="mr-1">{{ $siteRooms->first()['site']->name }}:</strong>
+                                                    @php
+                                                        $roomNames = $siteRooms->pluck('room.name')->implode(', ');
+                                                    @endphp
+                                                    {{ $roomNames }} <span class="mr-3"></span>    
+                                    @endforeach
+                                </td>
+                                <td class="px-4 py-2">N/A</td>
+                            </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 </x-app-layout>
