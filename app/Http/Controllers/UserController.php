@@ -15,4 +15,17 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
+    public function getTenantsByLandlord($landlordId)
+    {
+        $landlord = User::with(['sites.rooms.tenant'])->findOrFail($landlordId);
+
+        $tenants = $landlord->sites->flatMap(function ($site) {
+            return $site->rooms->map(function ($room) {
+                return $room->tenant;
+            });
+        })->filter();
+
+        return response()->json($tenants);
+    }
 }

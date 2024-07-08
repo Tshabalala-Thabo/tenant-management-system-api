@@ -55,6 +55,8 @@ Route::post('/rooms/{room}/assign', [RoomController::class, 'assignUser']);
 Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenant'])->name('rooms.remove-tenant');
 // Route to delete room
 Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+Route::get('landlord/{landlordId}/tenants', [UserController::class, 'getTenantsByLandlord']);
+
 
 
 require __DIR__ . '/auth.php';
