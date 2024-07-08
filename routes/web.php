@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoomController;
@@ -24,9 +25,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+    
+
+// })->middleware(['auth'])->name('dashboard');
 
 // Route::get('/tenants', function () {
 //     return view('tenants');
@@ -36,6 +38,8 @@ Route::get('/dashboard', function () {
 // Route for viewing sites
 Route::middleware(['auth'])->group(function () {
     Route::get('/sites', [SiteController::class, 'index'])->name('sites.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 });
 
 // Route for creating sites
@@ -57,7 +61,6 @@ Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenan
 Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 // web.php
 Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('tenants.index');
-Route::get('tenant/profile/{id}', [TenantController::class, 'show'])->name('tenant.profile');
 
 
 

@@ -6,6 +6,20 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-1 py-3">
+        <div class="w-4/12 px-2">
+            <div class="pb-4 shadow-md bg-white sm:rounded-lg"><canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="w-4/12 px-2">
+            <div class="pb-4 shadow-md bg-white sm:rounded-lg"><canvas id="myChart2"></canvas>
+            </div>
+        </div>
+        <div class="w-4/12 px-2">
+            <div class="pb-4 shadow-md bg-white sm:rounded-lg overflow-hidden">
+                <div id="myChart3" style="width:100%; max-width:600px;"></div>
+
+            </div>
+        </div>
         <div class="w-3/12 px-2">
             <div class="shadow-md bg-white sm:rounded-lg">
                 <div class="flex py-4 justify-between items-center px-6">
@@ -191,3 +205,80 @@
 
     </div>
 </x-app-layout>
+<script>
+    var nullRoomsCount = {{ $nullRoomsCount }};
+    var occupiedRoomsCount = {{ $occupiedRoomsCount }};
+
+    var xValues = ["Collected", "Pending", "Vacant"];
+    var yValues = [13, 4, 2];
+    var barColors = ["#FED361", "#FE6161", "#5B5B5B"];
+
+    new Chart("myChart", {
+        type: "doughnut",
+        data: {
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }],
+            labels: xValues,
+
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Rent collected"
+            }
+        }
+    });
+</script>
+<script>
+    var nullRoomsCount = {{ $nullRoomsCount }};
+    var occupiedRoomsCount = {{ $occupiedRoomsCount }};
+
+    var xValues = ["Occupied", "Vacant"];
+    var yValues = [occupiedRoomsCount, nullRoomsCount];
+    var barColors = ["#FED361", "#FE6161"];
+
+    new Chart("myChart2", {
+        type: "doughnut",
+        data: {
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }],
+            labels: xValues,
+
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Rooms"
+            }
+        }
+    });
+</script>
+<script>
+    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+        var data = google.visualization.arrayToDataTable([
+            ['Element', 'Number of Tickets', { role: 'style' }],
+            ['Pending', 5, '#FE6161'],
+            ['Solved', 25, '#FED361'],
+        ]);
+
+        var options = {
+            title: 'Maintenance Tickets',
+            chartArea: { width: '50%' },
+            hAxis: {
+                title: 'Number of Tickets',
+                minValue: 0
+            },
+            legend: { position: 'none' } // Hide the legend if not needed
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
+        chart.draw(data, options);
+    }
+</script>
