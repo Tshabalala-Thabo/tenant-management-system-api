@@ -22,7 +22,7 @@ class UserController extends Controller
         $tenant = User::findOrFail($id); // Assuming Tenant model exists and has necessary fields
 
         // Pass $tenant data to the view
-        return view('tenant', compact('tenant'));
+        return view('tenants.profile', compact('tenant'));
     }
 
     public function getTenantsByLandlord()
