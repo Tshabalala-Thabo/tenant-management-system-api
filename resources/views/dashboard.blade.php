@@ -7,16 +7,16 @@
 
     <div class="flex flex-wrap gap-y-4 px-1 py-3">
         <div class="w-4/12 px-2">
-            <div class="pb-4 shadow-md bg-white sm:rounded-lg"><canvas id="myChart"></canvas>
+            <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart"></canvas>
             </div>
         </div>
         <div class="w-4/12 px-2">
-            <div class="pb-4 shadow-md bg-white sm:rounded-lg"><canvas id="myChart2"></canvas>
+            <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
             </div>
         </div>
-        <div class="w-4/12 px-2">
-            <div class="pb-4 shadow-md bg-white sm:rounded-lg overflow-hidden">
-                <div id="myChart3" style="width:100%; max-width:600px;"></div>
+        <div class="w-4/12 px-2 h-full">
+            <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
+                <div id="myChart3" class="h-72"></div>
 
             </div>
         </div>
