@@ -7,8 +7,20 @@
 
     <div class="flex flex-wrap gap-y-4 px-1 py-3">
         <div class="w-4/12 px-2">
-            <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart"></canvas>
+            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                <div class="text-left mb-4">
+                    <p class="text-gray-600">Rooms</p>
+                </div>
+                <div class="flex justify-center mb-4">
+                    <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                    </div>
+                    <p class="text-gray-500">All rooms are occupied</p>
+                </div>
             </div>
+
         </div>
         <div class="w-4/12 px-2">
             <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
@@ -281,4 +293,68 @@
         var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
         chart.draw(data, options);
     }
+</script>
+<script>
+    const ctx = document.getElementById('myPieChart').getContext('2d');
+    var nullRoomsCount = {{ $nullRoomsCount }};
+    var occupiedRoomsCount = {{ $occupiedRoomsCount }};
+    var totalRoomsCount = occupiedRoomsCount + nullRoomsCount;
+    var occupiedPercentage = totalRoomsCount === 0 ? 0 : ((occupiedRoomsCount / totalRoomsCount) * 100);
+    const data = {
+        labels: ['Occupied', 'Vacant'],
+        datasets: [{
+            label: 'Visitors',
+            data: [occupiedRoomsCount, nullRoomsCount],
+            backgroundColor: [
+                '#FED361',
+                '#FE6161',
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const totalVisitors = data.datasets[0].data.reduce((a, b) => a + b, 0).toLocaleString();
+
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            cutout: '50%'
+        },
+        plugins: [{
+            id: 'textCenter',
+            beforeDraw: function (chart) {
+                var width = chart.width,
+                    height = chart.height,
+                    ctx = chart.ctx;
+                var yOffset = 14; // Adjust this value to move the text up or down
+
+                ctx.restore();
+                var fontSize = (height / 160).toFixed(2);
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = "middle";
+
+                var text = occupiedPercentage + '%',
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = (height / 2) + yOffset;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        }]
+    };
+
+    new Chart(ctx, config);
 </script>
