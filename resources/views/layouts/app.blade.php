@@ -48,13 +48,13 @@
                             <ion-icon name="{{ Route::current()->getName() == 'dashboard' ? 'apps'  : 'apps-outline' }}" class="size-6 mr-6"></ion-icon> {{ __('Dashboard') }}
                         </x-responsive-nav-link>
                     </div>
-
+                    @role('landlord')
                     <div class="pb-2 mx-6">
                         <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'tenants.index' || Route::current()->getName() == 'tenants.show' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('tenants.index')" :active="request()->routeIs('tenants.index')">
                             <ion-icon name="{{ Route::current()->getName() == 'tenants.index' ? 'people'  : 'people-outline' }}" class="size-6 mr-6"></ion-icon>{{ __('Tenants') }}
                         </x-responsive-nav-link>
                     </div>
-
+                    @endrole
                     <div class="pb-2 mx-6">
                         <x-responsive-nav-link class="rounded-lg py-2 {{ Route::current()->getName() == 'invoices' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} pl-6 pr-6 flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             <ion-icon name="document-text-outline" class="size-6 mr-6"></ion-icon> {{ __('Invoices') }}
@@ -125,6 +125,22 @@
                             </ul>
                         </nav>
                         <h1>Tenants</h1>
+                        @elseif(Request::is('tenants/profile/*'))
+                        @php
+                            $segments = explode('/', request()->path());
+                            $tenantId = end($segments);
+                            $tenant = App\Models\User::findOrFail($tenantId); // Replace with your actual Tenant model and namespace
+                        @endphp
+                        <nav class="breadcrumbs">
+                            <ul class="flex font-medium text-sm">
+                                <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                                <li class="mr-1"> > </li>
+                                <li class="mr-1"><a href="/tenants">Tenants</a></li>
+                                <li class="mr-1"> > </li>
+                                <li class="mr-1"><a href="/tenants/profile/{{ $tenant->id }}">{{ ucfirst($tenant->name) }}</a></li>
+                            </ul>
+                        </nav>
+                        <h1>{{ ucfirst($tenant->name) }}</h1>
                         @elseif(Request::is('tenant.show'))
                         <nav class="breadcrumbs">
                             <ul class="flex font-medium text-sm">
