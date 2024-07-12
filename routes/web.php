@@ -6,6 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoomController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +25,6 @@ Route::get('/login', function () {
 Route::get('/', function () {
     return view('auth.login');
 });
-
-// Route::get('/dashboard', function () {
-    
-
-// })->middleware(['auth'])->name('dashboard');
-
-// Route::get('/tenants', function () {
-//     return view('tenants');
-// })->middleware(['auth'])->name('tenants');
-
 
 // Route for viewing sites
 Route::middleware(['auth'])->group(function () {
@@ -63,8 +54,15 @@ Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('room
 Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('tenants.index');
 Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tenants.show');
 
+// Please implement this approach across all controllers and routes
+Route::resource('tickets', TicketController::class);
+/*This setup will create a RESTful API for managing tickets with endpoints like:
 
-
-
-
+    GET /tickets - List all tickets
+    POST /tickets - Create a new ticket
+    GET /tickets/{ticket} - Show a specific ticket
+    PUT /tickets/{ticket} - Update a specific ticket
+    DELETE /tickets/{ticket} - Delete a specific ticket
+    */
+    
 require __DIR__ . '/auth.php';

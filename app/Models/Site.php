@@ -20,4 +20,9 @@ class Site extends Model
     {
         return $this->hasMany(Room::class, 'site_id');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'site_id');
+    }
 }

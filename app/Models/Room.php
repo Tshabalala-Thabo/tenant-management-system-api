@@ -21,4 +21,8 @@ class Room extends Model
     {
         return $this->belongsTo(User::class, 'tenant_id');
     }
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'room_id');
+    }
 }

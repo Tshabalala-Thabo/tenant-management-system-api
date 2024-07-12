@@ -52,6 +52,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Site::class, 'landlord_id');
     }
+    public function providedTickets()
+    {
+        return $this->hasMany(Ticket::class, 'provider_id');
+    }
+
+    /**
+     * Get the tickets assigned to the user as a tenant.
+     */
+    public function tenantTickets()
+    {
+        return $this->hasMany(Ticket::class, 'tenant_id');
+    }
     public function rooms()
     {
         return $this->hasMany(Room::class);
