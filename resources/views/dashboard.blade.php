@@ -5,81 +5,131 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-wrap gap-y-4 px-1 py-3">
-        <div class="w-4/12 px-2">
-            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                <div class="text-left mb-4">
-                    <p class="text-gray-600">Rooms</p>
-                </div>
-                <div class="flex justify-center mb-4">
-                    <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
-                </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+    <div class="flex flex-wrap">
+        <div class="flex flex-wrap gap-y-4 px-1 py-3 w-full @role('tenant') w-1/3 @endrole">
+            @role('landlord')
+            <div class="w-4/12 px-2">
+                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                    <div class="text-left mb-4">
+                        <p class="text-gray-600">Rooms</p>
                     </div>
-                    <p class="text-gray-500">All rooms are occupied</p>
+                    <div class="flex justify-center mb-4">
+                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                        </div>
+                        <p class="text-gray-500">All rooms are occupied</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="w-4/12 px-2">
+                <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
+                </div>
+            </div>
+            <div class="w-4/12 px-2 h-full">
+                <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
+                    <div id="myChart3" class="h-72"></div>
+
+                </div>
+            </div>
+            @endrole
+            @role('tenant')
+            <div class="w-full px-2">
+                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                    <div class="text-left mb-4">
+                        <p class="text-gray-600">Rooms</p>
+                    </div>
+                    <div class="flex justify-center mb-4">
+                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                        </div>
+                        <p class="text-gray-500">All rooms are occupied</p>
+                    </div>
+                </div>
+
+            </div>
+            @endrole
+        </div>
+        <div class="grid grid-cols-2 h-min gap-2 px-1 py-3 @role('tenant') w-2/3 @endrole">
+            @role('tenant')
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="bed" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">9</p>
+                            <p class="text-lg">My room</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="receipt" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">4</p>
+                            <p class="text-lg">Lease agreements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endrole
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="document-text" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">9</p>
+                            <p class="text-lg">Invoices</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @role('landlord')
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="people" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">13</p>
+                            <p class="text-lg">Tenants</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endrole
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="hammer" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">4</p>
+                            <p class="text-lg">Maintenance tickets</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @role('landlord')
+            <div class="h-min">
+                <div class="shadow-md bg-white sm:rounded-lg">
+                    <div class="flex py-4 justify-between items-center px-6">
+                        <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
+                        <div class="flex flex-col items-end">
+                            <p class="text-4xl font-semibold">5</p>
+                            <p class="text-lg">Sites</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-        <div class="w-4/12 px-2">
-            <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
-            </div>
-        </div>
-        <div class="w-4/12 px-2 h-full">
-            <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
-                <div id="myChart3" class="h-72"></div>
-
-            </div>
-        </div>
-        <div class="w-3/12 px-2">
-            <div class="shadow-md bg-white sm:rounded-lg">
-                <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="document-text" class="size-16 text-primary-600"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-4xl font-semibold">9</p>
-                        <p class="text-lg">Invoices</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-3/12 px-2">
-            <div class="shadow-md bg-white sm:rounded-lg">
-                <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="people" class="size-16 text-primary-600"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-4xl font-semibold">13</p>
-                        <p class="text-lg">Tenants</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-3/12 px-2">
-            <div class="shadow-md bg-white sm:rounded-lg">
-                <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="hammer" class="size-16 text-primary-600"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-4xl font-semibold">4</p>
-                        <p class="text-lg">Maintenance tickets</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-3/12 px-2">
-            <div class="shadow-md bg-white sm:rounded-lg">
-                <div class="flex py-4 justify-between items-center px-6">
-                    <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
-                    <div class="flex flex-col items-end">
-                        <p class="text-4xl font-semibold">5</p>
-                        <p class="text-lg">Sites</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="px-2 w-6/12">
-            <h1 class="font-bold">Recent payments</h1>
-            <!--div class="relative rounded-lg">
+            <div class="">
+                <h1 class="font-bold">Recent payments</h1>
+                <!--div class="relative rounded-lg">
                 <div class="shadow-md border-solid border-black border-2 rounded-lg">
                     <table class="table-fixed border-spacing-y-2 text-sm">
                         <thead class="bg-gray-700 text-white text-left">
@@ -110,40 +160,40 @@
                     </table>
                 </div>
             </!--div-->
-            <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
-                <thead class="table-active bg-gray-500">
-                    <tr class="bg-gray-500">
-                        <th scope="col">Invoice#</th>
-                        <th scope="col">Names</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">12</th>
-                        <td>Mark Buthelezi</td>
-                        <td>R 1000</td>
-                        <td>12 June</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">13</th>
-                        <td>Jacob Malesa</td>
-                        <td>R1 000</td>
-                        <td>12 June</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">14</th>
-                        <td>Larry Potter</td>
-                        <td>R1 000</td>
-                        <td>12 June</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="px-2 w-6/12">
-            <h1 class="font-bold">Recent maintenance tickets</h1>
-            <!--div class="relative rounded-lg">
+                <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
+                    <thead class="table-active bg-gray-500">
+                        <tr class="bg-gray-500">
+                            <th scope="col">Invoice#</th>
+                            <th scope="col">Names</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">12</th>
+                            <td>Mark Buthelezi</td>
+                            <td>R 1000</td>
+                            <td>12 June</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">13</th>
+                            <td>Jacob Malesa</td>
+                            <td>R1 000</td>
+                            <td>12 June</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">14</th>
+                            <td>Larry Potter</td>
+                            <td>R1 000</td>
+                            <td>12 June</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-2 w-6/12">
+                <h1 class="font-bold">Recent maintenance tickets</h1>
+                <!--div class="relative rounded-lg">
                 <div class="shadow-md border-solid border-black border-2 rounded-lg">
                     <table class="table-fixed border-spacing-y-2 text-sm">
                         <thead class="bg-gray-700 text-white text-left">
@@ -174,47 +224,49 @@
                     </table>
                 </div>
             </!--div-->
-            <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
-                <thead class="table-active bg-gray-500">
-                    <tr class="bg-gray-500">
-                        <th scope="col">Invoice#</th>
-                        <th scope="col">Names</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">12</th>
-                        <td>Mark Buthelezi</td>
-                        <td>R 1000</td>
-                        <td>12 June</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">13</th>
-                        <td>Jacob Malesa</td>
-                        <td>R1 000</td>
-                        <td>12 June</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">14</th>
-                        <td>Larry Potter</td>
-                        <td>R1 000</td>
-                        <td>12 June</td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
+                    <thead class="table-active bg-gray-500">
+                        <tr class="bg-gray-500">
+                            <th scope="col">Invoice#</th>
+                            <th scope="col">Names</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">12</th>
+                            <td>Mark Buthelezi</td>
+                            <td>R 1000</td>
+                            <td>12 June</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">13</th>
+                            <td>Jacob Malesa</td>
+                            <td>R1 000</td>
+                            <td>12 June</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">14</th>
+                            <td>Larry Potter</td>
+                            <td>R1 000</td>
+                            <td>12 June</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @endrole
+            <!-- Check if the user has a specific role -->
+            @role('landlord')
+            <p>This is visible to users with the landlord role.</p>
+            @endrole
+
+            <!-- Check if the user has a specific permission -->
+            @can('edit sites')
+                <p>This is visible to users with the edit sites permission.</p>
+            @endcan
+
         </div>
-        <!-- Check if the user has a specific role -->
-        @role('landlord')
-        <p>This is visible to users with the landlord role.</p>
-        @endrole
-
-        <!-- Check if the user has a specific permission -->
-        @can('edit sites')
-            <p>This is visible to users with the edit sites permission.</p>
-        @endcan
-
     </div>
 </x-app-layout>
 <script>
