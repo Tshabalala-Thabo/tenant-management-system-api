@@ -50,6 +50,9 @@ Route::post('/rooms/{room}/assign', [RoomController::class, 'assignUser']);
 Route::put('/rooms/{roomId}/remove-tenant', [RoomController::class, 'removeTenant'])->name('rooms.remove-tenant');
 // Route to delete room
 Route::delete('/rooms/{roomId}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+// In web.php
+Route::get('/rooms/{siteId}', [RoomController::class, 'getRoomsBySite'])->name('rooms.bySite');
+
 // web.php
 Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('tenants.index');
 Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tenants.show');

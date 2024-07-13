@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -25,6 +26,13 @@ class RoomController extends Controller
             'tenant_id' => $request->tenant_id,
         ]);
         return redirect()->route('sites.view', $validatedData['site_id'])->with('success', 'Room created successfully.');
+    }
+
+    public function getRoomsBySite($siteId)
+    {
+        $userId = Auth::id();
+        $rooms = Room::where('tenant_id', $userId)->where('site_id', $siteId)->get();
+        return response()->json($rooms);
     }
     public function assignUser(Request $request, Room $room)
     {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Site;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,16 @@ class TicketController extends Controller
     public function index(): View
     {
         $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])->get();
-        return view('tickets.index', compact('tickets'));
+        $userId = Auth::id();
+
+        // Retrieve all rooms assigned to the user
+        $rooms = Room::where('tenant_id', $userId)->get();
+
+        // Retrieve sites that have the rooms assigned to the user
+        $siteIds = $rooms->pluck('site_id')->unique();
+        $sites = Site::whereIn('id', $siteIds)->get();
+
+        return view('tickets.index', compact('tickets', 'sites', 'rooms'));
     }
 
     /**
@@ -46,7 +57,7 @@ class TicketController extends Controller
             'room_id' => 'nullable|exists:rooms,id',
             'site_id' => 'required|exists:sites,id',
         ]);
-    
+
         Ticket::create([
             'details' => $request->input('details'),
             'provider_id' => $request->input('provider_id'), // This can be null
@@ -99,7 +110,7 @@ class TicketController extends Controller
             'room_id' => 'nullable|exists:rooms,id',
             'site_id' => 'required|exists:sites,id',
         ]);
-    
+
         $ticket->update([
             'details' => $request->input('details'),
             'provider_id' => $request->input('provider_id'), // This can be null
