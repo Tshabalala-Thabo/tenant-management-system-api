@@ -69,9 +69,10 @@
                     </div>
                     @endrole
                     <div class="pb-2 mx-6 rounded-md">
-                        <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'rooms' ? 'bg-primary-100 text-black'  : 'bg-transparent text-black' }} flex align-center" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            <ion-icon name="hammer-outline" class="size-6 mr-6"></ion-icon> {{ __('Maintenance') }}
-                        </x-responsive-nav-link>
+                    <x-responsive-nav-link class="rounded-lg py-2 pl-6 pr-6 {{ Request::is('tickets') ? 'bg-primary-100 text-black' : 'bg-transparent text-black' }} flex align-center" href="/tickets" :active="request()->is('tickets')">
+                        <ion-icon name="hammer-outline" class="size-6 mr-6"></ion-icon> {{ __('Maintenance') }}
+                    </x-responsive-nav-link>
+
                     </div>
 
                 </div>
@@ -188,6 +189,15 @@
                                 </ul>
                             </nav>
                             <h1>{{ $siteName }}</h1>
+                        @elseif(Request::is('tickets'))
+                            <nav class="breadcrumbs">
+                                <ul class="flex font-medium text-sm">
+                                    <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                                    <li class="mr-1"> > </li>
+                                    <li class="mr-1">Maintenance tickets</li>
+                                </ul>
+                            </nav>   
+                            <h1>Maintenance tickets</h1> 
                         @endif
 
                         <!-- Your main content -->

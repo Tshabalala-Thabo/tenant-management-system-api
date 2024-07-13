@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+
 
 class TicketController extends Controller
 {
@@ -38,15 +40,22 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'details' => 'required|string|max:255',
-            'provider_id' => 'required|integer|exists:users,id',
-            'response' => 'nullable|string|max:255',
-            'tenant_id' => 'required|integer|exists:users,id',
-            'status' => 'required|string|max:255',
+            'details' => 'required|string',
+            'provider_id' => 'nullable|exists:users,id',
+            'response' => 'nullable|string',
+            'room_id' => 'nullable|exists:rooms,id',
+            'site_id' => 'required|exists:sites,id',
         ]);
-
-        Ticket::create($request->all());
-
+    
+        Ticket::create([
+            'details' => $request->input('details'),
+            'provider_id' => $request->input('provider_id'), // This can be null
+            'response' => $request->input('response'),
+            'tenant_id' => Auth::id(), // Set tenant_id as the ID of the logged-in user
+            'status' => 'pending', // Set status to "pending" by default
+            'room_id' => $request->input('room_id'),
+            'site_id' => $request->input('site_id'),
+        ]);
         return redirect()->route('tickets.index')->with('success', 'Ticket created successfully.');
     }
 
@@ -83,15 +92,23 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'details' => 'required|string|max:255',
-            'provider_id' => 'required|integer|exists:users,id',
-            'response' => 'nullable|string|max:255',
-            'tenant_id' => 'required|integer|exists:users,id',
-            'status' => 'required|string|max:255',
+            'details' => 'required|string',
+            'provider_id' => 'nullable|exists:users,id',
+            'response' => 'nullable|string',
+            'tenant_id' => 'required|exists:users,id',
+            'room_id' => 'nullable|exists:rooms,id',
+            'site_id' => 'required|exists:sites,id',
         ]);
-
-        $ticket->update($request->all());
-
+    
+        $ticket->update([
+            'details' => $request->input('details'),
+            'provider_id' => $request->input('provider_id'), // This can be null
+            'response' => $request->input('response'),
+            'tenant_id' => Auth::id(), // Ensure tenant_id is set to the ID of the logged-in user
+            'status' => $request->input('status', 'pending'), // Set status to "pending" if not provided
+            'room_id' => $request->input('room_id'),
+            'site_id' => $request->input('site_id'),
+        ]);
         return redirect()->route('tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
