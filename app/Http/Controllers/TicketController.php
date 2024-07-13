@@ -17,7 +17,7 @@ class TicketController extends Controller
      */
     public function index(): View
     {
-        $tickets = Ticket::with(['provider', 'tenant'])->get();
+        $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])->get();
         return view('tickets.index', compact('tickets'));
     }
 
