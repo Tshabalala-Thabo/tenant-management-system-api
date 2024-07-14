@@ -17,9 +17,6 @@
                 </ul>
             </div>
         @endif
-
-
-
     </div>
 
     <div class="px-3 grid gap-2 grid-cols-3">
@@ -27,13 +24,27 @@
             <div class="bg-gray-300 rounded-lg px-5 py-3">
                 <div class="w-full flex justify-between">
                     <h1 class="font-bold text-lg">{{ ucfirst($ticket->details) }}</h1>
-
-                    <div><ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon></div>
-
+                    <div x-data="{ open: false, openModal: false, editingTicket: null }" class="relative">
+                        <div @click="open = !open"
+                            class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
+                            <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
+                        </div>
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                            <a href="javascript:void(0);"
+                                @click="openModal = true; editingTicket = {{ $ticket }}; open = false"
+                                class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
+                            <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" class="block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <p>
-
                         @if ($ticket->room)
                             Room {{ $ticket->room->name }}:
                         @endif {{$ticket->site->name}}
@@ -42,7 +53,6 @@
                 <div class="mt-3 flex justify-between w-full">
                     <p class="text-sm ">{{ $ticket->created_at->format('d M Y') }}</p>
                     <div class="bg-danger w-min text-xs rounded-md px-2 py-1">{{ $ticket->status }}</div>
-
                 </div>
             </div>
         @endforeach

@@ -66,6 +66,6 @@ Route::resource('tickets', TicketController::class);
     GET /tickets/{ticket} - Show a specific ticket
     PUT /tickets/{ticket} - Update a specific ticket
     DELETE /tickets/{ticket} - Delete a specific ticket
-    */
+*/
     
 require __DIR__ . '/auth.php';
