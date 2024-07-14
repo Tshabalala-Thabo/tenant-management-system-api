@@ -26,20 +26,23 @@
         @foreach($tickets as $ticket)
             <div class="bg-gray-300 rounded-lg px-5 py-3">
                 <div class="w-full flex justify-between">
-                    <div>
-                        <p>
+                    <h1 class="font-bold text-lg">{{ ucfirst($ticket->details) }}</h1>
 
-                            @if ($ticket->room)
-                                Room {{ $ticket->room->name }}:
-                            @endif {{$ticket->site->name}}
-                        </p>
-                    </div>
-                    <div class="bg-danger w-min text-xs rounded-md px-2 py-1">{{ $ticket->status }}</div>
+                    <div><ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon></div>
 
                 </div>
-                <h1 class="font-bold text-lg">{{ ucfirst($ticket->details) }}</h1>
-                <div class="mt-3 flex justify-end w-full">
+                <div>
+                    <p>
+
+                        @if ($ticket->room)
+                            Room {{ $ticket->room->name }}:
+                        @endif {{$ticket->site->name}}
+                    </p>
+                </div>
+                <div class="mt-3 flex justify-between w-full">
                     <p class="text-sm ">{{ $ticket->created_at->format('d M Y') }}</p>
+                    <div class="bg-danger w-min text-xs rounded-md px-2 py-1">{{ $ticket->status }}</div>
+
                 </div>
             </div>
         @endforeach
@@ -60,7 +63,8 @@
                 <div class="mb-4">
                     <label for="site_id" class="block text-gray-700 text-sm font-bold mb-2">Site:</label>
                     <select name="site_id" id="site_id"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
                         <option value="" disabled selected>Select a site</option>
                         @foreach($sites as $site)
                             <option value="{{ $site->id }}" {{ old('site_id') == $site->id ? 'selected' : '' }}>
@@ -82,7 +86,7 @@
                     <label for="details" class="block text-gray-700 text-sm font-bold mb-2">Details:</label>
                     <input type="text" name="details" id="details"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value="{{ old('details') }}">
+                        value="{{ old('details') }}" required>
                 </div>
 
                 <div class="flex justify-end">
