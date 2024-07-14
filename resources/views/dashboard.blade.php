@@ -5,10 +5,10 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-wrap">
-        <div class="flex flex-wrap gap-y-4 px-1 py-3 w-full @role('tenant') w-1/3 @endrole">
+    <div class="flex flex-wrap px-3">
+        <div class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
             @role('landlord')
-            <div class="w-4/12 px-2">
+            <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
                     <div class="text-left mb-4">
                         <p class="text-gray-600">Rooms</p>
@@ -24,11 +24,11 @@
                 </div>
 
             </div>
-            <div class="w-4/12 px-2">
-                <div class="pb-4 shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
+            <div class="">
+                <div class=" shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
                 </div>
             </div>
-            <div class="w-4/12 px-2 h-full">
+            <div class="">
                 <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
                     <div id="myChart3" class="h-72"></div>
 
@@ -36,7 +36,7 @@
             </div>
             @endrole
             @role('tenant')
-            <div class="w-full px-2">
+            <div class="w-full">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
                     <div class="text-left mb-4">
                         <p class="text-gray-600">Rooms</p>
@@ -54,7 +54,8 @@
             </div>
             @endrole
         </div>
-        <div class="grid grid-cols-2 h-min gap-2 px-1 py-3 @role('tenant') w-2/3 @endrole">
+        <div
+            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant')  @endrole">
             @role('tenant')
             <div class="h-min">
                 <div class="shadow-md bg-white sm:rounded-lg">
@@ -127,135 +128,9 @@
                 </div>
             </div>
 
-            <div class="">
-                <h1 class="font-bold">Recent payments</h1>
-                <!--div class="relative rounded-lg">
-                <div class="shadow-md border-solid border-black border-2 rounded-lg">
-                    <table class="table-fixed border-spacing-y-2 text-sm">
-                        <thead class="bg-gray-700 text-white text-left">
-                            <tr class="px-4">
-                                <th>Song</th>
-                                <th>Artist</th>
-                                <th>Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-solid border-black border-t">
-                                <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                                <td>Malcolm Lockyer</td>
-                                <td>1961</td>
-                            </tr>
-
-                            <tr class="border-solid border-black border-t">
-                                <td>Witchy Woman</td>
-                                <td>The Eagles</td>
-                                <td>1972</td>
-                            </tr>
-                            <tr class="border-solid border-black border-t">
-                                <td>Shining Star</td>
-                                <td>Earth, Wind, and Fire</td>
-                                <td>1975</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </!--div-->
-                <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
-                    <thead class="table-active bg-gray-500">
-                        <tr class="bg-gray-500">
-                            <th scope="col">Invoice#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">12</th>
-                            <td>Mark Buthelezi</td>
-                            <td>R 1000</td>
-                            <td>12 June</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">13</th>
-                            <td>Jacob Malesa</td>
-                            <td>R1 000</td>
-                            <td>12 June</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">14</th>
-                            <td>Larry Potter</td>
-                            <td>R1 000</td>
-                            <td>12 June</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="px-2 w-6/12">
-                <h1 class="font-bold">Recent maintenance tickets</h1>
-                <!--div class="relative rounded-lg">
-                <div class="shadow-md border-solid border-black border-2 rounded-lg">
-                    <table class="table-fixed border-spacing-y-2 text-sm">
-                        <thead class="bg-gray-700 text-white text-left">
-                            <tr class="px-4">
-                                <th>Song</th>
-                                <th>Artist</th>
-                                <th>Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-solid border-black border-t">
-                                <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                                <td>Malcolm Lockyer</td>
-                                <td>1961</td>
-                            </tr>
-
-                            <tr class="border-solid border-black border-t">
-                                <td>Witchy Woman</td>
-                                <td>The Eagles</td>
-                                <td>1972</td>
-                            </tr>
-                            <tr class="border-solid border-black border-t">
-                                <td>Shining Star</td>
-                                <td>Earth, Wind, and Fire</td>
-                                <td>1975</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </!--div-->
-                <table class="table mt-1 rounded-lg shadow-md overflow-hidden">
-                    <thead class="table-active bg-gray-500">
-                        <tr class="bg-gray-500">
-                            <th scope="col">Invoice#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">12</th>
-                            <td>Mark Buthelezi</td>
-                            <td>R 1000</td>
-                            <td>12 June</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">13</th>
-                            <td>Jacob Malesa</td>
-                            <td>R1 000</td>
-                            <td>12 June</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">14</th>
-                            <td>Larry Potter</td>
-                            <td>R1 000</td>
-                            <td>12 June</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            @endrole
+            
+        </div>
+        @endrole
             <!-- Check if the user has a specific role -->
             @role('landlord')
             <p>This is visible to users with the landlord role.</p>
@@ -266,7 +141,6 @@
                 <p>This is visible to users with the edit sites permission.</p>
             @endcan
 
-        </div>
     </div>
 </x-app-layout>
 <script>
