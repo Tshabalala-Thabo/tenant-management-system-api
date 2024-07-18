@@ -5,14 +5,60 @@
         </h2>
     </x-slot>
 
-    <div x-data="searchUsers()" class="flex flex-wrap gap-y-4 px-3">
+    <div x-data="{
+    ...searchUsers(), // Ensure searchUsers() returns an object
+    isOpenEdit: false,
+    roomId: null,
+    roomName: '',
+    roomCost: '',
+    openEditModal(id, name, cost) {
+        this.isOpenEdit = true;
+        this.roomId = id;
+        this.roomName = name;
+        this.roomCost = cost;
+    },
+    closeEditModal() {
+        this.isOpenEdit = false;
+        this.roomId = null;
+        this.roomName = '';
+        this.roomCost = '';
+    },
+    async saveRoom() {
+        try {
+            const response = await fetch(`/rooms/${this.roomId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({
+                    name: this.roomName,
+                    cost: this.roomCost,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            if (data.success) {
+                // Update the UI or show a success message
+                this.closeEditModal();
+                location.reload(); // Reload to see the updated data
+            } else {
+                console.error('Failed to update the room:', data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}" " class=" flex flex-wrap gap-y-4 px-3">
         <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
             <thead class="bg-gray-400">
                 <tr class="text-left">
-                    <th class="px-4 py-2 w-1/4">Room#</th>
-                    <th class="px-4 py-2 w-1/4">Tenant</th>
-                    <th class="px-4 py-2 w-1/4">Cost</th>
-                    <th class="px-4 py-2 w-1/4">Action</th>
+                    <th class="px-4 py-2">Room#</th>
+                    <th class="px-4 py-2">Tenant</th>
+                    <th class="px-4 py-2">Cost</th>
+                    <th class="px-4 py-2 w-fit">Action</th>
                 </tr>
             </thead>
             <tbody class="bg-white">
@@ -41,7 +87,7 @@
                                     </button>
                                 @endif
 
-                                <button
+                                <button @click="openEditModal({{ $room->id }}, '{{ $room->name }}', '{{ $room->cost }}')"
                                     class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
                                     <ion-icon name="pencil" class="text-black text-sm"></ion-icon> Edit
                                 </button>
@@ -55,6 +101,53 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Edit Modal -->
+        <div x-show="isOpenEdit" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                    <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                        <button @click="closeEditModal"
+                            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Edit Room</h3>
+                            <div class="mt-2">
+                                <input type="text" x-model="roomName"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    placeholder="Room Name">
+                                <input type="text" x-model="roomCost"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    placeholder="Room Cost">
+                            </div>
+                            <div class="mt-4">
+                                <button @click="saveRoom"
+                                    class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save</button>
+                                <button @click="closeEditModal"
+                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Modal -->
         <div x-show="isOpen" x-transition:enter="transition ease-out duration-300"
