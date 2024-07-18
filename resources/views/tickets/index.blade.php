@@ -19,20 +19,68 @@
         @endif
     </div>
 
-    <div class="px-3 grid gap-2 grid-cols-3">
+    <div class="px-3 grid gap-2 grid-cols-3" x-data="{
+    isOpenEdit: false,
+    ticketId: null,
+    ticketDetails: '',
+    ticketSiteId: '',
+    ticketRoomId: '',
+    openEditModal(ticket) {
+        this.isOpenEdit = true;
+        this.ticketId = ticket.id;
+        this.ticketDetails = ticket.details;
+        this.ticketSiteId = ticket.site_id;
+        this.ticketRoomId = ticket.room_id;
+    },
+    closeEditModal() {
+        this.isOpenEdit = false;
+        this.ticketId = null;
+        this.ticketDetails = '';
+        this.ticketSiteId = '';
+        this.ticketRoomId = '';
+    },
+    async saveTicket() {
+        try {
+            const response = await fetch(`/tickets/${this.ticketId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({
+                    id: this.ticketId,
+                    details: this.ticketDetails,
+                    site_id: this.ticketSiteId,
+                    room_id: this.ticketRoomId,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            if (data.success) {
+                this.closeEditModal();
+                location.reload(); // Reload to see the updated data
+            } else {
+                console.error('Failed to update the ticket:', data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}">
         @foreach($tickets as $ticket)
             <div class="bg-gray-300 rounded-lg px-5 py-3">
                 <div class="w-full flex justify-between">
                     <h1 class="font-bold text-lg">{{ ucfirst($ticket->details) }}</h1>
-                    <div x-data="{ open: false, openModal: false, editingTicket: null }" class="relative">
+                    <div x-data="{ open: false }" class="relative">
                         <div @click="open = !open"
                             class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
                             <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
                         </div>
                         <div x-show="open" @click.away="open = false"
                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
-                            <a href="javascript:void(0);"
-                                @click="openModal = true; editingTicket = {{ $ticket }}; open = false"
+                            <a href="javascript:void(0);" @click="openEditModal({{ $ticket }}); open = false"
                                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
                             <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" class="block">
                                 @csrf
@@ -56,7 +104,64 @@
                 </div>
             </div>
         @endforeach
+
+        <!-- Edit Modal -->
+        <div x-show="isOpenEdit" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                    <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                        <button @click="closeEditModal"
+                            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Edit Ticket</h3>
+                            <div class="mt-2">
+                                <input type="text" x-model="ticketDetails"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    placeholder="Ticket Details">
+                                <select x-model="ticketSiteId"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                    <option value="" disabled>Select a site</option>
+                                    @foreach($sites as $site)
+                                        <option value="{{ $site->id }}">{{ $site->name }}</option>
+                                    @endforeach
+                                </select>
+                                <select x-model="ticketRoomId"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                    <option value="" disabled>Select a room</option>
+                                    <!-- Options should be dynamically filled based on the selected site -->
+                                </select>
+                            </div>
+                            <div class="mt-4">
+                                <button @click="saveTicket"
+                                    class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save</button>
+                                <button @click="closeEditModal"
+                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <!-- Modal -->
     <div x-show="openModal" x-transition:enter="transition ease-out duration-300"

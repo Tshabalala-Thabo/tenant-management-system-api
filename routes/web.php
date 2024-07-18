@@ -59,7 +59,7 @@ Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('t
 Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tenants.show');
 
 // Please implement this approach across all controllers and routes
-Route::resource('tickets', TicketController::class);
+Route::resource('/tickets', TicketController::class);
 /*This setup will create a RESTful API for managing tickets with endpoints like:
 
     GET /tickets - List all tickets
