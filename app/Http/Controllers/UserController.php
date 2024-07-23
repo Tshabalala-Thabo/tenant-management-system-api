@@ -19,11 +19,13 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $tenant = User::findOrFail($id); // Assuming Tenant model exists and has necessary fields
-
+        // Fetch the tenant and their tickets
+        $tenant = User::with('tenantTickets.tenant')->findOrFail($id);
+    
         // Pass $tenant data to the view
         return view('tenants.profile', compact('tenant'));
     }
+  
 
     public function getTenantsByLandlord()
     {

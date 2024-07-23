@@ -102,41 +102,22 @@
             </table>
             <h1 class="mt-5 font-bold">Maintenance tickets</h1>
             <div class="grid grid-cols-2 gap-2">
-                <div class="bg-gray-300 px-4 py-2 rounded-lg">
-                    <h1 class="font-bold">Mary: I lost my keys</h1>
-                    <h1>Re: New set of keys are on the way</h1>
-                    <div class="flex w-full items-center justify-between mt-5">
-                        <div class="bg-green-500 w-min text-sm rounded-md px-2 py-1">Solved</div>
-                        <p>22 April 2024</p>
-                    </div>
-                </div>
+                @if($tenant->tenantTickets && $tenant->tenantTickets->isNotEmpty())
+                    @foreach($tenant->tenantTickets as $ticket)
+                        <div class="bg-gray-300 px-4 py-2 rounded-lg">
+                            <h1 class="font-bold">{{ $ticket->details }}</h1>
+                            <!--h1>Re: New set of keys are on the way</!--h1-->
+                            <div class="flex w-full items-center justify-between mt-5">
+                                <div class="bg-danger w-min text-sm rounded-md px-2 py-1">{{ $ticket->status }}</div>
+                                <p>{{ $ticket->created_at->format('d M Y') }}</p>
+                            </div>
+                        </div>
+                    @endforeach
 
-                <div class="bg-gray-300 px-4 py-2 rounded-lg">
-                    <h1 class="font-bold">Mary: I lost my keys</h1>
-                    <h1>Re: New set of keys are on the way</h1>
-                    <div class="flex w-full items-center justify-between mt-5">
-                        <div class="bg-green-500 w-min text-sm rounded-md px-2 py-1">Solved</div>
-                        <p>22 April 2024</p>
-                    </div>
-                </div>
-
-                <div class="bg-gray-300 px-4 py-2 rounded-lg">
-                    <h1 class="font-bold">Mary: I lost my keys</h1>
-                    <h1>Re: New set of keys are on the way</h1>
-                    <div class="flex w-full items-center justify-between mt-5">
-                        <div class="bg-green-500 w-min text-sm rounded-md px-2 py-1">Solved</div>
-                        <p>22 April 2024</p>
-                    </div>
-                </div>
-
-                <div class="bg-gray-300 px-4 py-2 rounded-lg">
-                    <h1 class="font-bold">Mary: I lost my keys</h1>
-                    <h1>Re: New set of keys are on the way</h1>
-                    <div class="flex w-full items-center justify-between mt-5">
-                        <div class="bg-green-500 w-min text-sm rounded-md px-2 py-1">Solved</div>
-                        <p>22 April 2024</p>
-                    </div>
-                </div>
+                @else
+                    <p>No tickets available.</p>
+                @endif
+        
             </div>
         </div>
     </div>
