@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex flex-wrap gap-y-4 px-3">
-        <div class="w-3/12 flex flex-col items-center justify-center">
+        <div class="w-3/12 flex flex-col items-center">
             <div class="w-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden mt-4">
                 <img src="{{ asset('images/profile/mary.jpg') }}" alt="Tenant Image" class="w-full h-full object-cover">
             </div>
@@ -24,8 +24,31 @@
                     <!-- Add more rows as needed -->
                 </tbody>
             </table>
+            <h1 class="mt-4 text-left w-full font-bold">Maintenance tickets</h1>
+            <div class="grid grid-cols-1 w-full gap-2">
+                @if($tenant->tenantTickets && $tenant->tenantTickets->isNotEmpty())
+                            @foreach($tenant->tenantTickets as $ticket)
+                                <div class="bg-gray-300 px-4 py-2 rounded-lg">
+                                            <h1 class="font-bold">{{ $ticket->details }}</h1>
+                                            @if(!empty($ticket->response))
+                                                <h1>Re: {{ $ticket->response }}</h1>
+                                            @endif
 
-            <div class="mt-3 w-full">
+                                            <div class="flex w-full items-center justify-between mt-5">
+                                                <div class="bg-danger w-min text-sm rounded-md px-2 py-1">{{ $ticket->status }}</div>
+                                                <p>{{ $ticket->created_at->format('d M Y') }}</p>
+                                            </div>
+                                        </div>
+                            @endforeach
+                @else
+
+                    <p>No tickets available.</p>
+                @endif
+
+
+
+            </div>
+            <!-- <div class="mt-3 w-full">
                 <h1 class="font-bold">Lease agreement(s)</h1>
 
                 <div class="w-full bg-primary-600 px-4 py-4 shadow-md rounded-lg flex justify-between items-center">
@@ -49,7 +72,7 @@
                     <p>June 2024 - June 2025</p> <ion-icon name="chevron-down"></ion-icon>
 
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="w-9/12 pl-3">
             <div class="w-full flex justify-between items-end p-1">
@@ -100,25 +123,54 @@
                     </tr>
                 </tbody>
             </table>
-            <h1 class="mt-5 font-bold">Maintenance tickets</h1>
-            <div class="grid grid-cols-2 gap-2">
-                @if($tenant->tenantTickets && $tenant->tenantTickets->isNotEmpty())
-                    @foreach($tenant->tenantTickets as $ticket)
-                        <div class="bg-gray-300 px-4 py-2 rounded-lg">
-                            <h1 class="font-bold">{{ $ticket->details }}</h1>
-                            <!--h1>Re: New set of keys are on the way</!--h1-->
-                            <div class="flex w-full items-center justify-between mt-5">
-                                <div class="bg-danger w-min text-sm rounded-md px-2 py-1">{{ $ticket->status }}</div>
-                                <p>{{ $ticket->created_at->format('d M Y') }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-
-                @else
-                    <p>No tickets available.</p>
-                @endif
-        
+            <div class="w-full flex mt-4 justify-between items-end p-1">
+                <h1 class="font-bold">Lease agreements</h1>
+                <button class="bg-primary-600 flex items-center shadow-md text-black px-2 py-1 rounded-md text-sm mr-1">
+                    <ion-icon name="add" class="text-black text-sm"></ion-icon> Add an invoice
+                </button>
             </div>
+            <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
+                <thead class="bg-gray-300">
+                    <tr class="text-left">
+                        <th class="px-4 py-2">Agreement#</th>
+                        <th class="px-4 py-2">Term</th>
+                        <th class="px-4 py-2">Room</th>
+                        <th class="px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr class="border-t border-gray-300 cursor-pointer">
+                        <td class="px-4 py-2">2424</td>
+                        <td class="px-4 py-2">01 June 2024</td>
+                        <td class="px-4 py-2">R2 000</td>
+                        <td class="px-4 py-2"></td>
+                    </tr>
+                    <tr class="border-t border-gray-300 cursor-pointer">
+                        <td class="px-4 py-2">2424</td>
+                        <td class="px-4 py-2">01 June 2024</td>
+                        <td class="px-4 py-2">R2 000</td>
+                        <td class="px-4 py-2"></td>
+                    </tr>
+                    <tr class="border-t border-gray-300 cursor-pointer">
+                        <td class="px-4 py-2">2424</td>
+                        <td class="px-4 py-2">01 June 2024</td>
+                        <td class="px-4 py-2">R2 000</td>
+                        <td class="px-4 py-2"></td>
+                    </tr>
+                    <tr class="border-t border-gray-300 cursor-pointer">
+                        <td class="px-4 py-2">2424</td>
+                        <td class="px-4 py-2">01 June 2024</td>
+                        <td class="px-4 py-2">R2 000</td>
+                        <td class="px-4 py-2"></td>
+                    </tr>
+                    <tr class="border-t border-gray-300 cursor-pointer">
+                        <td class="px-4 py-2">2424</td>
+                        <td class="px-4 py-2">01 June 2024</td>
+                        <td class="px-4 py-2">R2 000</td>
+                        <td class="px-4 py-2"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
