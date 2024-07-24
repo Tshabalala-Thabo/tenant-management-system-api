@@ -52,6 +52,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Site::class, 'landlord_id');
     }
+
+    public function leaseAgreements()
+    {
+        return $this->hasMany(LeaseAgreement::class, 'tenant_id');
+    }
     public function providedTickets()
     {
         return $this->hasMany(Ticket::class, 'provider_id');

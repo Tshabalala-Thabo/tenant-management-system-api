@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -19,13 +20,17 @@ class UserController extends Controller
 
     public function show($id)
     {
-        // Fetch the tenant and their tickets
-        $tenant = User::with('tenantTickets.tenant')->findOrFail($id);
+        // Fetch the tenant with their tickets and lease agreements including room and site information
+        $tenant = User::with(['tenantTickets', 'leaseAgreements.room.site'])->findOrFail($id);
     
-        // Pass $tenant data to the view
-        return view('tenants.profile', compact('tenant'));
+        // Fetch rooms assigned to this tenant
+        $rooms = Room::where('tenant_id', $id)->with('site')->get();
+    
+        // Pass $tenant and $rooms data to the view
+        return view('tenants.profile', compact('tenant', 'rooms'));
     }
-  
+    
+
 
     public function getTenantsByLandlord()
     {
