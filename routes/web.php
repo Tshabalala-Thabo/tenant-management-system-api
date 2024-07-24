@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\LeaseAgreementController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
@@ -59,6 +60,7 @@ Route::get('/tenants', [UserController::class, 'getTenantsByLandlord'])->name('t
 Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tenants.show');
 
 // Please implement this approach across all controllers and routes
+Route::resource('/lease-agreements', LeaseAgreementController::class);
 Route::resource('/tickets', TicketController::class);
 /*This setup will create a RESTful API for managing tickets with endpoints like:
 

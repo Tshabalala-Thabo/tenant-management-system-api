@@ -15,7 +15,7 @@ class Room extends Model
 
     public function site()
     {
-        return $this->belongsTo(Site::class, 'id'); 
+        return $this->belongsTo(Site::class, 'site_id'); 
     }
     public function tenant()
     {

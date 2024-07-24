@@ -27,12 +27,16 @@ class LeaseAgreementController extends Controller
             'tenant_id' => 'required|exists:users,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'is_terminated' => 'required|boolean',
         ]);
 
-        LeaseAgreement::create($request->all());
+        // Set 'is_terminated' to false by default
+        $leaseData = $request->all();
+        $leaseData['is_terminated'] = false;
 
-        return redirect()->route('lease_agreements.index')->with('success', 'Lease agreement created successfully.');
+        LeaseAgreement::create($leaseData);
+
+        // Redirect back to the previous page or the same route, causing a page refresh
+        return redirect()->back()->with('success', 'Lease agreement created successfully.');
     }
 
     public function show($id)
