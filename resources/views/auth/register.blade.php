@@ -16,41 +16,63 @@
             <div>
                 <x-label for="name" :value="__('Name')" />
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
+                    autofocus />
             </div>
 
-            
+
             <!-- Name -->
             <div class="mt-4">
                 <x-label for="last_name" :value="__('Last Name')" />
 
-                <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autofocus />
+                <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')"
+                    required autofocus />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                    required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="idno" :value="__('ID Number')" />
+                <x-input id="idno" type="text" class="form-control @error('idno') is-invalid @enderror" name="idno"
+                    :value="old('idno')" required />
+                @error('idno')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="form-group mt-4">
+                <x-label for="phone" :value="__('Phone Number')" />
+                <x-input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                    :value="old('phone')" required />
+                @error('phone')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                    autocomplete="new-password" />
             </div>
 
             <!-- Confirm Password -->
             <div class="mt-4">
                 <x-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
+                <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                    name="password_confirmation" required />
             </div>
 
             <div class="flex items-center justify-end mt-4">

@@ -20,7 +20,7 @@
                 <tbody>
                     <tr>
                         <td class="py-1 text-gray-700">ID no</td>
-                        <td class="py-1 text-gray-900">:</td>
+                        <td class="py-1 text-gray-900">:{{ $tenant->idno }}</td>
                     </tr>
                     <tr>
                         <td class="py-1 text-gray-700">Email</td>

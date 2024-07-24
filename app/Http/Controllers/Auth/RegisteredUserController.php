@@ -38,12 +38,16 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'idno' => ['required', 'string', 'max:255'], // Add your specific validation rules
+            'phone' => ['required', 'string', 'max:15'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'idno' => $request->idno,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole('tenant');

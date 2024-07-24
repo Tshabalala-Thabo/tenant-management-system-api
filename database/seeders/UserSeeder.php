@@ -17,10 +17,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'promilezi', // Replace with the desired name
-            'last_name' => 'developer', // Replace with the desired last name
-            'email' => 'promilezi@gmail.com', // Replace with the desired email
-            'password' => Hash::make('developer123#'), // Replace with the desired password
+            'name' => 'Thabo', // Replace with the desired name
+            'last_name' => 'Tshabalala', // Replace with the desired last name
+            'email' => '47thabo@gmail.com', // Replace with the desired email
+            'idno' => '23423479237832', // 
+            'phone' => '0745103359', // 
+            'password' => Hash::make('password'), // Replace with the desired password
         ]);
     }
 }
