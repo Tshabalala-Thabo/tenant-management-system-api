@@ -35,7 +35,13 @@ class RolesAndPermissionsSeeder extends Seeder
         // Assign roles to users
         $user1 = User::find(2); // Replace with actual user ID
         if ($user1) {
-            $user1->assignRole('landlord');
+            $user1->assignRole('tenant');
+            $this->command->info("User 2 assigned to landlord role");
+        }
+
+        $user1 = User::find(3); // Replace with actual user ID
+        if ($user1) {
+            $user1->assignRole('tenant');
             $this->command->info("User 2 assigned to landlord role");
         }
 
