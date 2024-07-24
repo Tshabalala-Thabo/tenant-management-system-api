@@ -25,8 +25,20 @@
 
             </div>
             <div class="">
-                <div class=" shadow-md bg-white sm:rounded-lg h-72"><canvas id="myChart2"></canvas>
+                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                    <div class="text-left mb-4">
+                        <p class="text-gray-600">Rooms</p>
+                    </div>
+                    <div class="flex justify-center mb-4">
+                        <canvas id="myPieChart2" class="w-full max-w-xs"></canvas>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                        </div>
+                        <p class="text-gray-500">All rooms are occupied</p>
+                    </div>
                 </div>
+
             </div>
             <div class="">
                 <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
@@ -144,58 +156,6 @@
     </div>
 </x-app-layout>
 <script>
-    var nullRoomsCount = {{ $nullRoomsCount }};
-    var occupiedRoomsCount = {{ $occupiedRoomsCount }};
-
-    var xValues = ["Collected", "Pending", "Vacant"];
-    var yValues = [13, 4, 2];
-    var barColors = ["#FED361", "#FE6161", "#5B5B5B"];
-
-    new Chart("myChart", {
-        type: "doughnut",
-        data: {
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }],
-            labels: xValues,
-
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Rent collected"
-            }
-        }
-    });
-</script>
-<script>
-    var nullRoomsCount = {{ $nullRoomsCount }};
-    var occupiedRoomsCount = {{ $occupiedRoomsCount }};
-
-    var xValues = ["Occupied", "Vacant"];
-    var yValues = [occupiedRoomsCount, nullRoomsCount];
-    var barColors = ["#FED361", "#FE6161"];
-
-    new Chart("myChart2", {
-        type: "doughnut",
-        data: {
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }],
-            labels: xValues,
-
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Rooms"
-            }
-        }
-    });
-</script>
-<script>
     google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(drawBasic);
 
@@ -283,4 +243,66 @@
     };
 
     new Chart(ctx, config);
+</script>
+<script>
+    const ctx2 = document.getElementById('myPieChart2').getContext('2d');
+    var collected = 6;
+    var vacant = 3;
+    const data2 = {
+        labels: ['Occupied', 'Vacant'],
+        datasets: [{
+            label: 'Visitors',
+            data: [occupiedRoomsCount, nullRoomsCount],
+            backgroundColor: [
+                '#FED361',
+                '#FE6161',
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const totalVisitors = data.datasets[0].data.reduce((a, b) => a + b, 0).toLocaleString();
+
+    const config = {
+        type: 'doughnut',
+        data: data2,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            cutout: '50%'
+        },
+        plugins: [{
+            id: 'textCenter',
+            beforeDraw: function (chart) {
+                var width = chart.width,
+                    height = chart.height,
+                    ctx2 = chart.ctx2;
+                var yOffset = 14; // Adjust this value to move the text up or down
+
+                ctx2.restore();
+                var fontSize = (height / 160).toFixed(2);
+                ctx2.font = fontSize + "em sans-serif";
+                ctx2.textBaseline = "middle";
+
+                var text = occupiedPercentage + '%',
+                    textX = Math.round((width - ctx2.measureText(text).width) / 2),
+                    textY = (height / 2) + yOffset;
+
+                ctx2.fillText(text, textX, textY);
+                ctx2.save();
+            }
+        }]
+    };
+
+    new Chart(ctx2, config);
 </script>

@@ -13,7 +13,8 @@
     openLeaseModal: false}" class="flex flex-wrap gap-y-4 px-3 pb-5">
         <div class="w-3/12 flex flex-col items-center">
             <div class="w-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden mt-4">
-                <img src="{{ asset('images/profile/mary.jpg') }}" alt="Tenant Image" class="w-full h-full object-cover">
+                <img src="{{ asset('images/profile/' . $tenant->id . '.jpg') }}" alt="Tenant Image"
+                    class="w-full h-full object-cover">
             </div>
             <h1 class="mt-2 text-xl font-bold">{{ ucfirst($tenant->name) }} {{ ucfirst($tenant->last_name) }}</h1>
             <table class="w-full mt-1 border-collapse border-0">
