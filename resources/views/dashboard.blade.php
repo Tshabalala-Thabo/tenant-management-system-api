@@ -6,7 +6,8 @@
     </x-slot>
 
     <div class="flex flex-wrap px-3">
-        <div class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
+        <div
+            class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
             @role('landlord')
             <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
@@ -140,40 +141,40 @@
                 </div>
             </div>
 
-            
+
         </div>
         @endrole
-            <!-- Check if the user has a specific role -->
-            @role('landlord')
-            <p>This is visible to users with the landlord role.</p>
-            @endrole
+        <!-- Check if the user has a specific role -->
+        @role('landlord')
+        <p>This is visible to users with the landlord role.</p>
+        @endrole
 
-            <!-- Check if the user has a specific permission -->
-            @can('edit sites')
-                <p>This is visible to users with the edit sites permission.</p>
-            @endcan
+        <!-- Check if the user has a specific permission -->
+        @can('edit sites')
+            <p>This is visible to users with the edit sites permission.</p>
+        @endcan
 
     </div>
 </x-app-layout>
 <script>
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
         var data = google.visualization.arrayToDataTable([
-            ['Element', 'Number of Tickets', { role: 'style' }],
+            ['Element', 'Number of Tickets', {role: 'style'}],
             ['Pending', 5, '#FE6161'],
             ['Solved', 25, '#FED361'],
         ]);
 
         var options = {
             title: 'Maintenance Tickets',
-            chartArea: { width: '50%' },
+            chartArea: {width: '50%'},
             hAxis: {
                 title: 'Number of Tickets',
                 minValue: 0
             },
-            legend: { position: 'none' } // Hide the legend if not needed
+            legend: {position: 'none'} // Hide the legend if not needed
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
@@ -228,18 +229,37 @@
                 var yOffset = 14; // Adjust this value to move the text up or down
 
                 ctx.restore();
+
+                // Calculate font size based on the chart height
                 var fontSize = (height / 160).toFixed(2);
                 ctx.font = fontSize + "em sans-serif";
                 ctx.textBaseline = "middle";
 
-                var text = occupiedPercentage + '%',
-                    textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = (height / 2) + yOffset;
+                // Define the text to be displayed
+                var text = occupiedPercentage + '%';
 
+                // Measure the text width
+                var textWidth = ctx.measureText(text).width;
+
+                // Calculate x-coordinate for centered text and round it
+                var textX = Math.round((width - textWidth) / 2);
+
+                // Calculate y-coordinate for centered text with offset
+                var textY = (height / 2) + yOffset;
+
+                // Log values for debugging
+                console.log('Text:', text);
+                console.log('Text Width:', textWidth);
+                console.log('Text X (Rounded):', textX);
+                console.log('Text Y:', textY);
+
+                // Draw the text on the canvas
                 ctx.fillText(text, textX, textY);
+
                 ctx.save();
             }
         }]
+
     };
 
     new Chart(ctx, config);
