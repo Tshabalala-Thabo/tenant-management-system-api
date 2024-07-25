@@ -215,10 +215,6 @@
                         <!--button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         + Add tenant
                         </button-->
-                        <div x-data="{ isOpen: false }">
-                            <button @click="isOpen = true" class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add tenant</button>
-                            
-                        </div>
                         @elseif(Request::is('sites'))
                         <!--button type="button" class="btn bg-primary-700 text-black border-0 hover:bg-primary-800 shadow-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         + Add tenant
