@@ -3,11 +3,20 @@
 @endphp
 
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <x-header name="header">
+        <div>
+            <nav class="breadcrumbs">
+                <ul class="flex font-medium text-sm">
+                    <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                    <li class="mr-1"> > </li>
+                    <li class="mr-1"><a href="/tenants">Tenants</a></li>
+                    <li class="mr-1"> > </li>
+                    <li class="mr-1">{{$tenant->name}}</li>
+                </ul>
+            </nav>
+            <h1 class="font-bold text-lg">{{$tenant->name}}</h1>
+        </div>
+    </x-header>
 
     <div x-data="{
     openLeaseModal: false}" class="flex flex-wrap gap-y-4 px-3 pb-5">

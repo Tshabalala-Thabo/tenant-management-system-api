@@ -1,10 +1,22 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
+    <x-header name="header">
+        <div>
+            <nav class="breadcrumbs">
+                <ul class="flex font-medium text-sm">
+                    <li class="mr-1"><a href="/dashboard">Dashboard</a></li>
+                    <li class="mr-1"> > </li>
+                    <li class="mr-1">Maintenance tickets</li>
+                </ul>
+            </nav>
+            <h1 class="font-bold text-lg">Maintenance tickets</h1>
+        </div>
+        <div>
+            <!-- Button to trigger modal -->
+            <button @click="openModal = true"
+                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Create a
+                ticket</button>
+        </div>
+    </x-header>
     <div>
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">

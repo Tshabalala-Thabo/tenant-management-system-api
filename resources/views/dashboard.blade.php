@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+    <x-header name="header">
+        <h2 class="font-semibold text-gray-800 leading-tight">
+            {{ __('Dashboardd') }}
         </h2>
-    </x-slot>
+    </x-header>
 
     <div class="flex flex-wrap px-3">
         <div class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
