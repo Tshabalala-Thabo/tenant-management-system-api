@@ -6,7 +6,8 @@
     </x-header>
 
     <div class="flex flex-wrap px-3">
-        <div class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
+        <div
+            class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
             @role('landlord')
             <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
@@ -66,114 +67,55 @@
             </div>
             @endrole
         </div>
+        {{-- Your main view file --}}
         <div
-            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant')  @endrole">
+            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
             @role('tenant')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="bed" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">9</p>
-                            <p class="text-lg">My room</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="receipt" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">4</p>
-                            <p class="text-lg">Lease agreements</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="bed" count="9" text="My room" link="/my-room"/>
+            <x-grid-item icon="receipt" count="4" text="Lease agreements" link="/lease-agreements"/>
             @endrole
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="document-text" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">9</p>
-                            <p class="text-lg">Invoices</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="document-text" count="9" text="Invoices" link="/invoices"/>
             @role('landlord')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="people" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">13</p>
-                            <p class="text-lg">Tenants</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="people" count="13" text="Tenants" link="/tenants"/>
             @endrole
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="hammer" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">4</p>
-                            <p class="text-lg">Maintenance tickets</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="hammer" count="4" text="Maintenance tickets" link="/tickets"/>
             @role('landlord')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">5</p>
-                            <p class="text-lg">Sites</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            <x-grid-item icon="business" count="5" text="Sites" link="/sites"/>
+            @endrole
         </div>
-        @endrole
-            <!-- Check if the user has a specific role -->
-            @role('landlord')
-            <p>This is visible to users with the landlord role.</p>
-            @endrole
 
-            <!-- Check if the user has a specific permission -->
-            @can('edit sites')
-                <p>This is visible to users with the edit sites permission.</p>
-            @endcan
+
+        <!-- Check if the user has a specific role -->
+        @role('landlord')
+        <p>This is visible to users with the landlord role.</p>
+        @endrole
+
+        <!-- Check if the user has a specific permission -->
+        @can('edit sites')
+            <p>This is visible to users with the edit sites permission.</p>
+        @endcan
 
     </div>
 </x-app-layout>
 <script>
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
         var data = google.visualization.arrayToDataTable([
-            ['Element', 'Number of Tickets', { role: 'style' }],
+            ['Element', 'Number of Tickets', {role: 'style'}],
             ['Pending', 5, '#FE6161'],
             ['Solved', 25, '#FED361'],
         ]);
 
         var options = {
             title: 'Maintenance Tickets',
-            chartArea: { width: '50%' },
+            chartArea: {width: '50%'},
             hAxis: {
                 title: 'Number of Tickets',
                 minValue: 0
             },
-            legend: { position: 'none' } // Hide the legend if not needed
+            legend: {position: 'none'} // Hide the legend if not needed
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
