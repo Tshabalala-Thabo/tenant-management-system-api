@@ -31,10 +31,9 @@ class InvoiceController extends Controller
     {
         // Validate and store a new invoice
         $validated = $request->validate([
-            'tenant_id' => 'required|exists:tenants,id',
+            'tenant_id' => 'required|exists:users,id',
             'room_id' => 'nullable|exists:rooms,id',
             'site_id' => 'nullable|exists:sites,id',
-            'invoice_number' => 'required|unique:invoices',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
             'amount' => 'required|numeric',
@@ -47,7 +46,7 @@ class InvoiceController extends Controller
         ]);
 
         Invoice::create($validated);
-        return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
+        return redirect()->back()->with('success', 'Invoice agreement created successfully.');
     }
 
     public function edit(Invoice $invoice)
@@ -63,7 +62,6 @@ class InvoiceController extends Controller
             'tenant_id' => 'required|exists:tenants,id',
             'room_id' => 'nullable|exists:rooms,id',
             'site_id' => 'nullable|exists:sites,id',
-            'invoice_number' => 'required|unique:invoices,invoice_number,' . $invoice->id,
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
             'amount' => 'required|numeric',

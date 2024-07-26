@@ -14,7 +14,6 @@ class Invoice extends Model
         'tenant_id',
         'room_id',
         'site_id',
-        'invoice_number',
         'issue_date',
         'due_date',
         'amount',

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('tenant_id')->constrained('users')->onDelete('cascade'); // Foreign key to tenants table
             $table->foreignId('room_id')->nullable()->constrained('rooms')->onDelete('set null'); // Foreign key to rooms table (optional)
             $table->foreignId('site_id')->nullable()->constrained('sites')->onDelete('set null'); // Foreign key to sites table (optional)
-            $table->string('invoice_number')->unique(); // Unique invoice number
             $table->date('issue_date'); // Date when the invoice was issued
             $table->date('due_date'); // Date when the payment is due
             $table->decimal('amount', 10, 2); // Total amount of the invoice
