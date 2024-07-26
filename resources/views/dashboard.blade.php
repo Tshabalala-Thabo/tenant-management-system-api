@@ -30,7 +30,7 @@
                         <p class="text-gray-600">Rooms</p>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <canvas id="myPieChart2" class="w-full max-w-xs"></canvas>
+                        <canvas id="rentPieChart"></canvas>
                     </div>
                     <div class="text-center">
                         <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
@@ -140,7 +140,7 @@
                 </div>
             </div>
 
-            
+
         </div>
         @endrole
             <!-- Check if the user has a specific role -->
@@ -245,25 +245,28 @@
     new Chart(ctx, config);
 </script>
 <script>
-    const ctx2 = document.getElementById('myPieChart2').getContext('2d');
-    var collected = 6;
-    var vacant = 3;
+    const ctx2 = document.getElementById('rentPieChart').getContext('2d');
+    var rentCollected = 70;
+    var rentPending = 20;
+    var vacantCount = 10;
+    var totalRentCount = rentCollected + rentPending + vacantCount;
+    var rentCollectedPercentage = totalRentCount === 0 ? 0 : ((rentCollected / totalRentCount) * 100);
+
     const data2 = {
-        labels: ['Occupied', 'Vacant'],
+        labels: ['Rent Collected', 'Rent Pending', 'Vacant'],
         datasets: [{
-            label: 'Visitors',
-            data: [occupiedRoomsCount, nullRoomsCount],
+            label: 'Rent Status',
+            data: [rentCollected, rentPending, vacantCount],
             backgroundColor: [
-                '#FED361',
+                '#4CAF50',
+                '#FFEB3B',
                 '#FE6161',
             ],
             hoverOffset: 4
         }]
     };
 
-    const totalVisitors = data.datasets[0].data.reduce((a, b) => a + b, 0).toLocaleString();
-
-    const config = {
+    const config2 = {
         type: 'doughnut',
         data: data2,
         options: {
@@ -282,27 +285,27 @@
             cutout: '50%'
         },
         plugins: [{
-            id: 'textCenter',
+            id: 'textCenter2',
             beforeDraw: function (chart) {
                 var width = chart.width,
                     height = chart.height,
-                    ctx2 = chart.ctx2;
-                var yOffset = 14; // Adjust this value to move the text up or down
+                    ctx = chart.ctx;
+                var yOffset = 14;
 
-                ctx2.restore();
+                ctx.restore();
                 var fontSize = (height / 160).toFixed(2);
-                ctx2.font = fontSize + "em sans-serif";
-                ctx2.textBaseline = "middle";
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = "middle";
 
-                var text = occupiedPercentage + '%',
-                    textX = Math.round((width - ctx2.measureText(text).width) / 2),
+                var text = rentCollectedPercentage + '%',
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
                     textY = (height / 2) + yOffset;
 
-                ctx2.fillText(text, textX, textY);
-                ctx2.save();
+                ctx.fillText(text, textX, textY);
+                ctx.save();
             }
         }]
     };
 
-    new Chart(ctx2, config);
+    new Chart(ctx2, config2);
 </script>
