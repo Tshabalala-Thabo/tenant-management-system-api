@@ -8,6 +8,7 @@ use App\Http\Controllers\LeaseAgreementController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tena
 
 // Please implement this approach across all controllers and routes
 Route::resource('/lease-agreements', LeaseAgreementController::class);
+Route::resource('/invoices', InvoiceController::class);
 Route::resource('/tickets', TicketController::class);
 /*This setup will create a RESTful API for managing tickets with endpoints like:
 
@@ -70,5 +72,5 @@ Route::resource('/tickets', TicketController::class);
     PUT /tickets/{ticket} - Update a specific ticket
     DELETE /tickets/{ticket} - Delete a specific ticket
 */
-    
+
 require __DIR__ . '/auth.php';
