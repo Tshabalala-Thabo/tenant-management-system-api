@@ -10,12 +10,14 @@
             </nav>
             <h1 class="font-bold text-lg">Maintenance tickets</h1>
         </div>
+        @role('tenant')
         <div>
             <!-- Button to trigger modal -->
             <button @click="openModal = true"
                 class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Create a
                 ticket</button>
         </div>
+        @endrole
     </x-header>
     <div>
         @if ($errors->any())
@@ -84,7 +86,8 @@
         @foreach($tickets as $ticket)
             <div class="bg-gray-300 rounded-lg px-5 py-3">
                 <div class="w-full flex justify-between">
-                    <h1 class="font-bold text-lg">{{ ucfirst($ticket->details) }}</h1>
+                    <h1 class="font-bold text-lg">@role('landlord'){{ucfirst($ticket->tenant->name)}}: @endrole {{ ucfirst($ticket->details) }}</h1>
+                    @role('tenant')
                     <div x-data="{ open: false }" class="relative">
                         <div @click="open = !open"
                             class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
@@ -102,6 +105,7 @@
                             </form>
                         </div>
                     </div>
+                    @endrole
                 </div>
                 <div>
                     <p>
