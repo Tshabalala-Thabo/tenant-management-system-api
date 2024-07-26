@@ -1,7 +1,3 @@
-@php
-    use Carbon\Carbon;
-@endphp
-
 <x-app-layout>
     <x-header name="header">
         <div>
