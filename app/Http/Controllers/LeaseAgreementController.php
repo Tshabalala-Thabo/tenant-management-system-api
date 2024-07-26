@@ -3,16 +3,36 @@
 // app/Http/Controllers/LeaseAgreementController.php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\LeaseAgreement;
 use Illuminate\Http\Request;
-
+use App\Models\Room;
+use App\Models\Site;
 class LeaseAgreementController extends Controller
 {
     public function index()
     {
-        $leaseAgreements = LeaseAgreement::with(['room', 'tenant'])->get();
-        return view('lease_agreements.index', compact('leaseAgreements'));
+        $user = Auth::user();
+        $userId = $user->id;
+
+        if ($user->hasRole('tenant')) {
+            // Retrieve lease agreements for the tenant
+            $leaseAgreements = LeaseAgreement::with(['room', 'tenant'])
+                ->where('tenant_id', $userId)
+                ->get();
+        } elseif ($user->hasRole('landlord')) {
+            // Retrieve lease agreements for rooms associated with sites of the landlord
+            $siteIds = Site::where('landlord_id', $userId)->pluck('id'); // Get site IDs for the landlord
+            $roomIds = Room::whereIn('site_id', $siteIds)->pluck('id'); // Get room IDs for those sites
+            $leaseAgreements = LeaseAgreement::with(['room', 'tenant'])
+                ->whereIn('room_id', $roomIds)
+                ->get();
+        } else {
+            // Optionally handle users without specific roles
+            $leaseAgreements = LeaseAgreement::with(['room', 'tenant'])->get();
+        }
+
+        return view('lease-agreements.index', compact('leaseAgreements'));
     }
 
     public function create()
