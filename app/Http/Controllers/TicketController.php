@@ -17,20 +17,47 @@ class TicketController extends Controller
      *
      * @return View
      */
+
     public function index(): View
     {
-        $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])->get();
         $userId = Auth::id();
+        $user = Auth::user();
 
-        // Retrieve all rooms assigned to the user
-        $rooms = Room::where('tenant_id', $userId)->get();
+        if ($user->hasRole('tenant')) {
+            // Retrieve all tickets that belong to the tenant
+            $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])
+                ->where('tenant_id', $userId)
+                ->get();
 
-        // Retrieve sites that have the rooms assigned to the user
-        $siteIds = $rooms->pluck('site_id')->unique();
-        $sites = Site::whereIn('id', $siteIds)->get();
+            // Retrieve all rooms assigned to the tenant
+            $rooms = Room::where('tenant_id', $userId)->get();
+
+            // Retrieve sites that have the rooms assigned to the tenant
+            $siteIds = $rooms->pluck('site_id')->unique();
+            $sites = Site::whereIn('id', $siteIds)->get();
+        } elseif ($user->hasRole('landlord')) {
+            // Retrieve all tickets for sites belonging to the landlord
+            $siteIds = Site::where('landlord_id', $userId)->pluck('id'); // Retrieve site IDs for the landlord
+            $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])
+                ->whereIn('site_id', $siteIds)
+                ->get();
+
+            // Retrieve all rooms for the landlord's sites
+            $rooms = Room::whereIn('site_id', $siteIds)->get();
+
+            // Retrieve sites for the landlord
+            $sites = Site::whereIn('id', $siteIds)->get();
+        } else {
+            // For users without specific roles, retrieve all tickets
+            $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])->get();
+            $rooms = [];
+            $sites = [];
+        }
 
         return view('tickets.index', compact('tickets', 'sites', 'rooms'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
