@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Invoice;
+use App\Models\Site;
+use App\Models\Tenant;
 
 use Illuminate\Http\Request;
 
@@ -9,10 +11,29 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        // Retrieve all invoices
+        // Check if the user has the 'landlord' role
+//        if (auth()->user()->hasRole('landlord')) {
+//            // Retrieve the landlord_id of the current user
+//            $landlordId = auth()->user()->id;
+//
+//            // Fetch the Site_ids that belong to the landlord
+//            $siteIds = Site::where('landlord_id', $landlordId)->pluck('id');
+//
+//            // Retrieve invoices that have Site_id belonging to the landlord
+//            $invoices = Invoice::with(['tenant', 'room', 'site'])
+//                ->whereIn('site_id', $siteIds)
+//                ->get();
+//        } else {
+//            // Retrieve all invoices for other roles
+//            $invoices = Invoice::with(['tenant', 'room', 'site'])->get();
+//        }
+
         $invoices = Invoice::with(['tenant', 'room', 'site'])->get();
+
+
         return view('invoices.index', compact('invoices'));
     }
+
 
     public function show(Invoice $invoice)
     {

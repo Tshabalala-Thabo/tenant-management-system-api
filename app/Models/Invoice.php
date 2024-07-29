@@ -28,7 +28,7 @@ class Invoice extends Model
     // Define relationships
     public function tenant()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(User::class);
     }
 
     public function room()

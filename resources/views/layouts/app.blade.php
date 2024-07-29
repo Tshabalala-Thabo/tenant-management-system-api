@@ -67,7 +67,7 @@
                 <div class="pb-2 mx-6">
                     <x-responsive-nav-link
                         class="rounded-lg py-2 pl-6 pr-6 {{ Route::current()->getName() == 'invoices' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
-                        :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        :href="route('invoices.index')" :active="request()->routeIs('invoices.index')">
                         <ion-icon name="document-text-outline" class="size-6 mr-6"></ion-icon>
                         <p class="{{ Route::current()->getName() == 'invoices' ? 'font-semibold' : 'font-normal' }}">{{ __('Invoices') }}</p>
                     </x-responsive-nav-link>
