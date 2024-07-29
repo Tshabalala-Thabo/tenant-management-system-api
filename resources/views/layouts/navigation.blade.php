@@ -37,8 +37,17 @@
                     <x-slot name="trigger">
                         <button
                             class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <img src="{{ asset('images/profile/' .Auth::user()->id . '.jpg') }}" alt="Tenant Image"
-                                 class="size-9 rounded-full mr-2">
+{{--                            <img src="{{ asset('images/profile/' .Auth::user()->id . '.jpg') }}" alt="Tenant Image"--}}
+{{--                                 class="size-9 rounded-full mr-2">--}}
+                            @php
+                                $profileImagePath = 'images/profile/' . Auth::user()->id . '.jpg';
+                                $defaultImagePath = 'images/profile/default.jpg';
+                            @endphp
+                            <img
+                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
+                                alt="Tenant Image"
+                                class="size-9 rounded-full mr-2">
+
                             <div>{{ Auth::user()->name }} {{ Auth::user()->last_name }}</div>
 
                             <div class="">
