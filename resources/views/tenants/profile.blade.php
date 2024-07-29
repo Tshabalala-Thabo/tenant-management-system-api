@@ -65,8 +65,8 @@
                 <!-- Trigger Button for Modal -->
                 <!-- Button to Open Modal -->
                 <button @click="openInvoiceModal = true"
-                        class="bg-primary-700 text-white px-4 py-2 rounded-md hover:bg-primary-800">
-                    Create New Invoice
+                        class="bg-primary-600 shadow-md font-semibold text-black px-4 py-2 rounded-md hover:bg-primary-800">
+                    + Create invoice
                 </button>
 
 
@@ -86,26 +86,32 @@
                     </thead>
                     <tbody class="bg-white">
                     @foreach($tenant->invoices as $invoice)
-                        <tr class="border-t border-gray-300 cursor-pointer">
+                        <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                             <td class="px-4 py-2">{{ $invoice->id }}</td>
                             <td class="px-4 py-2">{{ $invoice->issue_date }}</td>
-                            <td class="px-4 py-2">${{ number_format($invoice->amount, 2) }}</td>
+                            <td class="px-4 py-2">R{{ number_format($invoice->amount, 2) }}</td>
                             <td class="px-4 py-2">{{ ucfirst($invoice->status) }}</td>
                             <td class="px-4 py-2">
-                                <!-- Add action buttons if needed -->
-                                <a href="{{ route('invoices.show', $invoice->id) }}"
-                                   class="text-blue-500 hover:underline">View</a>
+                                <div class="flex">
+                                    <a href="{{ route('invoices.show', $invoice->id) }}"
+                                       class="text-blue-500 hover:underline">
+                                        <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                    </a>
+                                    <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                    <ion-icon name="trash" class="size-5 text-danger"></ion-icon>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
+
                     </tbody>
                 </table>
             @endif
             <div class="w-full flex mt-7 justify-between items-end p-1">
                 <h1 class="font-bold">Lease agreements</h1>
                 <button @click="openLeaseModal = true"
-                        class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700">
-                    Create agreement
+                        class="bg-primary-600 shadow-md font-semibold text-black px-4 py-2 rounded-md hover:bg-primary-700">
+                    + Create agreement
                 </button>
             </div>
             @if($tenant->leaseAgreements->isEmpty())
@@ -123,7 +129,7 @@
                     </thead>
                     <tbody class="bg-white">
                     @foreach($tenant->leaseAgreements as $leaseAgreement)
-                        <tr class="border-t border-gray-300 cursor-pointer">
+                        <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                             <td class="px-4 py-2">{{ $leaseAgreement->id }}</td>
                             <td class="px-4 py-2">Room:
                                 {{ $leaseAgreement->room->name }}({{ $leaseAgreement->room->site->name }})
@@ -131,7 +137,13 @@
                             <td class="px-4 py-2">{{ $leaseAgreement->start_date }}
                                 - {{ $leaseAgreement->end_date }}</td>
                             <td class="px-4 py-2">{{ $leaseAgreement->is_terminated ? 'Yes' : 'No' }}</td>
-                            <td class="px-4 py-2"></td>
+                            <td class="px-4 py-2">
+                                <div class="flex">
+                                    <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                    <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                    <ion-icon name="close" class="size-5 text-gray-500"></ion-icon>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
