@@ -48,7 +48,7 @@
                                 alt="Tenant Image"
                                 class="size-9 rounded-full mr-2">
 
-                            <div>{{ Auth::user()->name }} {{ Auth::user()->last_name }}</div>
+                            <div>{{ ucfirst(Auth::user()->name) }} {{ ucfirst(Auth::user()->last_name) }}</div>
 
                             <div class="">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
