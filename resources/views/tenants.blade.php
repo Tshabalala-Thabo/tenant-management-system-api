@@ -1,4 +1,4 @@
-<x-app-layout> 
+<x-app-layout>
     <x-header name="header">
         <div>
             <nav class="breadcrumbs">
@@ -28,7 +28,7 @@
                 </thead>
                 <tbody class="bg-white">
                     @foreach($groupedTenants as $tenantId => $tenantRooms)
-                            <tr class="border-t border-gray-300 cursor-pointer"
+                            <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100"
                                 onclick="window.location='{{ route('tenants.show', $tenantRooms->first()['tenant']->id) }}'">
                                 <td class="px-4 py-2">{{ ucfirst($tenantRooms->first()['tenant']->name) }}
                                     {{ ucfirst($tenantRooms->first()['tenant']->last_name) }}</td>

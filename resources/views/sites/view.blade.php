@@ -125,14 +125,14 @@
             </thead>
             <tbody class="bg-white">
                 @foreach ($site->rooms as $room)
-                    <tr class="border-t border-gray-300">
+                    <tr class="border-t border-gray-300 hover:bg-gray-100">
                         <td class="px-4 py-2">{{ $room->name }} ( {{ $room->description }})</td>
                         <td class="px-4 py-2">
                             @if ($room->tenant)
                                 {{ $room->tenant->name }} {{ $room->tenant->last_name }}
                             @else
                                 N/A
-                            @endif  
+                            @endif
                       </td>
                         <td class="px-4 py-2">R{{ $room->cost }}</td>
                         <td class="px-4 py-2">
