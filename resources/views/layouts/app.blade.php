@@ -99,18 +99,9 @@
                         <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                     </div> -->
 
-                <div class="mt-3 space-y-1 bg-black text-white">
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                            this.closest('form').submit();" class="px-4 flex align-center">
-                            <ion-icon name="log-out-outline" class="size-6 mr-5 text-primary-200"></ion-icon>
-
-                            {{ __('Log Out') }}
-                        </x-responsive-nav-link>
-                    </form>
+                <div class="mt-3 space-y-1 text-right py-1 px-4 bg-black text-white">
+                    <p class="text-sm font-italic text-gray-300">Developed by</p>
+                    <p class="font-semibold mt-0">Thabo Tshabalala</p>
                 </div>
             </div>
         </div>
