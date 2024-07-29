@@ -195,7 +195,7 @@
     var rentCollectedPercentage = totalRentCount === 0 ? 0 : ((rentCollected / totalRentCount) * 100);
 
     const data2 = {
-        labels: ['Rent Collected', 'Rent Pending', 'Vacant'],
+        labels: ['Collected', 'Pending', 'Vacant'],
         datasets: [{
             label: 'Rent Status',
             data: [rentCollected, rentPending, vacantCount],
