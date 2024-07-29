@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class, 'provider_id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'tenant_id');
+    }
+
     /**
      * Get the tickets assigned to the user as a tenant.
      */

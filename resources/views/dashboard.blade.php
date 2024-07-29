@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+    <x-header name="header">
+        <h2 class="font-semibold text-gray-800 leading-tight">
+            {{ __('Dashboardd') }}
         </h2>
-    </x-slot>
+    </x-header>
 
     <div class="flex flex-wrap px-3">
         <div
@@ -31,7 +31,7 @@
                         <p class="text-gray-600">Rooms</p>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <canvas id="myPieChart2" class="w-full max-w-xs"></canvas>
+                        <canvas id="rentPieChart"></canvas>
                     </div>
                     <div class="text-center">
                         <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
@@ -67,83 +67,24 @@
             </div>
             @endrole
         </div>
+        {{-- Your main view file --}}
         <div
-            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant')  @endrole">
+            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
             @role('tenant')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="bed" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">9</p>
-                            <p class="text-lg">My room</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="receipt" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">4</p>
-                            <p class="text-lg">Lease agreements</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="bed" count="9" text="My rooms" link="/my-room"/>
+            <x-grid-item icon="receipt" count="4" text="Lease agreements" link="/lease-agreements"/>
             @endrole
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="document-text" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">9</p>
-                            <p class="text-lg">Invoices</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="document-text" count="9" text="Invoices" link="/invoices"/>
             @role('landlord')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="people" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">13</p>
-                            <p class="text-lg">Tenants</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="people" count="13" text="Tenants" link="/tenants"/>
             @endrole
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="hammer" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">4</p>
-                            <p class="text-lg">Maintenance tickets</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-grid-item icon="hammer" count="4" text="Maintenance tickets" link="/tickets"/>
             @role('landlord')
-            <div class="h-min">
-                <div class="shadow-md bg-white sm:rounded-lg">
-                    <div class="flex py-4 justify-between items-center px-6">
-                        <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
-                        <div class="flex flex-col items-end">
-                            <p class="text-4xl font-semibold">5</p>
-                            <p class="text-lg">Sites</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            <x-grid-item icon="business" count="5" text="Sites" link="/sites"/>
+            @endrole
         </div>
-        @endrole
+
+
         <!-- Check if the user has a specific role -->
         @role('landlord')
         <p>This is visible to users with the landlord role.</p>
@@ -229,61 +170,45 @@
                 var yOffset = 14; // Adjust this value to move the text up or down
 
                 ctx.restore();
-
-                // Calculate font size based on the chart height
                 var fontSize = (height / 160).toFixed(2);
                 ctx.font = fontSize + "em sans-serif";
                 ctx.textBaseline = "middle";
 
-                // Define the text to be displayed
-                var text = occupiedPercentage + '%';
+                var text = occupiedPercentage + '%',
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = (height / 2) + yOffset;
 
-                // Measure the text width
-                var textWidth = ctx.measureText(text).width;
-
-                // Calculate x-coordinate for centered text and round it
-                var textX = Math.round((width - textWidth) / 2);
-
-                // Calculate y-coordinate for centered text with offset
-                var textY = (height / 2) + yOffset;
-
-                // Log values for debugging
-                console.log('Text:', text);
-                console.log('Text Width:', textWidth);
-                console.log('Text X (Rounded):', textX);
-                console.log('Text Y:', textY);
-
-                // Draw the text on the canvas
                 ctx.fillText(text, textX, textY);
-
                 ctx.save();
             }
         }]
-
     };
 
     new Chart(ctx, config);
 </script>
 <script>
-    const ctx2 = document.getElementById('myPieChart2').getContext('2d');
-    var collected = 6;
-    var vacant = 3;
+    const ctx2 = document.getElementById('rentPieChart').getContext('2d');
+    var rentCollected = 70;
+    var rentPending = 20;
+    var vacantCount = 10;
+    var totalRentCount = rentCollected + rentPending + vacantCount;
+    var rentCollectedPercentage = totalRentCount === 0 ? 0 : ((rentCollected / totalRentCount) * 100);
+
     const data2 = {
-        labels: ['Occupied', 'Vacant'],
+        labels: ['Rent Collected', 'Rent Pending', 'Vacant'],
         datasets: [{
-            label: 'Visitors',
-            data: [occupiedRoomsCount, nullRoomsCount],
+            label: 'Rent Status',
+            data: [rentCollected, rentPending, vacantCount],
             backgroundColor: [
-                '#FED361',
+                '#4CAF50',
+                '#FFEB3B',
                 '#FE6161',
             ],
             hoverOffset: 4
         }]
     };
 
-    const totalVisitors = data.datasets[0].data.reduce((a, b) => a + b, 0).toLocaleString();
-
-    const config = {
+    const config2 = {
         type: 'doughnut',
         data: data2,
         options: {
@@ -302,27 +227,27 @@
             cutout: '50%'
         },
         plugins: [{
-            id: 'textCenter',
+            id: 'textCenter2',
             beforeDraw: function (chart) {
                 var width = chart.width,
                     height = chart.height,
-                    ctx2 = chart.ctx2;
-                var yOffset = 14; // Adjust this value to move the text up or down
+                    ctx = chart.ctx;
+                var yOffset = 14;
 
-                ctx2.restore();
+                ctx.restore();
                 var fontSize = (height / 160).toFixed(2);
-                ctx2.font = fontSize + "em sans-serif";
-                ctx2.textBaseline = "middle";
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = "middle";
 
-                var text = occupiedPercentage + '%',
-                    textX = Math.round((width - ctx2.measureText(text).width) / 2),
+                var text = rentCollectedPercentage + '%',
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
                     textY = (height / 2) + yOffset;
 
-                ctx2.fillText(text, textX, textY);
-                ctx2.save();
+                ctx.fillText(text, textX, textY);
+                ctx.save();
             }
         }]
     };
 
-    new Chart(ctx2, config);
+    new Chart(ctx2, config2);
 </script>
