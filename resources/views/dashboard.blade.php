@@ -72,7 +72,7 @@
         <div
             class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
             @role('tenant')
-            <x-grid-item icon="bed" count="9" text="My rooms" link="/my-room" />
+            <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room" />
             <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
                 link="/lease-agreements" />
             @endrole

@@ -16,13 +16,13 @@ class InvoiceController extends Controller
         if (auth()->user()->hasRole('landlord')) {
             // Retrieve the landlord_id of the current user
             $landlordId = auth()->user()->id;
-
+    
             // Fetch the Site_ids that belong to the landlord
             $siteIds = Site::where('landlord_id', $landlordId)->pluck('id');
-
+    
             // Retrieve rooms that belong to these sites
             $rooms = Room::whereIn('site_id', $siteIds)->with('site')->get();
-
+    
             // Retrieve invoices that have rooms belonging to the landlord's sites
             $invoices = Invoice::with(['tenant', 'room.site'])
                 ->whereHas('room', function ($query) use ($siteIds) {
@@ -34,9 +34,9 @@ class InvoiceController extends Controller
         else if (auth()->user()->hasRole('tenant')) {
             // Retrieve the tenant_id of the current user
             $tenantId = auth()->user()->id;
-
+    
             // Retrieve invoices that belong to the tenant
-            $invoices = Invoice::with(['tenant', 'room', 'site'])
+            $invoices = Invoice::with(['tenant', 'room.site'])
                 ->where('tenant_id', $tenantId)
                 ->get();
         }
@@ -46,10 +46,10 @@ class InvoiceController extends Controller
             // Optionally, you can return a 403 response
             // abort(403, 'Unauthorized action.');
         }
-
+    
         return view('invoices.index', compact('invoices'));
     }
-
+    
 
 
     public function show(Invoice $invoice)

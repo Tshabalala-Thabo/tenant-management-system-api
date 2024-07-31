@@ -33,7 +33,7 @@
                         <td class="px-4 py-2">{{ $invoice->id }}</td>
                         <td class="px-4 py-2">{{ optional($invoice->tenant)->name ?? 'N/A' }}</td>
                         <td class="px-4 py-2">{{ optional($invoice->room)->name ?? 'N/A' }}</td>
-                        <td class="px-4 py-2">{{ optional($invoice->room->site)->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-2">{{ optional(optional($invoice->room)->site)->name ?? 'N/A' }}</td>
                         <td class="px-4 py-2">R{{ number_format($invoice->amount, 2) }}</td>
                         <td class="px-4 py-2">{{ $invoice->status }}</td>
                         <td class="px-4 py-2">

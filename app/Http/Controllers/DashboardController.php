@@ -62,10 +62,14 @@ class DashboardController extends Controller
             $leaseAgreementsCount = LeaseAgreement::where('tenant_id', $userId)->count();
             $invoicesCount = Invoice::where('tenant_id', $userId)->count();
 
+            // Count the number of rooms assigned to the tenant
+            $assignedRoomsCount = Room::where('tenant_id', $userId)->count();
+
             return view('dashboard', [
                 'ticketsCount' => $ticketsCount,
                 'leaseAgreementsCount' => $leaseAgreementsCount,
                 'invoicesCount' => $invoicesCount,
+                'assignedRoomsCount' => $assignedRoomsCount,
             ]);
         }
     }
