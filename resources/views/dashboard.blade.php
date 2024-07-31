@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-header name="header">
         <h2 class="font-semibold text-gray-800 leading-tight">
-            {{ __('Dashboardd') }}
+            {{ __('Dashboard') }}
         </h2>
     </x-header>
 
@@ -25,7 +25,7 @@
                 </div>
 
             </div>
-            
+
             <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
                     <div class="text-left mb-4">
@@ -72,16 +72,21 @@
         <div
             class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
             @role('tenant')
-            <x-grid-item icon="bed" count="9" text="My rooms" link="/my-room"/>
-            <x-grid-item icon="receipt" count="4" text="Lease agreements" link="/lease-agreements"/>
+            <x-grid-item icon="bed" count="9" text="My rooms" link="/my-room" />
+            <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
+                link="/lease-agreements" />
             @endrole
-            <x-grid-item icon="document-text" count="9" text="Invoices" link="/invoices"/>
+            <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices" />
             @role('landlord')
-            <x-grid-item icon="people" count="13" text="Tenants" link="/tenants"/>
+            <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants" />
+            <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
+" text="Maintenance tickets" link="/tickets" />
             @endrole
-            <x-grid-item icon="hammer" count="4" text="Maintenance tickets" link="/tickets"/>
+            @role('tenant')
+            <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets" />
+            @endrole
             @role('landlord')
-            <x-grid-item icon="business" count="5" text="Sites" link="/sites"/>
+            <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites" />
             @endrole
         </div>
 
@@ -98,25 +103,26 @@
 
     </div>
 </x-app-layout>
+@role('landlord')
 <script>
-    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
         var data = google.visualization.arrayToDataTable([
-            ['Element', 'Number of Tickets', {role: 'style'}],
-            ['Pending', 5, '#FE6161'],
-            ['Solved', 25, '#FED361'],
+            ['Element', 'Number of Tickets', { role: 'style' }],
+            ['Pending', {{$pendingTicketsCount}}, '#FE6161'],
+            ['Solved', {{$solvedTicketsCount}}, '#FED361'],
         ]);
 
         var options = {
             title: 'Maintenance Tickets',
-            chartArea: {width: '50%'},
+            chartArea: { width: '50%' },
             hAxis: {
                 title: 'Number of Tickets',
                 minValue: 0
             },
-            legend: {position: 'none'} // Hide the legend if not needed
+            legend: { position: 'none' } // Hide the legend if not needed
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
@@ -252,3 +258,4 @@
 
     new Chart(ctx2, config2);
 </script>
+@endrole
