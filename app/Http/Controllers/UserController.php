@@ -17,7 +17,6 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-
     public function show($id)
     {
         // Fetch the tenant with their tickets and lease agreements including room and site information
@@ -29,7 +28,6 @@ class UserController extends Controller
         // Pass $tenant and $rooms data to the view
         return view('tenants.profile', compact('tenant', 'rooms'));
     }
-
 
 
     public function getTenantsByLandlord()
