@@ -33,14 +33,14 @@
                         <td class="px-4 py-2">{{ $invoice->id }}</td>
                         <td class="px-4 py-2">{{ optional($invoice->tenant)->name ?? 'N/A' }}</td>
                         <td class="px-4 py-2">{{ optional($invoice->room)->name ?? 'N/A' }}</td>
-                        <td class="px-4 py-2">{{ optional($invoice->site)->name ?? 'N/A' }}</td>
-                        <td class="px-4 py-2">${{ number_format($invoice->amount, 2) }}</td>
+                        <td class="px-4 py-2">{{ optional($invoice->room->site)->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-2">R{{ number_format($invoice->amount, 2) }}</td>
                         <td class="px-4 py-2">{{ $invoice->status }}</td>
                         <td class="px-4 py-2">
                             <div class="flex">
                                 <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
                                 <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                <ion-icon name="close" class="size-5 text-gray-500"></ion-icon>
+                                <ion-icon name="trash" class=" size-5 text-danger"></ion-icon>
                             </div>
                         </td>
                     </tr>

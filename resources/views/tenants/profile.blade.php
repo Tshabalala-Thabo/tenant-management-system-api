@@ -233,18 +233,24 @@
                     <!-- Hidden input to pass additional IDs if needed -->
                     <input type="hidden" name="tenant_id" value="{{ $tenant->id ?? '' }}">
 
-                    {{--                    <div class="mb-4">--}}
-                    {{--                        <label for="invoice_number" class="block text-gray-700 text-sm font-bold mb-2">Invoice--}}
-                    {{--                            Number:</label>--}}
-                    {{--                        <input type="text" name="invoice_number" id="invoice_number"--}}
-                    {{--                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"--}}
-                    {{--                               value="{{ old('invoice_number') }}" required>--}}
-                    {{--                    </div>--}}
+                    <!-- Dropdown for selecting a room -->
+                    <div class="mb-4">
+                        <label for="room_id" class="block text-gray-700 text-sm font-bold mb-2">Room:</label>
+                        <select name="room_id" id="room_id"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                required>
+                            <option value="">Select a room</option>
+                            @foreach($rooms as $room)
+                                <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
+                                    {{ $room->name }} - {{ $room->site->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="mb-4">
-                            <label for="issue_date" class="block text-gray-700 text-sm font-bold mb-2">Issue
-                                Date:</label>
+                            <label for="issue_date" class="block text-gray-700 text-sm font-bold mb-2">Issue Date:</label>
                             <input type="date" name="issue_date" id="issue_date"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('issue_date') }}" required>
@@ -266,8 +272,7 @@
                                    value="{{ old('amount') }}" required>
                         </div>
                         <div class="mb-4">
-                            <label for="paid_amount" class="block text-gray-700 text-sm font-bold mb-2">Paid
-                                Amount:</label>
+                            <label for="paid_amount" class="block text-gray-700 text-sm font-bold mb-2">Paid Amount:</label>
                             <input type="number" name="paid_amount" id="paid_amount" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('paid_amount') }}"/>
@@ -279,36 +284,30 @@
                         <select name="status" id="status"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 required>
-                            <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending
-                            </option>
+                            <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="paid" {{ old('status') == 'paid' ? 'selected' : '' }}>Paid</option>
-                            <option value="overdue" {{ old('status') == 'overdue' ? 'selected' : '' }}>Overdue
-                            </option>
-                            <option value="canceled" {{ old('status') == 'canceled' ? 'selected' : '' }}>Canceled
-                            </option>
+                            <option value="overdue" {{ old('status') == 'overdue' ? 'selected' : '' }}>Overdue</option>
+                            <option value="canceled" {{ old('status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
                         </select>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
 
+                    <div class="grid grid-cols-2 gap-3">
                         <div class="mb-4">
-                            <label for="water_charge" class="block text-gray-700 text-sm font-bold mb-2">Water
-                                Charge:</label>
+                            <label for="water_charge" class="block text-gray-700 text-sm font-bold mb-2">Water Charge:</label>
                             <input type="number" name="water_charge" id="water_charge" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('water_charge') }}"/>
                         </div>
 
                         <div class="mb-4">
-                            <label for="electricity_charge" class="block text-gray-700 text-sm font-bold mb-2">Electricity
-                                Charge:</label>
+                            <label for="electricity_charge" class="block text-gray-700 text-sm font-bold mb-2">Electricity Charge:</label>
                             <input type="number" name="electricity_charge" id="electricity_charge" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('electricity_charge') }}"/>
                         </div>
 
                         <div class="mb-4">
-                            <label for="other_charges" class="block text-gray-700 text-sm font-bold mb-2">Other
-                                Charges:</label>
+                            <label for="other_charges" class="block text-gray-700 text-sm font-bold mb-2">Other Charges:</label>
                             <input type="number" name="other_charges" id="other_charges" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('other_charges') }}"/>
@@ -324,18 +323,16 @@
 
                     <div class="flex justify-end">
                         <button @click="openInvoiceModal = false" type="button"
-                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel
-                        </button>
+                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel</button>
                         <button type="submit"
-                                class="bg-primary-700 text-white px-4 py-2 rounded-md hover:bg-primary-800">Create
-                            Invoice
-                        </button>
+                                class="bg-primary-700 text-white px-4 py-2 rounded-md hover:bg-primary-800">Create Invoice</button>
                     </div>
                 </form>
             </div>
             <!-- Overlay -->
             <div @click="openInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
         </div>
+
 
     </div>
 
