@@ -40,7 +40,7 @@
                             <div class="flex">
                                 <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
                                 <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                <ion-icon name="trash" class=" size-5 text-danger"></ion-icon>
+                                <ion-icon name="trash" class="size-5 text-danger"></ion-icon>
                             </div>
                         </td>
                     </tr>

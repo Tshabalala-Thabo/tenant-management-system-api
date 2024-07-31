@@ -45,6 +45,23 @@
                 <!-- Add more rows as needed -->
                 </tbody>
             </table>
+            <div class="text-left w-full">
+                <h1 class="font-bold mt-3">Tenant rooms</h1>
+                @php
+                    // Group rooms by site id
+                    $groupedRooms = $rooms->groupBy('site.id');
+                @endphp
+
+                @foreach($groupedRooms as $siteId => $siteRooms)
+                    <p class="mr-1/2">{{ $siteRooms->first()->site->name }}:
+                    @php
+                        // Collect room names for this site
+                        $roomNames = $siteRooms->pluck('name')->implode(', ');
+                    @endphp
+                        {{ $roomNames }} </p>
+                @endforeach
+            </div>
+
         </div>
         <div class="w-9/12 pl-3">
             <h1 class="text-left w-full font-bold">Maintenance tickets</h1>
@@ -250,7 +267,8 @@
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="mb-4">
-                            <label for="issue_date" class="block text-gray-700 text-sm font-bold mb-2">Issue Date:</label>
+                            <label for="issue_date" class="block text-gray-700 text-sm font-bold mb-2">Issue
+                                Date:</label>
                             <input type="date" name="issue_date" id="issue_date"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('issue_date') }}" required>
@@ -272,7 +290,8 @@
                                    value="{{ old('amount') }}" required>
                         </div>
                         <div class="mb-4">
-                            <label for="paid_amount" class="block text-gray-700 text-sm font-bold mb-2">Paid Amount:</label>
+                            <label for="paid_amount" class="block text-gray-700 text-sm font-bold mb-2">Paid
+                                Amount:</label>
                             <input type="number" name="paid_amount" id="paid_amount" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('paid_amount') }}"/>
@@ -287,27 +306,31 @@
                             <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="paid" {{ old('status') == 'paid' ? 'selected' : '' }}>Paid</option>
                             <option value="overdue" {{ old('status') == 'overdue' ? 'selected' : '' }}>Overdue</option>
-                            <option value="canceled" {{ old('status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                            <option value="canceled" {{ old('status') == 'canceled' ? 'selected' : '' }}>Canceled
+                            </option>
                         </select>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="mb-4">
-                            <label for="water_charge" class="block text-gray-700 text-sm font-bold mb-2">Water Charge:</label>
+                            <label for="water_charge" class="block text-gray-700 text-sm font-bold mb-2">Water
+                                Charge:</label>
                             <input type="number" name="water_charge" id="water_charge" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('water_charge') }}"/>
                         </div>
 
                         <div class="mb-4">
-                            <label for="electricity_charge" class="block text-gray-700 text-sm font-bold mb-2">Electricity Charge:</label>
+                            <label for="electricity_charge" class="block text-gray-700 text-sm font-bold mb-2">Electricity
+                                Charge:</label>
                             <input type="number" name="electricity_charge" id="electricity_charge" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('electricity_charge') }}"/>
                         </div>
 
                         <div class="mb-4">
-                            <label for="other_charges" class="block text-gray-700 text-sm font-bold mb-2">Other Charges:</label>
+                            <label for="other_charges" class="block text-gray-700 text-sm font-bold mb-2">Other
+                                Charges:</label>
                             <input type="number" name="other_charges" id="other_charges" step="0.01"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    value="{{ old('other_charges') }}"/>
@@ -323,9 +346,12 @@
 
                     <div class="flex justify-end">
                         <button @click="openInvoiceModal = false" type="button"
-                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel</button>
+                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel
+                        </button>
                         <button type="submit"
-                                class="bg-primary-700 text-white px-4 py-2 rounded-md hover:bg-primary-800">Create Invoice</button>
+                                class="bg-primary-700 text-white px-4 py-2 rounded-md hover:bg-primary-800">Create
+                            Invoice
+                        </button>
                     </div>
                 </form>
             </div>

@@ -2,7 +2,7 @@
 @props(['icon', 'count', 'text', 'link'])
 
 
-<a href="{{ $link }}" class="h-min bg-white rounded-lg transition-transform transition-colors duration-300 transform hover:scale-100 hover:bg-primary-300">
+<a href="{{ $link }}" class="h-min bg-white rounded-lg transition-transform transition-colors duration-300 transform hover:scale-100 hover:bg-gray-50">
     <div class="shadow-md sm:rounded-lg">
         <div class="flex py-4 justify-between items-center px-6">
             <ion-icon name="{{ $icon }}" class="size-16 text-primary-600"></ion-icon>

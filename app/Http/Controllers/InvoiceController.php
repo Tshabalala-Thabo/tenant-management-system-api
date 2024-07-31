@@ -12,7 +12,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-         //Check if the user has the 'landlord' role
+        // Check if the user has the 'landlord' role
         if (auth()->user()->hasRole('landlord')) {
             // Retrieve the landlord_id of the current user
             $landlordId = auth()->user()->id;
@@ -30,16 +30,26 @@ class InvoiceController extends Controller
                 })
                 ->get();
         }
-        else {
-            // Retrieve all invoices for other roles
-            $invoices = Invoice::with(['tenant', 'room', 'site'])->get();
+        // Check if the user has the 'tenant' role
+        else if (auth()->user()->hasRole('tenant')) {
+            // Retrieve the tenant_id of the current user
+            $tenantId = auth()->user()->id;
+
+            // Retrieve invoices that belong to the tenant
+            $invoices = Invoice::with(['tenant', 'room', 'site'])
+                ->where('tenant_id', $tenantId)
+                ->get();
         }
-
-        //$invoices = Invoice::with(['tenant', 'room', 'site'])->get();
-
+        else {
+            // For users who are neither landlords nor tenants, return an empty collection
+            $invoices = collect();
+            // Optionally, you can return a 403 response
+            // abort(403, 'Unauthorized action.');
+        }
 
         return view('invoices.index', compact('invoices'));
     }
+
 
 
     public function show(Invoice $invoice)
