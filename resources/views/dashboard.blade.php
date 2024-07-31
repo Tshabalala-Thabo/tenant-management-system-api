@@ -12,26 +12,27 @@
             <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
                     <div class="text-left mb-4">
-                        <p class="text-gray-600">Rooms</p>
+                        <p class="text-gray-600">Rent</p>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
+                        <canvas id="rentPieChart"></canvas>
                     </div>
                     <div class="text-center">
                         <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
                         </div>
-                        <p class="text-gray-500">All rooms are occupied</p>
+                        <p class="text-gray-500">Most of the rent has been collected</p>
                     </div>
                 </div>
 
             </div>
+            
             <div class="">
                 <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
                     <div class="text-left mb-4">
                         <p class="text-gray-600">Rooms</p>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <canvas id="rentPieChart"></canvas>
+                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
                     </div>
                     <div class="text-center">
                         <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
@@ -200,8 +201,8 @@
             label: 'Rent Status',
             data: [rentCollected, rentPending, vacantCount],
             backgroundColor: [
-                '#4CAF50',
-                '#FFEB3B',
+                '#FED361',
+                '#666',
                 '#FE6161',
             ],
             hoverOffset: 4
