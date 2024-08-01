@@ -1,5 +1,9 @@
 <x-app-layout>
-    <x-header name="header">
+    <div class="flex">
+        <x-side-nav activeLink="lease"/>
+
+        <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
+        <x-header name="header">
         <div>
             <nav class="breadcrumbs">
                 <ul class="flex font-medium text-sm">

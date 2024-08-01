@@ -11,6 +11,7 @@
                 <p class="{{ $activeLink == 'dashboard' ? 'font-semibold' : 'font-normal' }}">{{ __('Dashboard') }}</p>
             </x-responsive-nav-link>
         </div>
+        @role('landlord')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'tenants' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
@@ -21,14 +22,26 @@
                 <p class="{{ $activeLink == 'tenants' ? 'font-semibold' : 'font-normal' }}">{{ __('Tenants') }}</p>
             </x-responsive-nav-link>
         </div>
+        @endrole
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'invoices' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
                 href="/invoices" :active="$activeLink == 'invoices'">
-                <ion-icon name="{{ $activeLink == 'invoices' ? 'document-text' : 'document-text-outline' }}" class="size-6 mr-6"></ion-icon>
+                <ion-icon name="{{ $activeLink == 'invoices' ? 'receipt' : 'receipt-outline' }}" class="size-6 mr-6"></ion-icon>
                 <p class="{{ $activeLink == 'invoices' ? 'font-semibold' : 'font-normal' }}">{{ __('Invoices') }}</p>
             </x-responsive-nav-link>
         </div>
+        @role('tenant')
+        <div class="pb-2 mx-6">
+            <x-responsive-nav-link
+                class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'lease' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
+                href="/lease-agreements" :active="$activeLink == 'lease'">
+                <ion-icon name="{{ $activeLink == 'lease' ? 'document-text' : 'document-text-outline' }}" class="size-6 mr-6"></ion-icon>
+                <p class="{{ $activeLink == 'lease' ? 'font-semibold' : 'font-normal' }}">{{ __('Lease Agreements') }}</p>
+            </x-responsive-nav-link>
+        </div>
+        @endrole
+        @role('landlord')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'sites' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
@@ -39,6 +52,7 @@
                 <p class="{{ $activeLink == 'sites' ? 'font-semibold' : 'font-normal' }}">{{ __('Sites') }}</p>
             </x-responsive-nav-link>
         </div>
+        @endrole
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'tickets' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
