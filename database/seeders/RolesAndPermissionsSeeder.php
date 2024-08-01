@@ -17,7 +17,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Create roles
         $landlordRole = Role::firstOrCreate(['name' => 'landlord']);
         $tenantRole = Role::firstOrCreate(['name' => 'tenant']);
-
+        $serviceProviderRole = Role::firstOrCreate(['name' => 'service_provider']);
         // Create permissions
         $viewSitesPermission = Permission::firstOrCreate(['name' => 'view sites']);
         $editSitesPermission = Permission::firstOrCreate(['name' => 'edit sites']);
@@ -33,19 +33,19 @@ class RolesAndPermissionsSeeder extends Seeder
         $this->command->info("Role landlord permissions: " . json_encode($landlordRole->permissions->pluck('name')));
 
         // Assign roles to users
-        $user1 = User::find(2); // Replace with actual user ID
+        $user1 = User::find(1); // Replace with actual user ID
         if ($user1) {
-            $user1->assignRole('tenant');
+            $user1->assignRole('landlord');
+            $this->command->info("User 1 assigned to landlord role");
+        }
+
+        $user2 = User::find(2); // Replace with actual user ID
+        if ($user2) {
+            $user2->assignRole('landlord');
             $this->command->info("User 2 assigned to landlord role");
         }
 
-        $user1 = User::find(3); // Replace with actual user ID
-        if ($user1) {
-            $user1->assignRole('tenant');
-            $this->command->info("User 2 assigned to landlord role");
-        }
-
-        $user2 = User::find(1); // Replace with actual user ID
+        $user3 = User::find(1); // Replace with actual user ID
         if ($user2) {
             $user2->assignRole('landlord');
             $this->command->info("User 1 assigned to landlord role");

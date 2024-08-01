@@ -16,13 +16,92 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // Landlords
         $user = User::create([
             'name' => 'Thabo', // Replace with the desired name
             'last_name' => 'Tshabalala', // Replace with the desired last name
             'email' => '47thabo@gmail.com', // Replace with the desired email
-            'idno' => '23423479237832', // 
-            'phone' => '0745103359', // 
+            'idno' => '23423479237832', //
+            'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
+
+        $user = User::create([
+            'name' => 'Chris', // Replace with the desired name
+            'last_name' => 'Mukwevho', // Replace with the desired last name
+            'email' => 'chris@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+
+        //Service providers
+        $user = User::create([
+            'name' => 'Shane', // Replace with the desired name
+            'last_name' => 'Cooper', // Replace with the desired last name
+            'email' => 'shane@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Gontse', // Replace with the desired name
+            'last_name' => 'Maluleka', // Replace with the desired last name
+            'email' => 'gontse@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Chris', // Replace with the desired name
+            'last_name' => 'Mukwevho', // Replace with the desired last name
+            'email' => 'chris@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+
+        // Tenants
+        $user = User::create([
+            'name' => 'Mary', // Replace with the desired name
+            'last_name' => 'Masilela', // Replace with the desired last name
+            'email' => 'mary@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Chimugaramafatha', // Replace with the desired name
+            'last_name' => 'Osass', // Replace with the desired last name
+            'email' => 'osass@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Solly', // Replace with the desired name
+            'last_name' => 'Makamu', // Replace with the desired last name
+            'email' => 'solly@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Timmy', // Replace with the desired name
+            'last_name' => 'Turner', // Replace with the desired last name
+            'email' => 'chris@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+        $user = User::create([
+            'name' => 'Ben', // Replace with the desired name
+            'last_name' => 'Sono', // Replace with the desired last name
+            'email' => 'ben@gmail.com', // Replace with the desired email
+            'idno' => '23423479237812', //
+            'phone' => '0745103359', //
+            'password' => Hash::make('password'), // Replace with the desired password
+        ]);
+
     }
 }
