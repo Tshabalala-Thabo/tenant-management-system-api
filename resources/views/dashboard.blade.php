@@ -1,98 +1,104 @@
 <x-app-layout>
-    <x-header name="header">
-        <h2 class="font-semibold text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-header>
+    <div class="flex">
+        <x-side-nav activeLink="dashboard"/>
 
-    <div class="flex flex-wrap px-3">
-        <div
-            class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
-            @role('landlord')
-            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                <div class="text-left mb-4">
-                    <p class="text-gray-600">Rent</p>
-                </div>
-                <div class="flex justify-center mb-4">
-                    <canvas id="rentPieChart" class="h-32"></canvas>
-                </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
-                    </div>
-                    <p class="text-gray-500">Most of the rent has been collected</p>
-                </div>
-            </div>
+        <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
+            <x-header name="header">
+                <h2 class="font-semibold text-gray-800 leading-tight">
+                    {{ __('Dashboard') }}
+                </h2>
+            </x-header>
 
-            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                <div class="text-left mb-4">
-                    <p class="text-gray-600">Rooms</p>
-                </div>
-                <div class="flex justify-center mb-4">
-                    <canvas id="myPieChart" class="h-32"></canvas>
-                </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
-                    </div>
-                    <p class="text-gray-500">All rooms are occupied</p>
-                </div>
-            </div>
-
-            <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
-                <div id="myChart3" class="rounded-lg h-72"></div>
-            </div>
-            @endrole
-            @role('tenant')
-            <div class="w-full">
-                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                    <div class="text-left mb-4">
-                        <p class="text-gray-600">Rooms</p>
-                    </div>
-                    <div class="flex justify-center mb-4">
-                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+            <div class="flex flex-wrap px-3">
+                <div
+                    class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
+                    @role('landlord')
+                    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                        <div class="text-left mb-4">
+                            <p class="text-gray-600">Rent</p>
                         </div>
-                        <p class="text-gray-500">All rooms are occupied</p>
+                        <div class="flex justify-center mb-4">
+                            <canvas id="rentPieChart" class="h-32"></canvas>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                            </div>
+                            <p class="text-gray-500">Most of the rent has been collected</p>
+                        </div>
                     </div>
+
+                    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                        <div class="text-left mb-4">
+                            <p class="text-gray-600">Rooms</p>
+                        </div>
+                        <div class="flex justify-center mb-4">
+                            <canvas id="myPieChart" class="h-32"></canvas>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                            </div>
+                            <p class="text-gray-500">All rooms are occupied</p>
+                        </div>
+                    </div>
+
+                    <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
+                        <div id="myChart3" class="rounded-lg h-72"></div>
+                    </div>
+                    @endrole
+                    @role('tenant')
+                    <div class="w-full">
+                        <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                            <div class="text-left mb-4">
+                                <p class="text-gray-600">Rooms</p>
+                            </div>
+                            <div class="flex justify-center mb-4">
+                                <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                                </div>
+                                <p class="text-gray-500">All rooms are occupied</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    @endrole
+                </div>
+                {{-- Your main view file --}}
+                <div
+                    class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
+                    @role('tenant')
+                    <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room"/>
+                    <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
+                                 link="/lease-agreements"/>
+                    @endrole
+                    <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
+                    @role('landlord')
+                    <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
+                    <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
+" text="Maintenance tickets" link="/tickets"/>
+                    @endrole
+                    @role('tenant')
+                    <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
+                    @endrole
+                    @role('landlord')
+                    <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites"/>
+                    @endrole
                 </div>
 
+
+                <!-- Check if the user has a specific role -->
+                @role('landlord')
+                <p>This is visible to users with the landlord role.</p>
+                @endrole
+
+                <!-- Check if the user has a specific permission -->
+                @can('edit sites')
+                    <p>This is visible to users with the edit sites permission.</p>
+                @endcan
+
             </div>
-            @endrole
         </div>
-        {{-- Your main view file --}}
-        <div
-            class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
-            @role('tenant')
-            <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room"/>
-            <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
-                         link="/lease-agreements"/>
-            @endrole
-            <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
-            @role('landlord')
-            <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
-            <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
-" text="Maintenance tickets" link="/tickets"/>
-            @endrole
-            @role('tenant')
-            <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
-            @endrole
-            @role('landlord')
-            <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites"/>
-            @endrole
-        </div>
-
-
-        <!-- Check if the user has a specific role -->
-        @role('landlord')
-        <p>This is visible to users with the landlord role.</p>
-        @endrole
-
-        <!-- Check if the user has a specific permission -->
-        @can('edit sites')
-            <p>This is visible to users with the edit sites permission.</p>
-        @endcan
-
     </div>
 </x-app-layout>
 @role('landlord')
