@@ -9,44 +9,36 @@
         <div
             class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
             @role('landlord')
-            <div class="">
-                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                    <div class="text-left mb-4">
-                        <p class="text-gray-600">Rent</p>
-                    </div>
-                    <div class="flex justify-center mb-4">
-                        <canvas id="rentPieChart"></canvas>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
-                        </div>
-                        <p class="text-gray-500">Most of the rent has been collected</p>
-                    </div>
+            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                <div class="text-left mb-4">
+                    <p class="text-gray-600">Rent</p>
                 </div>
-
+                <div class="flex justify-center mb-4">
+                    <canvas id="rentPieChart" class="h-32"></canvas>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                    </div>
+                    <p class="text-gray-500">Most of the rent has been collected</p>
+                </div>
             </div>
 
-            <div class="">
-                <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                    <div class="text-left mb-4">
-                        <p class="text-gray-600">Rooms</p>
-                    </div>
-                    <div class="flex justify-center mb-4">
-                        <canvas id="myPieChart" class="w-full max-w-xs"></canvas>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
-                        </div>
-                        <p class="text-gray-500">All rooms are occupied</p>
-                    </div>
+            <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+                <div class="text-left mb-4">
+                    <p class="text-gray-600">Rooms</p>
                 </div>
-
+                <div class="flex justify-center mb-4">
+                    <canvas id="myPieChart" class="h-32"></canvas>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
+                    </div>
+                    <p class="text-gray-500">All rooms are occupied</p>
+                </div>
             </div>
-            <div class="">
-                <div class="pb-4 shadow-md overflow-hidden bg-white sm:rounded-lg h-72">
-                    <div id="myChart3" class="h-72"></div>
 
-                </div>
+            <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
+                <div id="myChart3" class="rounded-lg h-72"></div>
             </div>
             @endrole
             @role('tenant')
@@ -72,21 +64,21 @@
         <div
             class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
             @role('tenant')
-            <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room" />
+            <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room"/>
             <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
-                link="/lease-agreements" />
+                         link="/lease-agreements"/>
             @endrole
-            <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices" />
+            <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
             @role('landlord')
-            <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants" />
+            <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
             <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
-" text="Maintenance tickets" link="/tickets" />
+" text="Maintenance tickets" link="/tickets"/>
             @endrole
             @role('tenant')
-            <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets" />
+            <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
             @endrole
             @role('landlord')
-            <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites" />
+            <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites"/>
             @endrole
         </div>
 
@@ -105,24 +97,24 @@
 </x-app-layout>
 @role('landlord')
 <script>
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
         var data = google.visualization.arrayToDataTable([
-            ['Element', 'Number of Tickets', { role: 'style' }],
+            ['Element', 'Number of Tickets', {role: 'style'}],
             ['Pending', {{$pendingTicketsCount}}, '#FE6161'],
             ['Solved', {{$solvedTicketsCount}}, '#FED361'],
         ]);
 
         var options = {
             title: 'Maintenance Tickets',
-            chartArea: { width: '50%' },
+            chartArea: {width: '50%'},
             hAxis: {
                 title: 'Number of Tickets',
                 minValue: 0
             },
-            legend: { position: 'none' } // Hide the legend if not needed
+            legend: {position: 'none'} // Hide the legend if not needed
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
