@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'name' => 'Shane', // Replace with the desired name
             'last_name' => 'Cooper', // Replace with the desired last name
             'email' => 'shane@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '23423179237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
@@ -48,15 +48,15 @@ class UserSeeder extends Seeder
             'name' => 'Gontse', // Replace with the desired name
             'last_name' => 'Maluleka', // Replace with the desired last name
             'email' => 'gontse@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '234247479237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
         $user = User::create([
-            'name' => 'Chris', // Replace with the desired name
-            'last_name' => 'Mukwevho', // Replace with the desired last name
-            'email' => 'chris@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'name' => 'Lucky', // Replace with the desired name
+            'last_name' => 'Hans', // Replace with the desired last name
+            'email' => 'lucky@gmail.com', // Replace with the desired email
+            'idno' => '234234792374444', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
             'name' => 'Mary', // Replace with the desired name
             'last_name' => 'Masilela', // Replace with the desired last name
             'email' => 'mary@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '23426579237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
             'name' => 'Chimugaramafatha', // Replace with the desired name
             'last_name' => 'Osass', // Replace with the desired last name
             'email' => 'osass@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '23422279237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
@@ -82,15 +82,15 @@ class UserSeeder extends Seeder
             'name' => 'Solly', // Replace with the desired name
             'last_name' => 'Makamu', // Replace with the desired last name
             'email' => 'solly@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '20323479237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
         $user = User::create([
             'name' => 'Timmy', // Replace with the desired name
             'last_name' => 'Turner', // Replace with the desired last name
-            'email' => 'chris@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'email' => 'timmy@gmail.com', // Replace with the desired email
+            'idno' => '23423479200312', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);
@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
             'name' => 'Ben', // Replace with the desired name
             'last_name' => 'Sono', // Replace with the desired last name
             'email' => 'ben@gmail.com', // Replace with the desired email
-            'idno' => '23423479237812', //
+            'idno' => '90423479237812', //
             'phone' => '0745103359', //
             'password' => Hash::make('password'), // Replace with the desired password
         ]);

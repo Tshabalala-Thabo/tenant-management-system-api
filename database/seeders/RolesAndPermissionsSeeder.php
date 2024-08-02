@@ -32,7 +32,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Output the roles to verify the permissions were assigned
         $this->command->info("Role landlord permissions: " . json_encode($landlordRole->permissions->pluck('name')));
 
-        // Assign roles to users
+        // Assign landlord roles
         $user1 = User::find(1); // Replace with actual user ID
         if ($user1) {
             $user1->assignRole('landlord');
@@ -45,10 +45,47 @@ class RolesAndPermissionsSeeder extends Seeder
             $this->command->info("User 2 assigned to landlord role");
         }
 
-        $user3 = User::find(1); // Replace with actual user ID
-        if ($user2) {
-            $user2->assignRole('landlord');
-            $this->command->info("User 1 assigned to landlord role");
+        // Assign service provider roles
+        $user3 = User::find(3); // Replace with actual user ID
+        if ($user3) {
+            $user3->assignRole('service_provider');
+            $this->command->info("User 3 assigned to service p role");
+        }
+        $user4 = User::find(4); // Replace with actual user ID
+        if ($user4) {
+            $user4->assignRole('service_provider');
+            $this->command->info("User 4 assigned to service p role");
+        }
+        $user5 = User::find(5); // Replace with actual user ID
+        if ($user5) {
+            $user5->assignRole('service_provider');
+            $this->command->info("User 1 assigned to service p role");
+        }
+        // Assign tenant roles
+        $user6 = User::find(6); // Replace with actual user ID
+        if ($user6) {
+            $user6->assignRole('tenant');
+            $this->command->info("User 6 assigned to tenant role");
+        }
+        $user7 = User::find(7); // Replace with actual user ID
+        if ($user7) {
+            $user2->assignRole('tenant');
+            $this->command->info("User 7 assigned to tenant role");
+        }
+        $user8 = User::find(8); // Replace with actual user ID
+        if ($user8) {
+            $user8->assignRole('tenant');
+            $this->command->info("User 8 assigned to tenant role");
+        }
+        $user9 = User::find(9); // Replace with actual user ID
+        if ($user9) {
+            $user9->assignRole('tenant');
+            $this->command->info("User 9 assigned to tenant role");
+        }
+        $user10 = User::find(10); // Replace with actual user ID
+        if ($user10) {
+            $user10->assignRole('tenant');
+            $this->command->info("User 10 assigned to tenant role");
         }
     }
 }
