@@ -16,6 +16,7 @@
                     <h1 class="font-bold text-lg">Sites</h1>
                 </div>
 
+                @role('landlord')
                 <div x-data="{ open: false }">
                     <!-- Button to trigger modal -->
                     <button @click="open = true"
@@ -66,6 +67,7 @@
                         <div @click="open = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
                     </div>
                 </div>
+                @endrole
             </x-header>
 
             @role('landlord')
