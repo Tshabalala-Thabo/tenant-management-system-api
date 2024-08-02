@@ -43,7 +43,7 @@
             </x-responsive-nav-link>
         </div>
         @endrole
-        @role('landlord')
+        @can('view sites')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'sites' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
@@ -54,7 +54,7 @@
                 <p class="{{ $activeLink == 'sites' ? 'font-semibold' : 'font-normal' }}">{{ __('Sites') }}</p>
             </x-responsive-nav-link>
         </div>
-        @endrole
+        @endcan
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'tickets' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"

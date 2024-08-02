@@ -31,7 +31,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Assign permissions to roles
         $landlordRole->givePermissionTo($viewSitesPermission, $manageSitesPermission, $viewInvoicesPermission, $viewLeasesPermission);
         $tenantRole->givePermissionTo($viewInvoicesPermission, $viewLeasesPermission);
-        $tenantRole->givePermissionTo($viewSitesPermission);
+        $serviceProviderRole->givePermissionTo($viewSitesPermission);
 
         // Output the roles to verify the permissions were assigned
         $this->command->info("Permissions assigned to landlord role: " . json_encode($landlordRole->permissions->pluck('name')));
