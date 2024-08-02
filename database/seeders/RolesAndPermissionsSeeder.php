@@ -21,13 +21,16 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create permissions
         $viewSitesPermission = Permission::firstOrCreate(['name' => 'view sites']);
-        $editSitesPermission = Permission::firstOrCreate(['name' => 'edit sites']);
+        $manageSitesPermission = Permission::firstOrCreate(['name' => 'manage sites']);
+        $viewInvoicesPermission = Permission::firstOrCreate(['name' => 'view invoices']);
+        $viewLeasesPermission = Permission::firstOrCreate(['name' => 'view leases']);
 
         // Output the permissions to verify they were created
-        $this->command->info("Permissions created: view sites (ID: {$viewSitesPermission->id}), edit sites (ID: {$editSitesPermission->id})");
+        $this->command->info("Permissions created: view sites (ID: {$viewSitesPermission->id}), edit sites (ID: {$manageSitesPermission->id})");
 
         // Assign permissions to roles
-        $landlordRole->givePermissionTo($viewSitesPermission, $editSitesPermission);
+        $landlordRole->givePermissionTo($viewSitesPermission, $manageSitesPermission, $viewInvoicesPermission, $viewLeasesPermission);
+        $tenantRole->givePermissionTo($viewInvoicesPermission, $viewLeasesPermission);
 
         // Output the roles to verify the permissions were assigned
         $this->command->info("Permissions assigned to landlord role: " . json_encode($landlordRole->permissions->pluck('name')));

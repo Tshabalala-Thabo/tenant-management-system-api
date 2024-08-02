@@ -72,7 +72,9 @@
                     <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
                                  link="/lease-agreements"/>
                     @endrole
+                    @can('view leases')
                     <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
+                    @endcan
                     @role('landlord')
                     <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
                     <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
@@ -93,7 +95,7 @@
                 @endrole
 
                 <!-- Check if the user has a specific permission -->
-                @can('edit sites')
+                @can('manage sites')
                     <p>This is visible to users with the edit sites permission.</p>
                 @endcan
 

@@ -23,6 +23,7 @@
             </x-responsive-nav-link>
         </div>
         @endrole
+        @can('view invoices')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'invoices' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
@@ -31,6 +32,7 @@
                 <p class="{{ $activeLink == 'invoices' ? 'font-semibold' : 'font-normal' }}">{{ __('Invoices') }}</p>
             </x-responsive-nav-link>
         </div>
+        @endcan
         @role('tenant')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link

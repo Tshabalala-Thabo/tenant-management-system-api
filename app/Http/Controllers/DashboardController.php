@@ -71,9 +71,17 @@ class DashboardController extends Controller
                 'invoicesCount' => $invoicesCount,
                 'assignedRoomsCount' => $assignedRoomsCount,
             ]);
+        } elseif ($user->hasRole('service_provider')) {
+            // Count the solved and pending tickets for the service provider
+            $solvedTicketsCount = Ticket::where('provider_id', $userId)->where('status', 'solved')->count();
+            $pendingTicketsCount = Ticket::where('provider_id', $userId)->where('status', 'pending')->count();
+
+            return view('dashboard', [
+                'solvedTicketsCount' => $solvedTicketsCount,
+                'pendingTicketsCount' => $pendingTicketsCount,
+            ]);
         }
     }
-
 
 
 }
