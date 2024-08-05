@@ -187,14 +187,121 @@
                     </table>
 
                 </div>
-                <div class="w-4/12 pl-2">
+                <div x-data="searchServiceProviders()" class="w-4/12 pl-2">
                     <div class="w-full mb-2 flex justify-between items-end">
                         <h1 class="font-bold">Service providers</h1>
-                        <button @click="open = true"
-                                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
-                            Add
-                            service provider
+                        <button @click="openServiceProviderModal({{ $site->id }})"
+                                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                            + Add Service Provider
                         </button>
+
+                        <!-- Modal HTML -->
+                        <div  x-show="isOpenSearchServiceProvider"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 transform scale-90"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             x-transition:leave="transition ease-in duration-300"
+                             x-transition:leave-start="opacity-100 transform scale-100"
+                             x-transition:leave-end="opacity-0 transform scale-90"
+                             class="fixed z-50 inset-0 overflow-y-auto">
+                            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                <div x-show="isOpenSearchServiceProvider"
+                                     class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                     aria-hidden="true"></div>
+
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                                      aria-hidden="true">&#8203;</span>
+
+                                <div x-show="isOpenSearchServiceProvider"
+                                     class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                    <div class="absolute top-0 right-0 pt-4 pr-4">
+                                        <button @click="closeModal()"
+                                                class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            <span class="sr-only">Close</span>
+                                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="sm:flex sm:items-start">
+                                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                                Assign Service Provider
+                                            </h3>
+                                            <div class="mt-2">
+                                                <input type="text" x-model="searchQuery" @input="searchServiceProviders"
+                                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                       placeholder="Search service providers...">
+                                                <ul class="mt-4">
+                                                    <template x-for="provider in serviceProviders" :key="provider.id">
+                                                        <li class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
+                                                            <span x-text="provider.name"></span>
+                                                            <button @click="assignProviderToSite(provider.id)"
+                                                                    class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">
+                                                                Assign
+                                                            </button>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('alpine:init', () => {
+                                Alpine.data('searchServiceProviders', () => ({
+                                    isOpenSearchServiceProvider: false,
+                                    searchQuery: '',
+                                    serviceProviders: [],
+                                    selectedSiteId: null,
+
+                                    openServiceProviderModal(siteId) {
+                                        console.log('Opening modal for site ID:', siteId); // Debugging
+                                        this.selectedSiteId = siteId;
+                                        this.isOpenSearchServiceProvider = true;
+                                    },
+
+                                    closeModal() {
+                                        console.log('Closing modal'); // Debugging
+                                        this.isOpenSearchServiceProvider = false;
+                                    },
+
+                                    async searchServiceProviders() {
+                                        if (this.searchQuery.length < 3) {
+                                            this.serviceProviders = [];
+                                            return;
+                                        }
+
+                                        try {
+                                            const response = await axios.get('/service-providers', { params: { search: this.searchQuery } });
+                                            this.serviceProviders = response.data;
+                                        } catch (error) {
+                                            console.error('Error fetching service providers:', error);
+                                        }
+                                    },
+
+                                    async assignProviderToSite(providerId) {
+                                        try {
+                                            const response = await axios.post(`/sites/${this.selectedSiteId}/assign`, { service_provider_id: providerId });
+                                            if (response.status === 200) {
+                                                this.closeModal();
+                                                window.location.reload();
+                                            }
+                                        } catch (error) {
+                                            console.error('Error assigning provider to site:', error);
+                                        }
+                                    }
+                                }));
+                            });
+                        </script>
+
                     </div>
                     <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
                         <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">

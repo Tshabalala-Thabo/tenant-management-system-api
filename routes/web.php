@@ -9,6 +9,9 @@ use Spatie\Permission\Middlewares\RoleMiddleware;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SiteServiceProviderController;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +48,7 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
 // Service provider assignment
 Route::post('/sites/{siteId}/assign', [SiteServiceProviderController::class, 'assign'])
     ->name('sites.assign');
+Route::get('/service-providers', [SiteServiceProviderController::class, 'search']);
 
 Route::post('/sites/{siteId}/unassign', [SiteServiceProviderController::class, 'unassign'])
     ->name('sites.unassign');
