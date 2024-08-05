@@ -42,6 +42,13 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::get('/sites/view/{id}', [SiteController::class, 'view_site'])->name('sites.view');
 });
 
+// Service provider assignment
+Route::post('/sites/{siteId}/assign', [SiteServiceProviderController::class, 'assign'])
+    ->name('sites.assign');
+
+Route::post('/sites/{siteId}/unassign', [SiteServiceProviderController::class, 'unassign'])
+    ->name('sites.unassign');
+
 // Route for rooms
 Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');

@@ -25,4 +25,8 @@ class Site extends Model
     {
         return $this->hasMany(Ticket::class, 'site_id');
     }
+    public function serviceProviders()
+    {
+        return $this->belongsToMany(User::class, 'service_provider_site', 'site_id', 'service_provider_id');
+    }
 }
