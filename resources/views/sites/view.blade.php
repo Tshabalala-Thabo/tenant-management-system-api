@@ -196,7 +196,8 @@
                         </button>
 
                         <!-- Modal HTML -->
-                        <div  x-show="isOpenSearchServiceProvider"
+                        <!-- Modal HTML -->
+                        <div x-show="isOpenSearchServiceProvider"
                              x-transition:enter="transition ease-out duration-300"
                              x-transition:enter-start="opacity-0 transform scale-90"
                              x-transition:enter-end="opacity-100 transform scale-100"
@@ -204,23 +205,18 @@
                              x-transition:leave-start="opacity-100 transform scale-100"
                              x-transition:leave-end="opacity-0 transform scale-90"
                              class="fixed z-50 inset-0 overflow-y-auto">
-                            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                <div x-show="isOpenSearchServiceProvider"
-                                     class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                            <div
+                                class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                      aria-hidden="true"></div>
-
-                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                                      aria-hidden="true">&#8203;</span>
-
-                                <div x-show="isOpenSearchServiceProvider"
-                                     class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                <div
+                                    class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                                     <div class="absolute top-0 right-0 pt-4 pr-4">
                                         <button @click="closeModal()"
                                                 class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             <span class="sr-only">Close</span>
                                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                 viewBox="0 0 24 24"
-                                                 stroke="currentColor" aria-hidden="true">
+                                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                       d="M6 18L18 6M6 6l12 12"/>
                                             </svg>
@@ -263,13 +259,13 @@
                                     selectedSiteId: null,
 
                                     openServiceProviderModal(siteId) {
-                                        console.log('Opening modal for site ID:', siteId); // Debugging
+                                        console.log('Opening modal for site ID:', siteId);
                                         this.selectedSiteId = siteId;
                                         this.isOpenSearchServiceProvider = true;
                                     },
 
                                     closeModal() {
-                                        console.log('Closing modal'); // Debugging
+                                        console.log('Closing modal');
                                         this.isOpenSearchServiceProvider = false;
                                     },
 
@@ -280,7 +276,7 @@
                                         }
 
                                         try {
-                                            const response = await axios.get('/service-providers', { params: { search: this.searchQuery } });
+                                            const response = await axios.get('/service-providers', {params: {search: this.searchQuery}});
                                             this.serviceProviders = response.data;
                                         } catch (error) {
                                             console.error('Error fetching service providers:', error);
@@ -289,7 +285,7 @@
 
                                     async assignProviderToSite(providerId) {
                                         try {
-                                            const response = await axios.post(`/sites/${this.selectedSiteId}/assign`, { service_provider_id: providerId });
+                                            const response = await axios.post(`/sites/${this.selectedSiteId}/assign`, {service_provider_id: providerId});
                                             if (response.status === 200) {
                                                 this.closeModal();
                                                 window.location.reload();
@@ -301,7 +297,6 @@
                                 }));
                             });
                         </script>
-
                     </div>
                     <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
                         <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">

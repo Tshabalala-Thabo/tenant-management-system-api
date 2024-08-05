@@ -29,4 +29,6 @@ class Site extends Model
     {
         return $this->belongsToMany(User::class, 'service_provider_site', 'site_id', 'service_provider_id');
     }
+
 }
+
