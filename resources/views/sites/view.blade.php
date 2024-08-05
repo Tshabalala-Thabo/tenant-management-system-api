@@ -16,178 +16,221 @@
                     </nav>
                     <h1 class="font-bold text-lg">{{$site->name}}</h1>
                 </div>
-
-                <div>
-                    <button @click="open = true"
-                            class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
-                        Add
-                        room
-                    </button>
-
-                    <div x-data="{ open: false }">
-                        <!-- Button to trigger modal -->
-                        <button @click="open = true"
-                                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
-                            Add
-                            room
-                        </button>
-
-                        <!-- Modal -->
-                        <div x-show="open" x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 transform scale-90"
-                             x-transition:enter-end="opacity-100 transform scale-100"
-                             x-transition:leave="transition ease-in duration-300"
-                             x-transition:leave-start="opacity-100 transform scale-100"
-                             x-transition:leave-end="opacity-0 transform scale-90"
-                             class="fixed inset-0 flex items-center justify-center z-50">
-                            <!-- Modal content -->
-                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
-                                <h2 class="text-xl font-bold mb-4">Add a new room</h2>
-                                <form action="{{ route('rooms.store') }}" method="POST">
-                                    @csrf
-                                    <div class="mb-4">
-                                        <label for="name" class="block text-sm font-medium text-gray-700">Room
-                                            name</label>
-                                        <input type="text" name="name" id="name"
-                                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                               required>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="description" class="block text-sm font-medium text-gray-700">Room
-                                            description</label>
-                                        <input type="text" name="description" id="description"
-                                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                               required>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="description" class="block text-sm font-medium text-gray-700">Room
-                                            cost</label>
-                                        <input type="number" name="cost" id="cost"
-                                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                               required>
-                                    </div>
-                                    <input type="hidden" name="site_id" value="{{ $site->id }}">
-                                    <div class="flex justify-end">
-                                        <button @click="open = false" type="button"
-                                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">
-                                            Cancel
-                                        </button>
-                                        <button type="submit"
-                                                class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">
-                                            Create
-                                            room
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- Overlay -->
-                            <div @click="open = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
-                        </div>
-                    </div>
-                </div>
             </x-header>
 
             <div x-data="{
-    ...searchUsers(), // Ensure searchUsers() returns an object
-    isOpenEdit: false,
-    roomId: null,
-    roomName: '',
-    roomCost: '',
-    openEditModal(id, name, cost) {
-        this.isOpenEdit = true;
-        this.roomId = id;
-        this.roomName = name;
-        this.roomCost = cost;
-    },
-    closeEditModal() {
-        this.isOpenEdit = false;
-        this.roomId = null;
-        this.roomName = '';
-        this.roomCost = '';
-    },
-    async saveRoom() {
-        try {
-            const response = await fetch(`/rooms/${this.roomId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                ...searchUsers(), // Ensure searchUsers() returns an object
+                isOpenEdit: false,
+                roomId: null,
+                roomName: '',
+                roomCost: '',
+                openEditModal(id, name, cost) {
+                    this.isOpenEdit = true;
+                    this.roomId = id;
+                    this.roomName = name;
+                    this.roomCost = cost;
                 },
-                body: JSON.stringify({
-                    name: this.roomName,
-                    cost: this.roomCost,
-                }),
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            if (data.success) {
-                // Update the UI or show a success message
-                this.closeEditModal();
-                location.reload(); // Reload to see the updated data
-            } else {
-                console.error('Failed to update the room:', data.message);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-}" class=" flex flex-wrap gap-y-4 px-3">
-                <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-400">
-                    <tr class="text-left">
-                        <th class="px-4 py-2">Room#</th>
-                        <th class="px-4 py-2">Tenant</th>
-                        <th class="px-4 py-2">Cost</th>
-                        <th class="px-4 py-2 w-fit">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                    @foreach ($site->rooms as $room)
-                        <tr class="border-t border-gray-300 hover:bg-gray-100">
-                            <td class="px-4 py-2">{{ $room->name }} ( {{ $room->description }})</td>
-                            <td class="px-4 py-2">
-                                @if ($room->tenant)
-                                    {{ $room->tenant->name }} {{ $room->tenant->last_name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td class="px-4 py-2">R{{ $room->cost }}</td>
-                            <td class="px-4 py-2">
-                                <div class="flex">
-                                    @if ($room->tenant)
-                                        <button @click="openConfirmationModal({{ $room->id }})"
-                                                class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
-                                            <ion-icon name="remove" class="text-black text-sm"></ion-icon>
-                                            Remove tenant
-                                        </button>
-                                    @else
-                                        <button @click="openModal({{ $room->id }})"
-                                                class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
-                                            <ion-icon name="add" class="text-black text-sm"></ion-icon>
-                                            Assign tenant
-                                        </button>
-                                    @endif
+                closeEditModal() {
+                    this.isOpenEdit = false;
+                    this.roomId = null;
+                    this.roomName = '';
+                    this.roomCost = '';
+                },
+                async saveRoom() {
+                    try {
+                        const response = await fetch(`/rooms/${this.roomId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            body: JSON.stringify({
+                                name: this.roomName,
+                                cost: this.roomCost,
+                            }),
+                        });
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const data = await response.json();
+                        if (data.success) {
+                            // Update the UI or show a success message
+                            this.closeEditModal();
+                            location.reload(); // Reload to see the updated data
+                        } else {
+                            console.error('Failed to update the room:', data.message);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            }" class=" flex flex-wrap gap-y-4 px-3">
+                <div class="w-8/12 pr-2">
+                    <div class="flex items-end justify-between">
+                        <h1 class="font-bold">Rooms</h1>
 
-                                    <button
-                                        @click="openEditModal({{ $room->id }}, '{{ $room->name }}', '{{ $room->cost }}')"
-                                        class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm mr-1">
-                                        <ion-icon name="pencil" class="text-black text-sm"></ion-icon>
-                                        Edit
-                                    </button>
-                                    <button @click="openDeleteModal({{ $room->id }})"
-                                            class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
-                                        <ion-icon name="trash" class="text-black text-sm"></ion-icon>
-                                        Delete
-                                    </button>
+                        <div x-data="{ open: false }">
+                            <!-- Button to trigger modal -->
+                            <button @click="open = true"
+                                    class="bg-primary-600 mb-1 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                                +
+                                Add
+                                room
+                            </button>
+
+                            <!-- Modal -->
+                            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                                 x-transition:enter-start="opacity-0 transform scale-90"
+                                 x-transition:enter-end="opacity-100 transform scale-100"
+                                 x-transition:leave="transition ease-in duration-300"
+                                 x-transition:leave-start="opacity-100 transform scale-100"
+                                 x-transition:leave-end="opacity-0 transform scale-90"
+                                 class="fixed inset-0 flex items-center justify-center z-50">
+                                <!-- Modal content -->
+                                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
+                                    <h2 class="text-xl font-bold mb-4">Add a new room</h2>
+                                    <form action="{{ route('rooms.store') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label for="name" class="block text-sm font-medium text-gray-700">Room
+                                                name</label>
+                                            <input type="text" name="name" id="name"
+                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                   required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="description" class="block text-sm font-medium text-gray-700">Room
+                                                description</label>
+                                            <input type="text" name="description" id="description"
+                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                   required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="description" class="block text-sm font-medium text-gray-700">Room
+                                                cost</label>
+                                            <input type="number" name="cost" id="cost"
+                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                   required>
+                                        </div>
+                                        <input type="hidden" name="site_id" value="{{ $site->id }}">
+                                        <div class="flex justify-end">
+                                            <button @click="open = false" type="button"
+                                                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">
+                                                Cancel
+                                            </button>
+                                            <button type="submit"
+                                                    class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">
+                                                Create
+                                                room
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </td>
+                                <!-- Overlay -->
+                                <div @click="open = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-400">
+                        <tr class="text-left">
+                            <th class="px-4 py-2">Room#</th>
+                            <th class="px-4 py-2">Tenant</th>
+                            <th class="px-4 py-2">Cost</th>
+                            <th class="px-4 py-2 w-32">Action</th> <!-- Set a fixed width here -->
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white">
+                        @foreach ($site->rooms as $room)
+                            <tr class="border-t border-gray-300 hover:bg-gray-100">
+                                <td class="px-4 py-2">{{ $room->name }} ( {{ $room->description }})</td>
+                                <td class="px-4 py-2">
+                                    @if ($room->tenant)
+                                        {{ $room->tenant->name }} {{ $room->tenant->last_name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2">R{{ $room->cost }}</td>
+                                <td class="px-4 py-2 w-32 whitespace-nowrap"> <!-- Apply fixed width and nowrap -->
+                                    <div class="flex space-x-1"> <!-- Adjust space between buttons -->
+                                        @if ($room->tenant)
+                                            <button @click="openConfirmationModal({{ $room->id }})"
+                                                    class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                                <ion-icon name="remove" class="text-black text-sm"></ion-icon>
+                                                Remove tenant
+                                            </button>
+                                        @else
+                                            <button @click="openModal({{ $room->id }})"
+                                                    class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                                <ion-icon name="add" class="text-black text-sm"></ion-icon>
+                                                Assign tenant
+                                            </button>
+                                        @endif
+
+                                        <button
+                                            @click="openEditModal({{ $room->id }}, '{{ $room->name }}', '{{ $room->cost }}')"
+                                            class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                            <ion-icon name="pencil" class="text-black text-sm"></ion-icon>
+                                            Edit
+                                        </button>
+                                        <button @click="openDeleteModal({{ $room->id }})"
+                                                class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                            <ion-icon name="trash" class="text-black text-sm"></ion-icon>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="w-4/12 pl-2">
+                    <div class="w-full mb-2 flex justify-between items-end">
+                        <h1 class="font-bold">Service providers</h1>
+                        <button @click="open = true"
+                                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
+                            Add
+                            service provider
+                        </button>
+                    </div>
+                    <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
+                        <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
+                            @php
+                                $profileImagePath = 'images/profile/' . 1 . '.jpg';
+                                $defaultImagePath = 'images/profile/default.jpg';
+                            @endphp
+                            <img
+                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
+                                alt="Tenant Image"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h1 class="font-semibold text-lg">Dan Cooper</h1>
+                            <p class="m-0 leading-none">072 494 7782</p>
+                            <p class="leading-none mb-2">dan@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-300  py-2 rounded-xl flex items-center w-full">
+                        <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
+                            @php
+                                $profileImagePath = 'images/profile/' . 9 . '.jpg';
+                                $defaultImagePath = 'images/profile/default.jpg';
+                            @endphp
+                            <img
+                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
+                                alt="Tenant Image"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h1 class="font-semibold text-lg">Shane Cooper</h1>
+                            <p class="m-0 leading-none">072 494 7782</p>
+                            <p class="leading-none mb-2">shane@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Edit Modal -->
                 <div x-show="isOpenEdit" x-transition:enter="transition ease-out duration-300"
