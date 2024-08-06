@@ -38,10 +38,10 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="idno" :value="__('ID Number')" />
-                <x-input id="idno" type="text" class="form-control @error('idno') is-invalid @enderror" name="idno"
-                    :value="old('idno')" required />
-                @error('idno')
+                <x-label for="id_number" :value="__('ID Number')" />
+                <x-input id="id_number" type="text" class="form-control @error('id_number') is-invalid @enderror" name="id_number"
+                    :value="old('id_number')" required />
+                @error('id_number')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

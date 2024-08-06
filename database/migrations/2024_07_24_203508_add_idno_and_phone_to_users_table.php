@@ -3,12 +3,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdnoAndPhoneToUsersTable extends Migration
+class Addid_numberAndPhoneToUsersTable extends Migration
 {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('idno')->unique(); // or ->unique() if you want it to be unique
+            $table->string('id_number')->unique(); // or ->unique() if you want it to be unique
             $table->string('phone')->nullable();
         });
     }
@@ -16,7 +16,7 @@ class AddIdnoAndPhoneToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['idno', 'phone']);
+            $table->dropColumn(['id_number', 'phone']);
         });
     }
 }
