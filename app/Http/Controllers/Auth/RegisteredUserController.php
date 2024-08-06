@@ -40,6 +40,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'idno' => ['required', 'string', 'max:255'], // Add your specific validation rules
             'phone' => ['required', 'string', 'max:15'],
+            'role' => ['required', 'in:tenant,service_provider'], // Validate role
         ]);
 
         $user = User::create([
@@ -50,7 +51,9 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-        $user->assignRole('tenant');
+
+        // Assign the role based on the user's selection
+        $user->assignRole($request->role);
 
         event(new Registered($user));
 
