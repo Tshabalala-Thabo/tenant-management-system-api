@@ -257,15 +257,17 @@
                                     searchQuery: '',
                                     serviceProviders: [],
                                     selectedSiteId: null,
+                                    isRemoveConfirmationModalOpen: false,
+                                    providerId: null,
 
                                     openServiceProviderModal(siteId) {
-                                        console.log('Opening modal for site ID:', siteId);
+                                        console.log('Opening modal for site ID:', siteId); // Debugging
                                         this.selectedSiteId = siteId;
                                         this.isOpenSearchServiceProvider = true;
                                     },
 
                                     closeModal() {
-                                        console.log('Closing modal');
+                                        console.log('Closing modal'); // Debugging
                                         this.isOpenSearchServiceProvider = false;
                                     },
 
@@ -293,6 +295,18 @@
                                         } catch (error) {
                                             console.error('Error assigning provider to site:', error);
                                         }
+                                    },
+
+                                    async confirmRemoveProvider(providerId) {
+                                        try {
+                                            const response = await axios.post(`/sites/${this.selectedSiteId}/unassign`, {service_provider_id: providerId});
+                                            if (response.status === 200) {
+                                                this.isRemoveConfirmationModalOpen = false;
+                                                window.location.reload();
+                                            }
+                                        } catch (error) {
+                                            console.error('Error removing provider from site:', error);
+                                        }
                                     }
                                 }));
                             });
@@ -316,18 +330,74 @@
                                 <p class="leading-none mb-2">{{ $provider->email }}</p>
                             </div>
                             <div class="flex-1 h-16 pr-4 w-max flex flex-row justify-end">
-                                <div x-data="{ open: false }" class="relative w-min">
-                                    <div @click="open = !open"
+                                <div
+                                    x-data="{ isDropdownOpen: false, isRemoveConfirmationModalOpen: false, providerId: null }"
+                                    class="relative w-min">
+                                    <!-- Dropdown Button -->
+                                    <div @click="isDropdownOpen = !isDropdownOpen"
                                          class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
                                         <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
                                     </div>
-                                    <div x-show="open" @click.away="open = false"
+
+                                    <!-- Dropdown Menu -->
+                                    <div x-show="isDropdownOpen" @click.away="isDropdownOpen = false"
                                          class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
                                         <a href="javascript:void(0);"
-                                           @click="openEditModal({{ $provider->id }}); open = false"
+                                           @click="providerId = {{ $provider->id }}; isRemoveConfirmationModalOpen = true; isDropdownOpen = false"
                                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Remove from site</a>
                                     </div>
+
+                                    <!-- Confirmation Modal -->
+                                    <div x-show="isRemoveConfirmationModalOpen"
+                                         class="fixed z-50 inset-0 flex items-center justify-center"
+                                         aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
+                                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                             aria-hidden="true"></div>
+
+                                        <div
+                                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                            <!-- Close button -->
+                                            <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                                                <button @click="isRemoveConfirmationModalOpen = false"
+                                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    <span class="sr-only">Close</span>
+                                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke="currentColor" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <!-- Modal content -->
+                                            <div class="text-center sm:mt-0 sm:text-left">
+                                                <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                    id="confirmation-modal-title">
+                                                    Remove Service Provider Confirmation
+                                                </h3>
+                                                <div class="mt-2">
+                                                    <p class="text-sm text-gray-500">
+                                                        Are you sure you want to remove this service provider from the
+                                                        site?
+                                                    </p>
+                                                    <div class="mt-4">
+                                                        <button @click="confirmRemoveProvider(providerId)"
+                                                                class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                                            Confirm Removal
+                                                        </button>
+                                                        <button @click="isRemoveConfirmationModalOpen = false"
+                                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     @empty
