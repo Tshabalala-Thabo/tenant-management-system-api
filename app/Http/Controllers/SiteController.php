@@ -38,18 +38,15 @@ class SiteController extends Controller
 
     public function view_site($id)
     {
-        //$site = Site::findOrFail($id);
-
-
-        // Your view logic here
-        //return view('sites.view', compact('site'));
-        $site = Site::with('rooms.tenant')->findOrFail($id);
+        // Retrieve the site along with its rooms, tenants, and service providers
+        $site = Site::with(['rooms.tenant', 'serviceProviders'])->findOrFail($id);
 
         // Check if the user can view the site
         $this->authorize('view', $site);
 
         return view('sites.view', compact('site'));
     }
+
 
     public function store(Request $request)
     {

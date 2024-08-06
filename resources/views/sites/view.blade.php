@@ -298,40 +298,41 @@
                             });
                         </script>
                     </div>
-                    <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
-                        <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
-                            @php
-                                $profileImagePath = 'images/profile/' . 1 . '.jpg';
-                                $defaultImagePath = 'images/profile/default.jpg';
-                            @endphp
-                            <img
-                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
-                                alt="Tenant Image"
-                                class="w-full h-full object-cover">
+                    @forelse ($site->serviceProviders as $provider)
+                        <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
+                            <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
+                                @php
+                                    $profileImagePath = 'images/profile/' . $provider->id . '.jpg';
+                                    $defaultImagePath = 'images/profile/default.jpg';
+                                @endphp
+                                <img
+                                    src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
+                                    alt="Service provider Image"
+                                    class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h1 class="font-semibold text-lg">{{ $provider->name }} {{ $provider->last_name }}</h1>
+                                <p class="m-0 leading-none">{{ $provider->phone }}</p>
+                                <p class="leading-none mb-2">{{ $provider->email }}</p>
+                            </div>
+                            <div class="flex-1 h-16 pr-4 w-max flex flex-row justify-end">
+                                <div x-data="{ open: false }" class="relative w-min">
+                                    <div @click="open = !open"
+                                         class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
+                                        <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
+                                    </div>
+                                    <div x-show="open" @click.away="open = false"
+                                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                                        <a href="javascript:void(0);"
+                                           @click="openEditModal({{ $provider->id }}); open = false"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Remove from site</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h1 class="font-semibold text-lg">Dan Cooper</h1>
-                            <p class="m-0 leading-none">072 494 7782</p>
-                            <p class="leading-none mb-2">dan@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="bg-gray-300  py-2 rounded-xl flex items-center w-full">
-                        <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
-                            @php
-                                $profileImagePath = 'images/profile/' . 9 . '.jpg';
-                                $defaultImagePath = 'images/profile/default.jpg';
-                            @endphp
-                            <img
-                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
-                                alt="Tenant Image"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <h1 class="font-semibold text-lg">Shane Cooper</h1>
-                            <p class="m-0 leading-none">072 494 7782</p>
-                            <p class="leading-none mb-2">shane@gmail.com</p>
-                        </div>
-                    </div>
+                    @empty
+                        <li>No service providers assigned.</li>
+                    @endforelse
                 </div>
 
                 <!-- Edit Modal -->
