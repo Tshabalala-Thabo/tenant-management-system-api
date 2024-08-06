@@ -72,7 +72,7 @@
                         <div x-data="{ open: false }">
                             <!-- Button to trigger modal -->
                             <button @click="open = true"
-                                    class="bg-primary-600 mb-1 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                                    class="bg-primary-600 mb-1 font-semibold text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
                                 +
                                 Add
                                 room
@@ -191,7 +191,7 @@
                     <div class="w-full mb-2 flex justify-between items-end">
                         <h1 class="font-bold">Service providers</h1>
                         <button @click="openServiceProviderModal({{ $site->id }})"
-                                class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                                class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
                             + Add Service Provider
                         </button>
 

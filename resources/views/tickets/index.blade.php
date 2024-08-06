@@ -18,7 +18,7 @@
                 <div>
                     <!-- Button to trigger modal -->
                     <button @click="openModal = true"
-                            class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
+                            class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
                         Create a
                         ticket
                     </button>

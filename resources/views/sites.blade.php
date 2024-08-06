@@ -20,7 +20,7 @@
                 <div x-data="{ open: false }">
                     <!-- Button to trigger modal -->
                     <button @click="open = true"
-                            class="bg-primary-600 text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add
+                            class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+ Add
                         site
                     </button>
                     <!-- Modal -->
