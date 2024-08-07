@@ -72,16 +72,27 @@ class DashboardController extends Controller
                 'assignedRoomsCount' => $assignedRoomsCount,
             ]);
         } elseif ($user->hasRole('service_provider')) {
-            // Count the solved and pending tickets for the service provider
-            $solvedTicketsCount = Ticket::where('provider_id', $userId)->where('status', 'solved')->count();
-            $pendingTicketsCount = Ticket::where('provider_id', $userId)->where('status', 'pending')->count();
+            // Get the IDs of the sites assigned to the current service provider
+            $siteIds = \DB::table('service_provider_site')
+                ->where('service_provider_id', $userId)
+                ->pluck('service_provider_id');
+
+            // Count the solved and pending tickets for these sites
+            $solvedTicketsCount = Ticket::whereIn('site_id', $siteIds)
+                ->where('status', 'solved')
+                ->count();
+
+            $pendingTicketsCount = Ticket::whereIn('site_id', $siteIds)
+                ->where('status', 'pending')
+                ->count();
 
             return view('dashboard', [
                 'solvedTicketsCount' => $solvedTicketsCount,
                 'pendingTicketsCount' => $pendingTicketsCount,
             ]);
+        } else {
+            // Handle cases where the user does not have a recognized role
+            return abort(403, 'Unauthorized');
         }
     }
-
-
 }

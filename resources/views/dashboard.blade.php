@@ -28,8 +28,7 @@
                     </div>
 
                     <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                        <div class="text-left mb-4">
-                            <p class="text-gray-600">Rooms</p>
+                        <div class="text-left mb-4"><p class="text-gray-600">Rooms</p>
                         </div>
                         <div class="flex justify-center mb-4">
                             <canvas id="myPieChart" class="h-32"></canvas>
@@ -40,11 +39,13 @@
                             <p class="text-gray-500">All rooms are occupied</p>
                         </div>
                     </div>
+                    @endrole
 
+                    @can('view tickets stats')
                     <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
                         <div id="myChart3" class="rounded-lg h-72"></div>
                     </div>
-                    @endrole
+                    @endcan
                     @role('tenant')
                     <div class="w-full">
                         <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
@@ -60,7 +61,6 @@
                                 <p class="text-gray-500">All rooms are occupied</p>
                             </div>
                         </div>
-
                     </div>
                     @endrole
                 </div>
@@ -78,7 +78,7 @@
                     @role('landlord')
                     <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
                     <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
-" text="Maintenance tickets" link="/tickets"/>
+                    " text="Maintenance tickets" link="/tickets"/>
                     @endrole
                     @role('tenant')
                     <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
@@ -99,11 +99,15 @@
                     <p>This is visible to users with the edit sites permission.</p>
                 @endcan
 
+                @can('view tickets stats')
+                    <p>This is visible to users with the view tickets stats permission.</p>
+                @endcan
+
             </div>
         </div>
     </div>
 </x-app-layout>
-@role('landlord')
+@can('view tickets stats')
 <script>
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawBasic);
@@ -129,6 +133,8 @@
         chart.draw(data, options);
     }
 </script>
+@endcan
+@role('landlord')
 <script>
     const ctx = document.getElementById('myPieChart').getContext('2d');
     var nullRoomsCount = {{ $nullRoomsCount }};
