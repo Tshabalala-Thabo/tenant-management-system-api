@@ -47,6 +47,24 @@ class TicketController extends Controller
 
             // Retrieve sites for the landlord
             $sites = Site::whereIn('id', $siteIds)->get();
+        } elseif ($user->hasRole('service_provider')) {
+            // Retrieve all site IDs related to the service provider
+            $siteIds = Site::whereIn('id', function ($query) use ($userId) {
+                $query->select('site_id')
+                    ->from('service_provider_site')
+                    ->where('service_provider_id', $userId);
+            })->pluck('id');
+
+            // Retrieve tickets for those sites
+            $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])
+                ->whereIn('site_id', $siteIds)
+                ->get();
+
+            // Retrieve all rooms for the service provider's sites
+            $rooms = Room::whereIn('site_id', $siteIds)->get();
+
+            // Retrieve sites for the service provider
+            $sites = Site::whereIn('id', $siteIds)->get();
         } else {
             // For users without specific roles, retrieve all tickets
             $tickets = Ticket::with(['provider', 'tenant', 'room', 'site'])->get();
@@ -56,7 +74,6 @@ class TicketController extends Controller
 
         return view('tickets.index', compact('tickets', 'sites', 'rooms'));
     }
-
 
 
     /**
@@ -72,7 +89,7 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -100,7 +117,7 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Ticket  $ticket
+     * @param Ticket $ticket
      * @return View
      */
     public function show(Ticket $ticket): View
@@ -112,7 +129,7 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Ticket  $ticket
+     * @param Ticket $ticket
      * @return View
      */
     public function edit(Ticket $ticket): View
@@ -123,8 +140,8 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  Ticket  $ticket
+     * @param Request $request
+     * @param Ticket $ticket
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Ticket $ticket)
@@ -153,7 +170,7 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Ticket  $ticket
+     * @param Ticket $ticket
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Ticket $ticket)
