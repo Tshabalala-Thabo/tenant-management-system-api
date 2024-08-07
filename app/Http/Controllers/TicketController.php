@@ -146,26 +146,43 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        $request->validate([
-            'details' => 'required|string',
-            'provider_id' => 'nullable|exists:users,id',
-            'response' => 'nullable|string',
-            'tenant_id' => 'required|exists:users,id',
-            'room_id' => 'nullable|exists:rooms,id',
-            'site_id' => 'required|exists:sites,id',
-        ]);
+        // Validate the input based on whether the user is a service provider
+        if (Auth::user()->hasRole('service_provider')) {
+            $request->validate([
+                'response' => 'nullable|string',
+                'status' => 'required|string', // You might want to validate the status if it's required
+            ]);
 
-        $ticket->update([
-            'details' => $request->input('details'),
-            'provider_id' => $request->input('provider_id'), // This can be null
-            'response' => $request->input('response'),
-            'tenant_id' => Auth::id(), // Ensure tenant_id is set to the ID of the logged-in user
-            'status' => $request->input('status', 'pending'), // Set status to "pending" if not provided
-            'room_id' => $request->input('room_id'),
-            'site_id' => $request->input('site_id'),
-        ]);
+            // Update only the response and status fields for service providers
+            $ticket->update([
+                'response' => $request->input('response'),
+                'status' => $request->input('status'),
+            ]);
+        } else {
+            // For other users, validate and update all fields
+            $request->validate([
+                'details' => 'required|string',
+                'provider_id' => 'nullable|exists:users,id',
+                'response' => 'nullable|string',
+                'tenant_id' => 'required|exists:users,id',
+                'room_id' => 'nullable|exists:rooms,id',
+                'site_id' => 'required|exists:sites,id',
+            ]);
+
+            $ticket->update([
+                'details' => $request->input('details'),
+                'provider_id' => $request->input('provider_id'), // This can be null
+                'response' => $request->input('response'),
+                'tenant_id' => Auth::id(), // Ensure tenant_id is set to the ID of the logged-in user
+                'status' => $request->input('status', 'pending'), // Set status to "pending" if not provided
+                'room_id' => $request->input('room_id'),
+                'site_id' => $request->input('site_id'),
+            ]);
+        }
+
         return redirect()->route('tickets.index')->with('success', 'Ticket updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

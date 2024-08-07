@@ -75,6 +75,8 @@ Route::get('/tenants/profile/{id}', [UserController::class, 'show'])->name('tena
 Route::resource('/lease-agreements', LeaseAgreementController::class);
 Route::resource('/invoices', InvoiceController::class);
 Route::resource('/tickets', TicketController::class);
+// In routes/web.php or routes/api.php
+
 /*This setup will create a RESTful API for managing tickets with endpoints like:
 
     GET /tickets - List all tickets
