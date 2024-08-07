@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex">
-        <x-side-nav activeLink="dashboard"/>
+        <x-side-nav activeLink="dashboard" />
 
         <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
             <x-header name="header">
@@ -12,8 +12,9 @@
             <div class="flex flex-wrap px-3">
                 @if(isset($message))
                     <div class="flex w-full flex-col items-center">
-                        <h1 class="text-lg font-semibold text-primary-800">{{ $message }}</h1>
                         <div class="w-5/12">
+                            <h1 class="text-lg text-center font-semibold text-primary-800">{{ $message }}</h1>
+
                             <img class="w-full" src="/images/not-assigned.svg" alt="">
                         </div>
                     </div>
@@ -36,7 +37,8 @@
                     </div>
 
                     <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-                        <div class="text-left mb-4"><p class="text-gray-600">Rooms</p>
+                        <div class="text-left mb-4">
+                            <p class="text-gray-600">Rooms</p>
                         </div>
                         <div class="flex justify-center mb-4">
                             <canvas id="myPieChart" class="h-32"></canvas>
@@ -80,23 +82,23 @@
                 <div
                     class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
                     @role('tenant')
-                    <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room"/>
+                    <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room" />
                     <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
-                                 link="/lease-agreements"/>
+                        link="/lease-agreements" />
                     @endrole
                     @can('view leases')
-                        <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
+                        <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices" />
                     @endcan
                     @role('landlord')
-                    <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
+                    <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants" />
                     <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
-                    " text="Maintenance tickets" link="/tickets"/>
+                    " text="Maintenance tickets" link="/tickets" />
                     @endrole
                     @role('tenant')
-                    <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
+                    <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets" />
                     @endrole
                     @role('landlord')
-                    <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites"/>
+                    <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites" />
                     @endrole
                 </div>
 
@@ -121,23 +123,23 @@
 </x-app-layout>
 @can('view tickets stats')
     <script>
-        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
         google.charts.setOnLoadCallback(drawBasic);
 
         function drawBasic() {
             var data = google.visualization.arrayToDataTable([
-                ['Element', 'Number of Tickets', {role: 'style'}],
+                ['Element', 'Number of Tickets', { role: 'style' }],
                 ['Pending', {{ $pendingTicketsCount ?? 0 }}, '#FE6161'],
                 ['Solved', {{ $solvedTicketsCount ?? 0 }}, '#FED361'],
             ]);
             var options = {
                 title: 'Maintenance Tickets',
-                chartArea: {width: '50%'},
+                chartArea: { width: '50%' },
                 hAxis: {
                     title: 'Number of Tickets',
                     minValue: 0
                 },
-                legend: {position: 'none'} // Hide the legend if not needed
+                legend: { position: 'none' } // Hide the legend if not needed
             };
 
             var chart = new google.visualization.BarChart(document.getElementById('myChart3'));

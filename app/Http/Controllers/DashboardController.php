@@ -81,7 +81,7 @@ class DashboardController extends Controller
             if ($siteIds->isEmpty()) {
                 // If no sites are assigned, pass a message to the view
                 return view('dashboard', [
-                    'message' => 'You are not assigned to any sites.'
+                    'message' => 'You are not assigned to any sites, a landlord has to assing you as a site service provider.'
                 ]);
             }
 
