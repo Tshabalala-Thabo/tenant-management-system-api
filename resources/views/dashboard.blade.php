@@ -10,6 +10,14 @@
             </x-header>
 
             <div class="flex flex-wrap px-3">
+                @if(isset($message))
+                    <div class="flex w-full flex-col items-center">
+                        <h1 class="text-lg font-semibold text-primary-800">{{ $message }}</h1>
+                        <div class="w-5/12">
+                            <img class="w-full" src="/images/not-assigned.svg" alt="">
+                        </div>
+                    </div>
+                @endif
                 <div
                     class="grid gap-2  @role('landlord') grid-cols-3 w-full @endrole @role('tenant') grid-cols-1 w-1/3 @endrole">
                     @role('landlord')
@@ -41,11 +49,15 @@
                     </div>
                     @endrole
 
-                    @can('view tickets stats')
-                    <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
-                        <div id="myChart3" class="rounded-lg h-72"></div>
-                    </div>
-                    @endcan
+                    @if(!isset($message))
+                        @can('view tickets stats')
+                            <div class="pb-4 shadow-md bg-white rounded-lg overflow-hidden">
+                                <div id="myChart3" class="rounded-lg h-72"></div>
+                            </div>
+                        @endcan
+                    @endif
+
+
                     @role('tenant')
                     <div class="w-full">
                         <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
@@ -73,7 +85,7 @@
                                  link="/lease-agreements"/>
                     @endrole
                     @can('view leases')
-                    <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
+                        <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
                     @endcan
                     @role('landlord')
                     <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
@@ -108,31 +120,30 @@
     </div>
 </x-app-layout>
 @can('view tickets stats')
-<script>
-    google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawBasic);
+    <script>
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawBasic);
 
-    function drawBasic() {
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Number of Tickets', {role: 'style'}],
-            ['Pending', {{$pendingTicketsCount}}, '#FE6161'],
-            ['Solved', {{$solvedTicketsCount}}, '#FED361'],
-        ]);
+        function drawBasic() {
+            var data = google.visualization.arrayToDataTable([
+                ['Element', 'Number of Tickets', {role: 'style'}],
+                ['Pending', {{ $pendingTicketsCount ?? 0 }}, '#FE6161'],
+                ['Solved', {{ $solvedTicketsCount ?? 0 }}, '#FED361'],
+            ]);
+            var options = {
+                title: 'Maintenance Tickets',
+                chartArea: {width: '50%'},
+                hAxis: {
+                    title: 'Number of Tickets',
+                    minValue: 0
+                },
+                legend: {position: 'none'} // Hide the legend if not needed
+            };
 
-        var options = {
-            title: 'Maintenance Tickets',
-            chartArea: {width: '50%'},
-            hAxis: {
-                title: 'Number of Tickets',
-                minValue: 0
-            },
-            legend: {position: 'none'} // Hide the legend if not needed
-        };
-
-        var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
-        chart.draw(data, options);
-    }
-</script>
+            var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
+            chart.draw(data, options);
+        }
+    </script>
 @endcan
 @role('landlord')
 <script>
