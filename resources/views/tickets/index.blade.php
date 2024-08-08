@@ -115,28 +115,31 @@
                                     </h1>
                                 @endif
                             </div>
-
-
-                            <div x-data="{ open: false }" class="relative">
-                                <div @click="open = !open"
-                                     class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
-                                    <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
+                            @can('edit tickets')
+                                <div x-data="{ open: false }" class="relative">
+                                    <div @click="open = !open"
+                                         class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
+                                        <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
+                                    </div>
+                                    <div x-show="open" @click.away="open = false"
+                                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                                        <a href="javascript:void(0);"
+                                           @click="openEditModal({{ $ticket }}); open = false"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
+                                        @can('delete tickets')
+                                            <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST"
+                                                  class="block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
                                 </div>
-                                <div x-show="open" @click.away="open = false"
-                                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
-                                    <a href="javascript:void(0);" @click="openEditModal({{ $ticket }}); open = false"
-                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
-                                    <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST"
-                                          class="block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+                            @endcan
                         </div>
                         <div>
                             <p class="text-sm mt-2">
@@ -176,7 +179,7 @@
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
                               aria-hidden="true">&#8203;</span>
                         <div
-                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="closeEditModal"
                                         class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
