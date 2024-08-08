@@ -146,34 +146,43 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        // Validate the input based on whether the user is a service provider
-        if (Auth::user()->hasRole('service_provider')) {
-            $request->validate([
-                'response' => 'nullable|string',
-                'status' => 'required|string', // You might want to validate the status if it's required
-            ]);
+        $user = Auth::user();
 
-            // Update only the response and status fields for service providers
+        // Common validation rules for all users
+        $rules = [
+            'response' => 'nullable|string',
+            'status' => 'required|string', // Status should always be required
+        ];
+
+        // Check if the user is a service provider
+        if ($user->hasRole('service_provider')) {
+            // For service providers, only validate response and status
+            $request->validate($rules);
+
+            // Update only the response and status fields
             $ticket->update([
                 'response' => $request->input('response'),
                 'status' => $request->input('status'),
+                'provider_id' => $user->id, // Set provider_id to the logged-in user's ID
             ]);
         } else {
-            // For other users, validate and update all fields
-            $request->validate([
+            // For other users, validate all fields
+            $rules = array_merge($rules, [
                 'details' => 'required|string',
                 'provider_id' => 'nullable|exists:users,id',
-                'response' => 'nullable|string',
                 'tenant_id' => 'required|exists:users,id',
                 'room_id' => 'nullable|exists:rooms,id',
                 'site_id' => 'required|exists:sites,id',
             ]);
 
+            $request->validate($rules);
+
+            // Update the ticket with input values
             $ticket->update([
                 'details' => $request->input('details'),
                 'provider_id' => $request->input('provider_id'), // This can be null
                 'response' => $request->input('response'),
-                'tenant_id' => Auth::id(), // Ensure tenant_id is set to the ID of the logged-in user
+                'tenant_id' => $user->id, // Ensure tenant_id is set to the ID of the logged-in user
                 'status' => $request->input('status', 'pending'), // Set status to "pending" if not provided
                 'room_id' => $request->input('room_id'),
                 'site_id' => $request->input('site_id'),

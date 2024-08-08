@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex">
-        <x-side-nav activeLink="tickets" />
+        <x-side-nav activeLink="tickets"/>
 
         <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
             <x-header name="header">
@@ -18,7 +18,8 @@
                 <div>
                     <!-- Button to trigger modal -->
                     <button @click="openModal = true"
-                        class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">+
+                            class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                        +
                         Create a
                         ticket
                     </button>
@@ -101,34 +102,41 @@
                     <div class="bg-gray-300 rounded-lg px-5 py-3">
                         <div class="w-full flex justify-between">
                             <div>
-                                <h1 class="font-bold text-lg">@can('view tickets stats'){{ucfirst($ticket->tenant->name)}}:
-                                @endcan {{ ucfirst($ticket->details) }}<
-                                /h1>
+                                <h1 class="font-bold text-lg">
+                                    @can('view tickets stats')
+                                        {{ ucfirst($ticket->tenant->name ?? 'Unknown Tenant') }}:
+                                    @endcan
+                                    {{ ucfirst($ticket->details) }}
+                                </h1>
                                 @if(!empty($ticket->response))
-                                    <h1 class="font-semibold">{{$ticket->provider->name}}: {{ $ticket->response }}</h1>
+                                    <h1 class="font-semibold">
+                                        {{ $ticket->provider ? ucfirst($ticket->provider->name) : 'Unknown Provider' }}:
+                                        {{ $ticket->response }}
+                                    </h1>
                                 @endif
                             </div>
-                            @role('tenant')
+
+
                             <div x-data="{ open: false }" class="relative">
                                 <div @click="open = !open"
-                                    class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
+                                     class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
                                     <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
                                 </div>
                                 <div x-show="open" @click.away="open = false"
-                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
                                     <a href="javascript:void(0);" @click="openEditModal({{ $ticket }}); open = false"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
-                                    <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" class="block">
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</a>
+                                    <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST"
+                                          class="block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                                class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
                                             Delete
                                         </button>
                                     </form>
                                 </div>
                             </div>
-                            @endrole
                         </div>
                         <div>
                             <p class="text-sm mt-2">
@@ -138,40 +146,45 @@
                             </p>
                         </div>
                         <div class="mt-3 flex justify-between w-full">
-                            <p class="text-sm ">{{ $ticket->created_at->format('d M Y') }}</p>
-                            <div class="bg-danger w-min text-xs rounded-md px-2 py-1">{{ $ticket->status }}</div>
+                            <p class="text-sm">{{ $ticket->created_at->format('d M Y') }}</p>
+                            <div class="w-min text-xs rounded-md px-2 py-1
+        {{ $ticket->status === 'solved' ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                                {{ ucfirst($ticket->status) }}
+                            </div>
                         </div>
-                        @role('service_provider')
-                        <div class="mt-3">
-                            <button @click="openEditModal({{ $ticket }})"
-                                class="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-800">Respond</button>
-                        </div>
-                        @endrole
+
+                        {{--                        @role('service_provider')--}}
+                        {{--                        <div class="mt-3">--}}
+                        {{--                            <button @click="openEditModal({{ $ticket }})"--}}
+                        {{--                                    class="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-800">Respond--}}
+                        {{--                            </button>--}}
+                        {{--                        </div>--}}
+                        {{--                        @endrole--}}
                     </div>
                 @endforeach
 
                 <!-- Edit Modal -->
                 <div x-show="isOpenEdit" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 transform scale-90"
-                    x-transition:enter-end="opacity-100 transform scale-100"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100 transform scale-100"
-                    x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
                         </div>
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                            aria-hidden="true">&#8203;</span>
+                              aria-hidden="true">&#8203;</span>
                         <div
                             class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="closeEditModal"
-                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                         viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
+                                              d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
                                 </button>
                             </div>
@@ -182,26 +195,26 @@
                                         Ticket</h3>
                                     <div class="mt-2">
                                         <input type="text" x-model="ticketDetails"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                            placeholder="Ticket Details">
+                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                               placeholder="Ticket Details">
                                         <select x-model="ticketSiteId"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                             <option value="" disabled>Select a site</option>
                                             @foreach($sites as $site)
                                                 <option value="{{ $site->id }}">{{ $site->name }}</option>
                                             @endforeach
                                         </select>
                                         <select x-model="ticketRoomId"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                             <option value="" disabled>Select a room</option>
                                             <!-- Options should be dynamically filled based on the selected site -->
                                         </select>
                                         @role('service_provider')
                                         <textarea x-model="ticketResponse"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                            placeholder="Enter your response"></textarea>
+                                                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                  placeholder="Enter your response"></textarea>
                                         <select x-model="ticketStatus"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                             <option value="" disabled>Select status</option>
                                             <option value="pending">Pending</option>
                                             <option value="solved">Solved</option>
@@ -210,10 +223,10 @@
                                     </div>
                                     <div class="mt-4">
                                         <button @click="saveTicket"
-                                            class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save
+                                                class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save
                                         </button>
                                         <button @click="closeEditModal"
-                                            class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
                                             Cancel
                                         </button>
                                     </div>
@@ -226,23 +239,22 @@
 
             <!-- Modal -->
             <div x-show="openModal" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                x-transition:leave="transition ease-in duration-300"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-90"
-                class="fixed inset-0 flex items-center justify-center z-50">
+                 x-transition:enter-start="opacity-0 transform scale-90"
+                 x-transition:enter-end="opacity-100 transform scale-100"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="opacity-100 transform scale-100"
+                 x-transition:leave-end="opacity-0 transform scale-90"
+                 class="fixed inset-0 flex items-center justify-center z-50">
                 <!-- Modal content -->
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
                     <h2 class="text-xl font-bold mb-4">Create a ticket</h2>
-                    <form action="{{ url('/tickets/' . $ticket->id) }}" method="POST">
-                    @csrf
-                        @method('PUT')
+                    <form action="{{ route('tickets.store') }}" method="POST">
+                        @csrf
                         <div class="mb-4">
                             <label for="site_id" class="block text-gray-700 text-sm font-bold mb-2">Site:</label>
                             <select name="site_id" id="site_id"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                required>
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required>
                                 <option value="" disabled selected>Select a site</option>
                                 @foreach($sites as $site)
                                     <option value="{{ $site->id }}" {{ old('site_id') == $site->id ? 'selected' : '' }}>
@@ -255,7 +267,7 @@
                         <div class="mb-4">
                             <label for="room_id" class="block text-gray-700 text-sm font-bold mb-2">Room:</label>
                             <select name="room_id" id="room_id"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="" disabled selected>Select a room</option>
                             </select>
                         </div>
@@ -263,16 +275,16 @@
                         <div class="mb-4">
                             <label for="details" class="block text-gray-700 text-sm font-bold mb-2">Details:</label>
                             <input type="text" name="details" id="details"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                value="{{ old('details') }}" required>
+                                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                   value="{{ old('details') }}" required>
                         </div>
 
                         <div class="flex justify-end">
                             <button @click="openModal = false" type="button"
-                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel
+                                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">Cancel
                             </button>
                             <button type="submit"
-                                class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">Create
+                                    class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">Create
                                 ticket
                             </button>
                         </div>
