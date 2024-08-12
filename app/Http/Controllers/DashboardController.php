@@ -81,9 +81,14 @@ class DashboardController extends Controller
             if ($siteIds->isEmpty()) {
                 // If no sites are assigned, pass a message to the view
                 return view('dashboard', [
-                    'message' => 'You are not assigned to any sites, a landlord has to assing you as a site service provider.'
+                    'message' => 'You are not assigned to any sites, a landlord has to assign you as a site service provider.'
                 ]);
             }
+
+            // Retrieve site names
+            $sites = \DB::table('sites')
+                ->whereIn('id', $siteIds)
+                ->pluck('name', 'id'); // Pluck site names with IDs
 
             // Count the solved and pending tickets for these sites
             $solvedTicketsCount = Ticket::whereIn('site_id', $siteIds)
@@ -95,6 +100,7 @@ class DashboardController extends Controller
                 ->count();
 
             return view('dashboard', [
+                'sites' => $sites, // Pass the sites to the view
                 'solvedTicketsCount' => $solvedTicketsCount,
                 'pendingTicketsCount' => $pendingTicketsCount,
             ]);

@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex">
-        <x-side-nav activeLink="dashboard" />
+        <x-side-nav activeLink="dashboard"/>
 
         <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
             <x-header name="header">
@@ -49,7 +49,6 @@
                             <p class="text-gray-500">All rooms are occupied</p>
                         </div>
                     </div>
-                    @endrole
 
                     @if(!isset($message))
                         @can('view tickets stats')
@@ -58,7 +57,7 @@
                             </div>
                         @endcan
                     @endif
-
+                    @endrole
 
                     @role('tenant')
                     <div class="w-full">
@@ -78,44 +77,69 @@
                     </div>
                     @endrole
                 </div>
+
+                @role('service_provider')
+                @if(!isset($message))
+                    <div class="flex w-full">
+                        <div class="pb-4 w-1/3 px-2 shadow-md bg-white rounded-lg overflow-hidden">
+                            <div id="myChart3" class="rounded-lg h-72"></div>
+                        </div>
+                        <div class="w-2/3 px-3">
+                            <h1>Assigned sites</h1>
+                            <div class="w-full grid grid-cols-2">
+                                @if(isset($sites))
+                                    @foreach($sites as $siteId => $siteName)
+                                        <div
+                                            class="bg-white h-min flex justify-between px-6 py-3 rounded-md shadow-md  items-center">
+                                            <ion-icon name="business" class="size-16 text-primary-600"></ion-icon>
+                                            <p class="text-lg font-semibold">{{$siteName}}</p>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @endrole
+
                 {{-- Your main view file --}}
                 <div
                     class="grid @role('tenant') pl-2 grid-cols-2 w-2/3 @endrole @role('landlord') mt-2 grid-cols-3 w-full @endrole h-min gap-2 @role('tenant') @endrole">
                     @role('tenant')
-                    <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room" />
+                    <x-grid-item icon="bed" count="{{$assignedRoomsCount}}" text="My rooms" link="/my-room"/>
                     <x-grid-item icon="receipt" count="{{$leaseAgreementsCount}}" text="Lease agreements"
-                        link="/lease-agreements" />
+                                 link="/lease-agreements"/>
                     @endrole
                     @can('view leases')
-                        <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices" />
+                        <x-grid-item icon="document-text" count="{{$invoicesCount}}" text="Invoices" link="/invoices"/>
                     @endcan
                     @role('landlord')
-                    <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants" />
+                    <x-grid-item icon="people" count="{{$tenantsCount}}" text="Tenants" link="/tenants"/>
                     <x-grid-item icon="hammer" count="{{ ($solvedTicketsCount ?? 0) + ($pendingTicketsCount ?? 0) }}
-                    " text="Maintenance tickets" link="/tickets" />
+                    " text="Maintenance tickets" link="/tickets"/>
                     @endrole
                     @role('tenant')
-                    <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets" />
+                    <x-grid-item icon="hammer" count="{{$ticketsCount}}" text="Maintenance tickets" link="/tickets"/>
                     @endrole
                     @role('landlord')
-                    <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites" />
+                    <x-grid-item icon="business" count="{{$siteCount}}" text="Sites" link="/sites"/>
                     @endrole
                 </div>
 
 
                 <!-- Check if the user has a specific role -->
-{{--                @role('landlord')--}}
-{{--                <p>This is visible to users with the landlord role.</p>--}}
-{{--                @endrole--}}
+                {{--                @role('landlord')--}}
+                {{--                <p>This is visible to users with the landlord role.</p>--}}
+                {{--                @endrole--}}
 
-{{--                <!-- Check if the user has a specific permission -->--}}
-{{--                @can('manage sites')--}}
-{{--                    <p>This is visible to users with the edit sites permission.</p>--}}
-{{--                @endcan--}}
+                {{--                <!-- Check if the user has a specific permission -->--}}
+                {{--                @can('manage sites')--}}
+                {{--                    <p>This is visible to users with the edit sites permission.</p>--}}
+                {{--                @endcan--}}
 
-{{--                @can('view tickets stats')--}}
-{{--                    <p>This is visible to users with the view tickets stats permission.</p>--}}
-{{--                @endcan--}}
+                {{--                @can('view tickets stats')--}}
+                {{--                    <p>This is visible to users with the view tickets stats permission.</p>--}}
+                {{--                @endcan--}}
 
             </div>
         </div>
@@ -123,23 +147,23 @@
 </x-app-layout>
 @can('view tickets stats')
     <script>
-        google.charts.load('current', { packages: ['corechart', 'bar'] });
+        google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawBasic);
 
         function drawBasic() {
             var data = google.visualization.arrayToDataTable([
-                ['Element', 'Number of Tickets', { role: 'style' }],
+                ['Element', 'Number of Tickets', {role: 'style'}],
                 ['Pending', {{ $pendingTicketsCount ?? 0 }}, '#FE6161'],
                 ['Solved', {{ $solvedTicketsCount ?? 0 }}, '#FED361'],
             ]);
             var options = {
                 title: 'Maintenance Tickets',
-                chartArea: { width: '50%' },
+                chartArea: {width: '50%'},
                 hAxis: {
                     title: 'Number of Tickets',
                     minValue: 0
                 },
-                legend: { position: 'none' } // Hide the legend if not needed
+                legend: {position: 'none'} // Hide the legend if not needed
             };
 
             var chart = new google.visualization.BarChart(document.getElementById('myChart3'));
