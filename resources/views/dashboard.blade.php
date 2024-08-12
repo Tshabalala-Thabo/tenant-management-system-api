@@ -104,18 +104,18 @@
 
 
                 <!-- Check if the user has a specific role -->
-                @role('landlord')
-                <p>This is visible to users with the landlord role.</p>
-                @endrole
+{{--                @role('landlord')--}}
+{{--                <p>This is visible to users with the landlord role.</p>--}}
+{{--                @endrole--}}
 
-                <!-- Check if the user has a specific permission -->
-                @can('manage sites')
-                    <p>This is visible to users with the edit sites permission.</p>
-                @endcan
+{{--                <!-- Check if the user has a specific permission -->--}}
+{{--                @can('manage sites')--}}
+{{--                    <p>This is visible to users with the edit sites permission.</p>--}}
+{{--                @endcan--}}
 
-                @can('view tickets stats')
-                    <p>This is visible to users with the view tickets stats permission.</p>
-                @endcan
+{{--                @can('view tickets stats')--}}
+{{--                    <p>This is visible to users with the view tickets stats permission.</p>--}}
+{{--                @endcan--}}
 
             </div>
         </div>
