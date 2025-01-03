@@ -97,9 +97,8 @@ class InvoiceController extends Controller
     {
         // Validate and update an existing invoice
         $validated = $request->validate([
-            'tenant_id' => 'required|exists:tenants,id',
-            'room_id' => 'nullable|exists:rooms,id',
-            'site_id' => 'nullable|exists:sites,id',
+            'tenant_id' => 'nullable|exists:users,id',
+            'room_id' => 'required|exists:rooms,id',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
             'amount' => 'required|numeric',
@@ -111,14 +110,18 @@ class InvoiceController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        // Keep the existing tenant_id if not provided
+        if (!isset($validated['tenant_id'])) {
+            $validated['tenant_id'] = $invoice->tenant_id;
+        }
+
         $invoice->update($validated);
-        return redirect()->route('invoices.index')->with('success', 'Invoice updated successfully.');
+        return redirect()->back()->with('success', 'Invoice updated successfully.');
     }
 
     public function destroy(Invoice $invoice)
     {
-        // Delete an existing invoice
         $invoice->delete();
-        return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');
+        return redirect()->back()->with('success', 'Invoice deleted successfully');
     }
 }
