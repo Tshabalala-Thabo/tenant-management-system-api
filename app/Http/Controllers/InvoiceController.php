@@ -5,6 +5,7 @@ use App\Models\Invoice;
 use App\Models\Site;
 use App\Models\Tenant;
 use App\Models\Room;
+use App\Models\LeaseAgreement;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -69,11 +70,20 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
+        // Check for active lease agreement
+        $hasActiveLease = LeaseAgreement::where('tenant_id', $request->tenant_id)
+            ->where('is_terminated', false)
+            ->where('end_date', '>=', now())
+            ->exists();
+
+        if (!$hasActiveLease) {
+            return redirect()->back()->with('error', 'Cannot create invoice: No active lease agreement found.');
+        }
+
         // Validate and store a new invoice
         $validated = $request->validate([
             'tenant_id' => 'required|exists:users,id',
-            'room_id' => 'nullable|exists:rooms,id',
-            'site_id' => 'nullable|exists:sites,id',
+            'room_id' => 'required|exists:rooms,id',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
             'amount' => 'required|numeric',
@@ -86,7 +96,7 @@ class InvoiceController extends Controller
         ]);
 
         Invoice::create($validated);
-        return redirect()->back()->with('success', 'Invoice agreement created successfully.');
+        return redirect()->back()->with('success', 'Invoice created successfully.');
     }
 
     public function edit(Invoice $invoice)

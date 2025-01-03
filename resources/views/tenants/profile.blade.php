@@ -121,14 +121,17 @@
                     </div>
                     <div class="w-full mt-7 flex justify-between items-end p-1">
                         <h1 class="font-bold">Invoices</h1>
-                        <!-- Trigger Button for Modal -->
-                        <!-- Button to Open Modal -->
-                        <button @click="openInvoiceModal = true"
-                                class="bg-primary-600 shadow-md font-semibold text-black px-4 py-2 rounded-md hover:bg-primary-800">
+                        @php
+                            $hasActiveLease = $tenant->leaseAgreements
+                                ->where('is_terminated', false)
+                                ->where('end_date', '>=', now())
+                                ->count() > 0;
+                        @endphp
+                        
+                        <button @click="@if($hasActiveLease) openInvoiceModal = true @else alert('Cannot create invoice: No active lease agreement found. Please create a lease agreement first.') @endif"
+                                class="bg-primary-600 shadow-md font-semibold text-black px-4 py-2 rounded-md hover:bg-primary-700 @if(!$hasActiveLease) opacity-50 cursor-not-allowed @endif">
                             + Create invoice
                         </button>
-
-
                     </div>
                     @if($tenant->invoices->isEmpty())
                         <p>No invoices found for this tenant.</p>
