@@ -71,20 +71,34 @@ class LeaseAgreementController extends Controller
         return view('lease_agreements.edit', compact('leaseAgreement'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, LeaseAgreement $leaseAgreement)
     {
-        $request->validate([
+        $validated = $request->validate([
             'room_id' => 'required|exists:rooms,id',
-            'tenant_id' => 'required|exists:users,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'is_terminated' => 'required|boolean',
         ]);
 
-        $leaseAgreement = LeaseAgreement::findOrFail($id);
-        $leaseAgreement->update($request->all());
+        // Handle termination status
+        $wasTerminated = $leaseAgreement->is_terminated;
+        $isNowTerminated = $request->has('is_terminated');
 
-        return redirect()->route('lease_agreements.index')->with('success', 'Lease agreement updated successfully.');
+        // Update basic fields
+        $leaseAgreement->room_id = $validated['room_id'];
+        $leaseAgreement->start_date = $validated['start_date'];
+        $leaseAgreement->end_date = $validated['end_date'];
+        
+        // Update termination status and date
+        $leaseAgreement->is_terminated = $isNowTerminated;
+        if (!$wasTerminated && $isNowTerminated) {
+            $leaseAgreement->termination_date = now();
+        } elseif (!$isNowTerminated) {
+            $leaseAgreement->termination_date = null;
+        }
+
+        $leaseAgreement->save();
+
+        return redirect()->back()->with('success', 'Lease agreement updated successfully.');
     }
 
     public function destroy($id)

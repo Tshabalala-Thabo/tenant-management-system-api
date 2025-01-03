@@ -16,6 +16,14 @@ class LeaseAgreement extends Model
         'start_date',
         'end_date',
         'is_terminated',
+        'termination_date'
+    ];
+
+    protected $casts = [
+        'is_terminated' => 'boolean',
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'termination_date' => 'datetime'
     ];
 
     public function room()
