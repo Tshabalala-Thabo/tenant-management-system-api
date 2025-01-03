@@ -19,7 +19,24 @@
             </x-header>
 
             <div x-data="{
-    openLeaseModal: false, openInvoiceModal: false}" class="flex flex-wrap gap-y-4 px-3 pb-5">
+    openLeaseModal: false, openInvoiceModal: false,
+    viewInvoiceModal: false,
+    deleteInvoiceModal: false,
+    editInvoiceModal: false,
+    selectedInvoice: null,
+    viewInvoice(invoice) {
+        this.selectedInvoice = invoice;
+        this.viewInvoiceModal = true;
+    },
+    confirmDeleteInvoice(invoice) {
+        this.selectedInvoice = invoice;
+        this.deleteInvoiceModal = true;
+    },
+    editInvoice(invoice) {
+        this.selectedInvoice = invoice;
+        this.editInvoiceModal = true;
+    }
+}" class="flex flex-wrap gap-y-4 px-3 pb-5">
                 <div class="w-3/12 flex flex-col items-center">
                     <div class="w-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden mt-4">
                         @php
@@ -121,12 +138,16 @@
                                     <td class="px-4 py-2">{{ ucfirst($invoice->status) }}</td>
                                     <td class="px-4 py-2">
                                         <div class="flex">
-                                            <a href="{{ route('invoices.show', $invoice->id) }}"
+                                            <button @click="viewInvoice({{ $invoice }})"
                                                class="text-blue-500 hover:underline">
                                                 <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                            </a>
-                                            <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                            <ion-icon name="trash" class="size-5 text-danger"></ion-icon>
+                                            </button>
+                                            <button @click="editInvoice({{ $invoice }})" class="hover:text-gray-700">
+                                                <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                            </button>
+                                            <button @click="confirmDeleteInvoice({{ $invoice }})" class="text-danger hover:text-red-700">
+                                                <ion-icon name="trash" class="size-5"></ion-icon>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -376,6 +397,273 @@
                     </div>
                     <!-- Overlay -->
                     <div @click="openInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                </div>
+
+                <!-- Add the View Invoice Modal -->
+                <div x-show="viewInvoiceModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90"
+                     class="fixed inset-0 flex items-center justify-center z-50">
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full relative z-50">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Invoice Details</h2>
+                            <button @click="viewInvoiceModal = false" class="text-gray-500 hover:text-gray-700">
+                                <ion-icon name="close" class="size-6"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-gray-600">Invoice Number</p>
+                                    <p class="font-semibold" x-text="selectedInvoice?.id"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Status</p>
+                                    <p class="font-semibold capitalize" x-text="selectedInvoice?.status"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Issue Date</p>
+                                    <p class="font-semibold" x-text="selectedInvoice?.issue_date"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Due Date</p>
+                                    <p class="font-semibold" x-text="selectedInvoice?.due_date"></p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <h3 class="font-bold mb-2">Charges</h3>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span>Rent Amount</span>
+                                        <span x-text="'R' + selectedInvoice?.amount"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Water Charge</span>
+                                        <span x-text="'R' + (selectedInvoice?.water_charge || '0.00')"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Electricity Charge</span>
+                                        <span x-text="'R' + (selectedInvoice?.electricity_charge || '0.00')"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Other Charges</span>
+                                        <span x-text="'R' + (selectedInvoice?.other_charges || '0.00')"></span>
+                                    </div>
+                                    <div class="flex justify-between pt-2 border-t border-gray-200 font-bold">
+                                        <span>Total Amount</span>
+                                        <span x-text="'R' + (
+                                            parseFloat(selectedInvoice?.amount || 0) + 
+                                            parseFloat(selectedInvoice?.water_charge || 0) + 
+                                            parseFloat(selectedInvoice?.electricity_charge || 0) + 
+                                            parseFloat(selectedInvoice?.other_charges || 0)
+                                        ).toFixed(2)"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <h3 class="font-bold mb-2">Description</h3>
+                                <p class="text-gray-700" x-text="selectedInvoice?.description || 'No description provided'"></p>
+                            </div>
+
+                            <div class="mt-6 flex justify-end">
+                                <button @click="viewInvoiceModal = false" 
+                                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div @click="viewInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                </div>
+
+                <!-- Delete Invoice Confirmation Modal -->
+                <div x-show="deleteInvoiceModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90"
+                     class="fixed inset-0 flex items-center justify-center z-50">
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Delete Invoice</h2>
+                            <button @click="deleteInvoiceModal = false" class="text-gray-500 hover:text-gray-700">
+                                <ion-icon name="close" class="size-6"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <p class="text-gray-700 mb-4">Are you sure you want to delete invoice #<span x-text="selectedInvoice?.id"></span>?</p>
+                            <p class="text-gray-600 mb-6">This action cannot be undone.</p>
+
+                            <form :action="'/invoices/' + selectedInvoice?.id" method="POST" class="flex justify-end space-x-3">
+                                @csrf
+                                @method('DELETE')
+                                
+                                <button type="button" 
+                                        @click="deleteInvoiceModal = false"
+                                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                                    Cancel
+                                </button>
+                                
+                                <button type="submit"
+                                        class="bg-danger text-white px-4 py-2 rounded-md hover:bg-red-700">
+                                    Delete Invoice
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div @click="deleteInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                </div>
+
+                <!-- Edit Invoice Modal -->
+                <div x-show="editInvoiceModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90"
+                     class="fixed inset-0 flex items-center justify-center z-50">
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative z-50">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Edit Invoice</h2>
+                            <button @click="editInvoiceModal = false" class="text-gray-500 hover:text-gray-700">
+                                <ion-icon name="close" class="size-6"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <form :action="'/invoices/' + selectedInvoice?.id" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="mb-4">
+                                    <label for="room_id" class="block text-gray-700 text-sm font-bold mb-2">Room:</label>
+                                    <select name="room_id" id="room_id"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            required>
+                                        @foreach($rooms as $room)
+                                            <option :value="{{ $room->id }}" 
+                                                    :selected="selectedInvoice?.room_id == {{ $room->id }}">
+                                                {{ $room->name }} - {{ $room->site->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="mb-4">
+                                        <label for="issue_date" class="block text-gray-700 text-sm font-bold mb-2">Issue Date:</label>
+                                        <input type="date" name="issue_date" id="issue_date"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.issue_date"
+                                               required>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="due_date" class="block text-gray-700 text-sm font-bold mb-2">Due Date:</label>
+                                        <input type="date" name="due_date" id="due_date"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.due_date"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="mb-4">
+                                        <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Rent Amount:</label>
+                                        <input type="number" name="amount" id="amount" step="0.01"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.amount"
+                                               required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="paid_amount" class="block text-gray-700 text-sm font-bold mb-2">Paid Amount:</label>
+                                        <input type="number" name="paid_amount" id="paid_amount" step="0.01"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.paid_amount">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+                                    <select name="status" id="status"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            required>
+                                        <option value="pending" :selected="selectedInvoice?.status === 'pending'">Pending</option>
+                                        <option value="paid" :selected="selectedInvoice?.status === 'paid'">Paid</option>
+                                        <option value="overdue" :selected="selectedInvoice?.status === 'overdue'">Overdue</option>
+                                        <option value="canceled" :selected="selectedInvoice?.status === 'canceled'">Canceled</option>
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="mb-4">
+                                        <label for="water_charge" class="block text-gray-700 text-sm font-bold mb-2">Water Charge:</label>
+                                        <input type="number" name="water_charge" id="water_charge" step="0.01"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.water_charge">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="electricity_charge" class="block text-gray-700 text-sm font-bold mb-2">Electricity Charge:</label>
+                                        <input type="number" name="electricity_charge" id="electricity_charge" step="0.01"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.electricity_charge">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="other_charges" class="block text-gray-700 text-sm font-bold mb-2">Other Charges:</label>
+                                        <input type="number" name="other_charges" id="other_charges" step="0.01"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               :value="selectedInvoice?.other_charges">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                                    <textarea name="description" id="description"
+                                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                              rows="4" x-text="selectedInvoice?.description"></textarea>
+                                </div>
+
+                                <div class="flex justify-end space-x-3">
+                                    <button type="button" 
+                                            @click="editInvoiceModal = false"
+                                            class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                                        Cancel
+                                    </button>
+                                    
+                                    <button type="submit"
+                                            class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700">
+                                        Update Invoice
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div @click="editInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
                 </div>
             </div>
         </div>
