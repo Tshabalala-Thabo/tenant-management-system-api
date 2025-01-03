@@ -46,7 +46,15 @@
                         <div class="text-center">
                             <div class="flex items-center justify-center text-green-600 font-semibold mb-2">
                             </div>
-                            <p class="text-gray-500">All rooms are occupied</p>
+                            <p class="text-gray-500">
+                                @if($occupiedRoomsCount == 0)
+                                    No rooms are currently occupied
+                                @elseif($occupiedRoomsCount == $totalRoomsCount)
+                                    All rooms are occupied
+                                @else
+                                    {{ $occupiedRoomsCount }} out of {{ $totalRoomsCount }} rooms are occupied
+                                @endif
+                            </p>
                         </div>
                     </div>
 
@@ -177,7 +185,7 @@
     var nullRoomsCount = {{ $nullRoomsCount }};
     var occupiedRoomsCount = {{ $occupiedRoomsCount }};
     var totalRoomsCount = occupiedRoomsCount + nullRoomsCount;
-    var occupiedPercentage = totalRoomsCount === 0 ? 0 : ((occupiedRoomsCount / totalRoomsCount) * 100);
+    var occupiedPercentage = totalRoomsCount === 0 ? 0 : Math.round((occupiedRoomsCount / totalRoomsCount) * 100);
     const data = {
         labels: ['Occupied', 'Vacant'],
         datasets: [{

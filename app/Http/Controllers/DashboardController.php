@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\LeaseAgreement;
+use App\Models\Site;
 
 class DashboardController extends Controller
 {
@@ -47,6 +48,14 @@ class DashboardController extends Controller
             // Count the number of invoices associated with these rooms
             $invoicesCount = Invoice::whereIn('room_id', $roomIds)->count();
 
+            // Get total rooms count
+            $totalRoomsCount = Room::whereIn('site_id', $siteIds)->count();
+            
+            // Get occupied rooms count
+            $occupiedRoomsCount = Room::whereIn('site_id', $siteIds)
+                ->whereNotNull('tenant_id')
+                ->count();
+
             return view('dashboard', [
                 'nullRoomsCount' => $nullRoomsCount,
                 'occupiedRoomsCount' => $occupiedRoomsCount,
@@ -56,6 +65,7 @@ class DashboardController extends Controller
                 'pendingTicketsCount' => $pendingTicketsCount,
                 'tenantsCount' => $tenantsCount,
                 'invoicesCount' => $invoicesCount,
+                'totalRoomsCount' => $totalRoomsCount,
             ]);
         } elseif ($user->hasRole('tenant')) {
             $ticketsCount = Ticket::where('tenant_id', $userId)->count();
