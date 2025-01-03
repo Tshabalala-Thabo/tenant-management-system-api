@@ -24,8 +24,7 @@ Ensure the following tools are installed:
 
 ### Step 1: Clone the Repository
 ```bash
-# Replace <repository_url> with your repository's URL
-git clone <repository_url>
+git clone https://github.com/Tshabalala-Thabo/TenantManagementSystem.git
 cd TenantManagementSystem
 ```
 
