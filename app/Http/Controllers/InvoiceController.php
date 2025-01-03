@@ -7,6 +7,8 @@ use App\Models\Tenant;
 use App\Models\Room;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -123,5 +125,32 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
         return redirect()->back()->with('success', 'Invoice deleted successfully');
+    }
+
+    public function printInvoice(Invoice $invoice)
+    {
+        $invoice->load(['tenant', 'room.site']);
+        
+        // Calculate total amount
+        $totalAmount = $invoice->amount +
+            ($invoice->water_charge ?? 0) +
+            ($invoice->electricity_charge ?? 0) +
+            ($invoice->other_charges ?? 0);
+
+        $pdf = Pdf::loadView('invoices.print', [
+            'invoice' => $invoice,
+            'totalAmount' => $totalAmount
+        ]);
+
+        // Configure PDF options
+        $pdf->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'sans-serif',
+            'chroot' => public_path(),
+            'enable_remote' => true,
+        ]);
+
+        return $pdf->stream('invoice-' . $invoice->id . '.pdf');
     }
 }

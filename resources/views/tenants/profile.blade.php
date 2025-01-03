@@ -496,7 +496,13 @@
                                 <p class="text-gray-700" x-text="selectedInvoice?.description || 'No description provided'"></p>
                             </div>
 
-                            <div class="mt-6 flex justify-end">
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <a :href="'/invoices/' + selectedInvoice?.id + '/print'" 
+                                   target="_blank"
+                                   class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700 flex items-center">
+                                    <ion-icon name="print-outline" class="size-5 mr-1"></ion-icon>
+                                    Print Invoice
+                                </a>
                                 <button @click="viewInvoiceModal = false" 
                                         class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
                                     Close
