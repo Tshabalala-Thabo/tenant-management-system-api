@@ -23,7 +23,10 @@
     viewInvoiceModal: false,
     deleteInvoiceModal: false,
     editInvoiceModal: false,
+    viewLeaseModal: false,
+    editLeaseModal: false,
     selectedInvoice: null,
+    selectedLease: null,
     viewInvoice(invoice) {
         this.selectedInvoice = invoice;
         this.viewInvoiceModal = true;
@@ -35,6 +38,17 @@
     editInvoice(invoice) {
         this.selectedInvoice = invoice;
         this.editInvoiceModal = true;
+    },
+    viewLease(lease) {
+        this.selectedLease = lease;
+        this.viewLeaseModal = true;
+    },
+    editLease(lease) {
+        this.selectedLease = lease;
+        this.editLeaseModal = true;
+    },
+    toggleTermination(event) {
+        this.selectedLease.is_terminated = event.target.checked;
     }
 }" class="flex flex-wrap gap-y-4 px-3 pb-5">
                 <div class="w-3/12 flex flex-col items-center">
@@ -183,14 +197,22 @@
                                     <td class="px-4 py-2">Room:
                                         {{ $leaseAgreement->room->name }}({{ $leaseAgreement->room->site->name }})
                                     </td>
-                                    <td class="px-4 py-2">{{ $leaseAgreement->start_date }}
-                                        - {{ $leaseAgreement->end_date }}</td>
+                                    <td class="px-4 py-2">
+                                        @php
+                                            $startDate = \Carbon\Carbon::parse($leaseAgreement->start_date)->format('d M Y');
+                                            $endDate = \Carbon\Carbon::parse($leaseAgreement->end_date)->format('d M Y');
+                                        @endphp
+                                        {{ $startDate }} - {{ $endDate }}
+                                    </td>
                                     <td class="px-4 py-2">{{ $leaseAgreement->is_terminated ? 'Yes' : 'No' }}</td>
                                     <td class="px-4 py-2">
                                         <div class="flex">
-                                            <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                            <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
-                                            <ion-icon name="close" class="size-5 text-gray-500"></ion-icon>
+                                            <button @click="viewLease({{ $leaseAgreement }})" class="hover:text-gray-700">
+                                                <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                            </button>
+                                            <button @click="editLease({{ $leaseAgreement }})" class="hover:text-gray-700">
+                                                <ion-icon name="pencil" class="size-5 mr-1 text-gray-500"></ion-icon>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -664,6 +686,166 @@
 
                     <!-- Overlay -->
                     <div @click="editInvoiceModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                </div>
+
+                <!-- View Lease Modal -->
+                <div x-show="viewLeaseModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90"
+                     class="fixed inset-0 flex items-center justify-center z-50">
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full relative z-50">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Lease Agreement Details</h2>
+                            <button @click="viewLeaseModal = false" class="text-gray-500 hover:text-gray-700">
+                                <ion-icon name="close" class="size-6"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-gray-600">Agreement Number</p>
+                                    <p class="font-semibold" x-text="selectedLease?.id"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Room</p>
+                                    <p class="font-semibold" x-text="selectedLease?.room.name + ' (' + selectedLease?.room.site.name + ')'"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Start Date</p>
+                                    <p class="font-semibold" x-text="selectedLease ? new Date(selectedLease.start_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">End Date</p>
+                                    <p class="font-semibold" x-text="selectedLease ? new Date(selectedLease.end_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''"></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Status</p>
+                                    <div>
+                                        <p class="font-semibold" x-text="selectedLease?.is_terminated ? 'Terminated' : 'Active'"></p>
+                                        <template x-if="selectedLease?.is_terminated && selectedLease?.termination_date">
+                                            <p class="text-sm text-gray-500" 
+                                               x-text="'Terminated on: ' + new Date(selectedLease?.termination_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })">
+                                            </p>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex justify-end">
+                                <button @click="viewLeaseModal = false" 
+                                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div @click="viewLeaseModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                </div>
+
+                <!-- Edit Lease Modal -->
+                <div x-show="editLeaseModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-90"
+                     class="fixed inset-0 flex items-center justify-center z-50">
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative z-50">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Edit Lease Agreement</h2>
+                            <button @click="editLeaseModal = false" class="text-gray-500 hover:text-gray-700">
+                                <ion-icon name="close" class="size-6"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <form :action="'/lease-agreements/' + selectedLease?.id" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="mb-4">
+                                    <label for="room_id" class="block text-gray-700 text-sm font-bold mb-2">Room:</label>
+                                    <select name="room_id" id="room_id"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            required>
+                                        @foreach($rooms as $room)
+                                            <option :value="{{ $room->id }}" 
+                                                    :selected="selectedLease?.room_id == {{ $room->id }}">
+                                                {{ $room->name }} - {{ $room->site->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="mb-4">
+                                        <label for="start_date" class="block text-gray-700 text-sm font-bold mb-2">Start Date:</label>
+                                        <input type="date" 
+                                               name="start_date" 
+                                               id="start_date"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               x-bind:value="selectedLease ? new Date(selectedLease.start_date).toISOString().split('T')[0] : ''"
+                                               required>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="end_date" class="block text-gray-700 text-sm font-bold mb-2">End Date:</label>
+                                        <input type="date" 
+                                               name="end_date" 
+                                               id="end_date"
+                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                               x-bind:value="selectedLease ? new Date(selectedLease.end_date).toISOString().split('T')[0] : ''"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" 
+                                               name="is_terminated" 
+                                               value="1"
+                                               :checked="selectedLease?.is_terminated == 1"
+                                               @change="toggleTermination($event)"
+                                               class="form-checkbox h-5 w-5 text-primary-600">
+                                        <span class="ml-2 text-gray-700">Terminate Lease</span>
+                                    </label>
+                                    <template x-if="selectedLease?.is_terminated && selectedLease?.termination_date">
+                                        <p class="text-sm text-gray-500 mt-1" 
+                                           x-text="'Terminated on: ' + new Date(selectedLease?.termination_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })">
+                                        </p>
+                                    </template>
+                                </div>
+
+                                <div class="flex justify-end space-x-3">
+                                    <button type="button" 
+                                            @click="editLeaseModal = false"
+                                            class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                                        Cancel
+                                    </button>
+                                    
+                                    <button type="submit"
+                                            class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700">
+                                        Update Lease Agreement
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div @click="editLeaseModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
                 </div>
             </div>
         </div>
