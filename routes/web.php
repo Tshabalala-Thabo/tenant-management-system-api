@@ -86,4 +86,6 @@ Route::resource('/tickets', TicketController::class);
     DELETE /tickets/{ticket} - Delete a specific ticket
 */
 
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
 require __DIR__ . '/auth.php';
