@@ -6,17 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('lease_agreements', function (Blueprint $table) {
-            $table->timestamp('termination_date')->nullable()->after('is_terminated');
+            //
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::table('lease_agreements', function (Blueprint $table) {
-            $table->dropColumn('termination_date');
+            //
         });
     }
-}; 
+};
