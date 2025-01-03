@@ -140,6 +140,8 @@
                             <thead class="bg-gray-300">
                             <tr class="text-left">
                                 <th class="px-4 py-2">Invoice#</th>
+                                <th class="px-4 py-2">Site</th>
+                                <th class="px-4 py-2">Room</th>
                                 <th class="px-4 py-2">Issue Date</th>
                                 <th class="px-4 py-2">Total Amount</th>
                                 <th class="px-4 py-2">Status</th>
@@ -150,13 +152,15 @@
                             @foreach($tenant->invoices as $invoice)
                                 <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                                     <td class="px-4 py-2">{{ $invoice->id }}</td>
+                                    <td class="px-4 py-2">{{ $invoice->room->site->name }}</td>
+                                    <td class="px-4 py-2">{{ $invoice->room->name }}</td>
                                     <td class="px-4 py-2">{{ $invoice->issue_date }}</td>
                                     <td class="px-4 py-2">R{{ number_format($invoice->amount, 2) }}</td>
                                     <td class="px-4 py-2">{{ ucfirst($invoice->status) }}</td>
                                     <td class="px-4 py-2">
                                         <div class="flex">
                                             <button @click="viewInvoice({{ $invoice }})"
-                                               class="text-blue-500 hover:underline">
+                                                    class="text-blue-500 hover:underline">
                                                 <ion-icon name="eye" class="size-5 mr-1 text-gray-500"></ion-icon>
                                             </button>
                                             <button @click="editInvoice({{ $invoice }})" class="hover:text-gray-700">
@@ -169,7 +173,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     @endif
@@ -188,6 +191,7 @@
                             <tr class="text-left">
                                 <th class="px-4 py-2">Lease#</th>
                                 <th class="px-4 py-2">Site</th>
+                                <th class="px-4 py-2">Room</th>
                                 <th class="px-4 py-2">Term</th>
                                 <th class="px-4 py-2">Is terminated</th>
                                 <th class="px-4 py-2">Action</th>
@@ -197,9 +201,8 @@
                             @foreach($tenant->leaseAgreements as $leaseAgreement)
                                 <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                                     <td class="px-4 py-2">{{ $leaseAgreement->id }}</td>
-                                    <td class="px-4 py-2">Room:
-                                        {{ $leaseAgreement->room->name }}({{ $leaseAgreement->room->site->name }})
-                                    </td>
+                                    <td class="px-4 py-2">{{ $leaseAgreement->room->site->name }}</td>
+                                    <td class="px-4 py-2">{{ $leaseAgreement->room->name }}</td>
                                     <td class="px-4 py-2">
                                         @php
                                             $startDate = \Carbon\Carbon::parse($leaseAgreement->start_date)->format('d M Y');
