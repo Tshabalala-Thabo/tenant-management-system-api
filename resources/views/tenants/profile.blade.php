@@ -314,10 +314,18 @@
                                         required>
                                     <option value="">Select a room</option>
                                     @foreach($rooms as $room)
-                                        <option
-                                            value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
-                                            {{ $room->name }} - {{ $room->site->name }}
-                                        </option>
+                                        @php
+                                            $hasActiveLease = $tenant->leaseAgreements
+                                                ->where('room_id', $room->id)
+                                                ->where('is_terminated', false)
+                                                ->where('end_date', '>=', now())
+                                                ->count() > 0;
+                                        @endphp
+                                        @if($hasActiveLease)
+                                            <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
+                                                {{ $room->name }} - {{ $room->site->name }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
