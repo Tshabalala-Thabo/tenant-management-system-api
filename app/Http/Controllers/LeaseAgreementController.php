@@ -108,4 +108,11 @@ class LeaseAgreementController extends Controller
 
         return redirect()->route('lease_agreements.index')->with('success', 'Lease agreement deleted successfully.');
     }
+
+    public function print($id)
+    {
+        $leaseAgreement = LeaseAgreement::with(['room.site', 'tenant'])->findOrFail($id);
+        
+        return view('lease-agreements.print', compact('leaseAgreement'));
+    }
 }

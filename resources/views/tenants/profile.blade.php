@@ -765,7 +765,13 @@
                                 </div>
                             </div>
 
-                            <div class="mt-6 flex justify-end">
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <a :href="'/lease-agreements/' + selectedLease?.id + '/print'" 
+                                   target="_blank"
+                                   class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700 flex items-center">
+                                    <ion-icon name="print-outline" class="size-5 mr-2"></ion-icon>
+                                    Print Agreement
+                                </a>
                                 <button @click="viewLeaseModal = false" 
                                         class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
                                     Close

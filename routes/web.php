@@ -89,4 +89,7 @@ Route::resource('/tickets', TicketController::class);
 Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'printInvoice'])->name('invoices.print');
 
+Route::get('/lease-agreements/{id}/print', [LeaseAgreementController::class, 'print'])
+    ->name('lease-agreements.print');
+
 require __DIR__ . '/auth.php';
