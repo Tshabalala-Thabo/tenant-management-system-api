@@ -506,7 +506,13 @@
 
                                 <!-- Rest of your existing invoice details... -->
 
-                                <div class="flex justify-end mt-6">
+                                <div class="flex justify-end mt-6 space-x-3">
+                                    <a :href="'/invoices/' + selectedInvoice?.id + '/print'" 
+                                       target="_blank"
+                                       class="bg-primary-600 text-black px-4 py-2 rounded-md hover:bg-primary-700 flex items-center">
+                                        <ion-icon name="print-outline" class="size-5 mr-2"></ion-icon>
+                                        Print Invoice
+                                    </a>
                                     <button @click="viewInvoiceModal = false"
                                             class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">
                                         Close
