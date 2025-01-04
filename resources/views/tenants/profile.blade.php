@@ -140,7 +140,7 @@
                             <thead class="bg-gray-300">
                             <tr class="text-left">
                                 <th class="px-4 py-2">Invoice#</th>
-                                <th class="px-4 py-2">Site</th>
+                                <th class="px-4 py-2">Site Details</th>
                                 <th class="px-4 py-2">Room</th>
                                 <th class="px-4 py-2">Issue Date</th>
                                 <th class="px-4 py-2">Total Amount</th>
@@ -152,7 +152,12 @@
                             @foreach($tenant->invoices as $invoice)
                                 <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                                     <td class="px-4 py-2">{{ $invoice->id }}</td>
-                                    <td class="px-4 py-2">{{ $invoice->room->site->name }}</td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium">{{ $invoice->room->site->name }}</span>
+                                            <span class="text-sm text-gray-600">{{ $invoice->room->site->full_address }}</span>
+                                        </div>
+                                    </td>
                                     <td class="px-4 py-2">{{ $invoice->room->name }}</td>
                                     <td class="px-4 py-2">{{ $invoice->issue_date }}</td>
                                     <td class="px-4 py-2">R{{ number_format($invoice->amount, 2) }}</td>
@@ -190,7 +195,7 @@
                             <thead class="bg-gray-300">
                             <tr class="text-left">
                                 <th class="px-4 py-2">Lease#</th>
-                                <th class="px-4 py-2">Site</th>
+                                <th class="px-4 py-2">Site Details</th>
                                 <th class="px-4 py-2">Room</th>
                                 <th class="px-4 py-2">Term</th>
                                 <th class="px-4 py-2">Is terminated</th>
@@ -201,7 +206,12 @@
                             @foreach($tenant->leaseAgreements as $leaseAgreement)
                                 <tr class="border-t border-gray-300 cursor-pointer hover:bg-gray-100">
                                     <td class="px-4 py-2">{{ $leaseAgreement->id }}</td>
-                                    <td class="px-4 py-2">{{ $leaseAgreement->room->site->name }}</td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium">{{ $leaseAgreement->room->site->name }}</span>
+                                            <span class="text-sm text-gray-600">{{ $leaseAgreement->room->site->full_address }}</span>
+                                        </div>
+                                    </td>
                                     <td class="px-4 py-2">{{ $leaseAgreement->room->name }}</td>
                                     <td class="px-4 py-2">
                                         @php

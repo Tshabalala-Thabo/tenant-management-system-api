@@ -20,8 +20,11 @@ class UserController extends Controller
     public function show($id)
     {
         // Fetch the tenant with their tickets and lease agreements including room and site information
-        $tenant = User::with(['invoices.room.site', 'leaseAgreements.room.site', 'tenantTickets'])
-            ->findOrFail($id);
+        $tenant = User::with([
+            'invoices.room.site',  // This ensures we load the site with each invoice
+            'leaseAgreements.room.site', 
+            'tenantTickets'
+        ])->findOrFail($id);
 
         // Fetch rooms assigned to this tenant
         $rooms = Room::where('tenant_id', $id)->with('site')->get();
