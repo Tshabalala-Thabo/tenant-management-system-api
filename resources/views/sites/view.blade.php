@@ -15,6 +15,13 @@
                         </ul>
                     </nav>
                     <h1 class="font-bold text-lg">{{$site->name}}</h1>
+                    <div class="text-sm text-gray-600">
+                        {{ $site->address_line1 }}<br>
+                        @if($site->address_line2)
+                            {{ $site->address_line2 }}<br>
+                        @endif
+                        {{ $site->city }}{{ $site->postal_code ? ', ' . $site->postal_code : '' }}
+                    </div>
                 </div>
             </x-header>
 
