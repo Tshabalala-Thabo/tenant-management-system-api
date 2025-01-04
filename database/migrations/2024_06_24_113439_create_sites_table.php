@@ -16,8 +16,12 @@ class CreateSitesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('landlord_id'); // Assuming a landlord_id column for relationship
-            $table->foreign('landlord_id')->references('id')->on('users')->onDelete('cascade'); // Adjust 'users' as per your actual table name for landlords
+            $table->string('address_line1')->nullable();
+            $table->string('address_line2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->unsignedBigInteger('landlord_id');
+            $table->foreign('landlord_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

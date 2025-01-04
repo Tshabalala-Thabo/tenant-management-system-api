@@ -50,16 +50,35 @@ class SiteController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address_line1' => 'nullable|string|max:255',
+            'address_line2' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:100',
+            'postal_code' => 'nullable|string|max:20',
         ]);
 
-        $site = new Site();
-        $site->name = $request->name;
-        $site->landlord_id = Auth::id(); // Set the landlord (user) ID
-        $site->save();
+        $validated['landlord_id'] = auth()->id();
 
-        return redirect()->route('sites.index')->with('success', 'Site created successfully!');
+        Site::create($validated);
+
+        return redirect()->route('sites.index')->with('success', 'Site created successfully.');
+    }
+
+    public function update(Request $request, Site $site)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address_line1' => 'nullable|string|max:255',
+            'address_line2' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:100',
+            'postal_code' => 'nullable|string|max:20',
+        ]);
+
+        $site->update($validated);
+
+        return redirect()->back()->with('success', 'Site updated successfully.');
     }
 }

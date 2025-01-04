@@ -9,7 +9,7 @@ class Site extends Model
 {
     //use HasFactory;
     protected $fillable = [
-        'name', 'description', 'landlord_id',
+        'name', 'description', 'landlord_id', 'address_line1', 'address_line2', 'city', 'postal_code'
     ];
 
     public function landlord()
@@ -30,5 +30,17 @@ class Site extends Model
         return $this->belongsToMany(User::class, 'service_provider_site', 'site_id', 'service_provider_id');
     }
 
+    // Helper method to get full address
+    public function getFullAddressAttribute()
+    {
+        $address_parts = array_filter([
+            $this->address_line1,
+            $this->address_line2,
+            $this->city,
+            $this->postal_code
+        ]);
+        
+        return implode(', ', $address_parts);
+    }
 }
 
