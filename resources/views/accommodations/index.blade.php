@@ -26,7 +26,7 @@
                         </p>
                         <p class="text-gray-500 mb-2">123 Oak Street, Building A, Springfield, 12345</p>
                         <p class="text-gray-500 mb-4">Landlord: John Doe</p>
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
                             Apply Now
                         </button>
                     </div>
@@ -39,7 +39,7 @@
                         </p>
                         <p class="text-gray-500 mb-2">456 River Road, Unit 3, Riverdale, 67890</p>
                         <p class="text-gray-500 mb-4">Landlord: Jane Smith</p>
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
                             Apply Now
                         </button>
                     </div>
@@ -52,7 +52,7 @@
                         </p>
                         <p class="text-gray-500 mb-2">789 Meadow Lane, Hometown, 11223</p>
                         <p class="text-gray-500 mb-4">Landlord: Michael Johnson</p>
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
                             Apply Now
                         </button>
                     </div>
@@ -65,7 +65,7 @@
                         </p>
                         <p class="text-gray-500 mb-2">321 High Street, Penthouse 5, Metroville, 44556</p>
                         <p class="text-gray-500 mb-4">Landlord: Emily Davis</p>
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
                             Apply Now
                         </button>
                     </div>
