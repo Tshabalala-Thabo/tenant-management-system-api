@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SiteServiceProviderController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 
 
@@ -92,6 +93,9 @@ Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'printInvoice
 Route::get('/accommodations', function () {
     return view('accommodations.index');
 });
+
+Route::get('/applications', [ApplicationController::class, 'index'])->middleware('role:landlord');
+
 
 Route::get('/lease-agreements/{id}/print', [LeaseAgreementController::class, 'print'])
     ->name('lease-agreements.print');
