@@ -46,6 +46,17 @@
         @role('landlord')
         <div class="pb-2 mx-6">
             <x-responsive-nav-link
+                class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'applications' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
+                href="/applications" :active="$activeLink == 'applications'">
+                <ion-icon name="{{ $activeLink == 'applications' ? 'clipboard' : 'clipboard-outline' }}" class="size-6 mr-6"></ion-icon>
+                <p class="{{ $activeLink == 'applications' ? 'font-semibold' : 'font-normal' }}">{{ __('Tenant Applications') }}</p>
+            </x-responsive-nav-link>
+        </div>
+        @endrole
+
+        @role('landlord')
+        <div class="pb-2 mx-6">
+            <x-responsive-nav-link
                 class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'sites' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
                 href="/sites" :active="$activeLink == 'sites'">
                 <ion-icon
@@ -63,6 +74,16 @@
                 <p class="{{ $activeLink == 'tickets' ? 'font-semibold' : 'font-normal' }}">{{ __('Maintenance') }}</p>
             </x-responsive-nav-link>
         </div>
+        @role('tenant')
+        <div class="pb-2 mx-6">
+            <x-responsive-nav-link
+                class="rounded-lg py-2 pl-6 pr-6 {{ $activeLink == 'lease' ? 'bg-primary-100 font-semibold text-black' : 'bg-transparent text-black' }} flex items-center"
+                href="/accommodations" :active="$activeLink == 'lease'">
+                <ion-icon name="{{ $activeLink == 'lease' ? 'search' : 'search-outline' }}" class="size-6 mr-6"></ion-icon>
+                <p class="{{ $activeLink == 'lease' ? 'font-semibold' : 'font-normal' }}">{{ __('Find Accommodation') }}</p>
+            </x-responsive-nav-link>
+        </div>
+        @endrole
     </div>
 
     <div class="">

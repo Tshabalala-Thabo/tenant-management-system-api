@@ -192,11 +192,12 @@
                                 </button>
                             </div>
 
-                            <div class="sm:flex sm:items-start">
+                            <div class="sm:flex sm:items-start w-full">
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Edit
                                         Ticket</h3>
                                     <div class="mt-2">
+                                        @role('tenant')
                                         <input type="text" x-model="ticketDetails"
                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                                placeholder="Ticket Details">
@@ -207,15 +208,19 @@
                                                 <option value="{{ $site->id }}">{{ $site->name }}</option>
                                             @endforeach
                                         </select>
+
                                         <select x-model="ticketRoomId"
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                             <option value="" disabled>Select a room</option>
                                             <!-- Options should be dynamically filled based on the selected site -->
                                         </select>
+                                        @endrole
                                         @role('service_provider')
+                                        <label> Response</label>
                                         <textarea x-model="ticketResponse"
                                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                                   placeholder="Enter your response"></textarea>
+                                        <label> Status</label>
                                         <select x-model="ticketStatus"
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                             <option value="" disabled>Select status</option>
