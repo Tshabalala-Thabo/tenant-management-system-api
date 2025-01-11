@@ -8,19 +8,19 @@
                     @if(count($applications) === 0)
                     <p>No applications found.</p>
                     @else
-                    <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
-                        <thead class="bg-gray-300">
-                            <tr class="text-left">
-                                <th class="px-4 py-2">Tenant Name</th>
-                                <th class="px-4 py-2">Email</th>
-                                <th class="px-4 py-2">Phone</th>
-                                <th class="px-4 py-2">Site & Address</th>
-                                <th class="px-4 py-2">Application Date</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Actions</th>
+                    <table class="table-auto w-full bg-white mt-1 rounded-lg shadow-md">
+                        <thead class="rounded-lg">
+                            <tr class="text-left rounded-t-lg">
+                                <th class="rounded-tl-lg bg-gray-300 px-4 py-2">Tenant Name</th>
+                                <th class="bg-gray-300 px-4 py-2">Email</th>
+                                <th class="bg-gray-300 px-4 py-2">Phone</th>
+                                <th class="bg-gray-300 px-4 py-2">Site & Address</th>
+                                <th class="bg-gray-300 px-4 py-2">Application Date</th>
+                                <th class="bg-gray-300 px-4 py-2">Status</th>
+                                <th class="rounded-tr-lg bg-gray-300 px-4 py-2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white">
+                        <tbody class="rounded-b-lg">
                             @foreach($applications as $application)
                             <tr class="border-t border-gray-300">
                                 <td class="px-4 py-2">{{ $application->tenant->name }} {{ $application->tenant->last_name }}</td>
@@ -67,7 +67,7 @@
                                         <div
                                             x-show="open"
                                             @click.away="open = false"
-                                            class="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded-lg shadow-lg z-10"
+                                            class="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
                                             style="display: none;">
                                             @if($application->status === 'pending')
                                             <button
