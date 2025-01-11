@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\AccommodationApplication;
 
 
@@ -14,33 +15,8 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        // Hardcoded applications data (with only site and no room information)
-        $applications = [
-            [
-                'tenant_name' => 'John Doe',
-                'application_date' => '2025-01-05',
-                'status' => 'Submitted',
-                'tenant_email' => 'john.doe@example.com',
-                'tenant_phone' => '555-5555',
-                'site_name' => 'Site A',
-            ],
-            [
-                'tenant_name' => 'Jane Smith',
-                'application_date' => '2025-01-06',
-                'status' => 'Submitted',
-                'tenant_email' => 'jane.smith@example.com',
-                'tenant_phone' => '555-5556',
-                'site_name' => 'Site B',
-            ],
-            [
-                'tenant_name' => 'Michael Johnson',
-                'application_date' => '2025-01-07',
-                'status' => 'Approved',
-                'tenant_email' => 'michael.johnson@example.com',
-                'tenant_phone' => '555-5557',
-                'site_name' => 'Site C',
-            ],
-        ];
+        // Retrieve all applications with tenant and site information
+        $applications = AccommodationApplication::with(['tenant', 'site'])->get();
 
         return view('applications.index', compact('applications'));
     }
@@ -66,10 +42,19 @@ class ApplicationController extends Controller
             ->first();
 
         if ($existingApplication) {
-            return redirect('/accommodations')->with('error', 'You have already applied for this accommodation.');
+            // Allow reapplication only if the current status is "terminated" or "rejected"
+            if (in_array($existingApplication->status, ['terminated', 'rejected'])) {
+                // Update the existing application's status to "pending"
+                $existingApplication->update(['status' => 'pending']);
+
+                return redirect('/accommodations')->with('success', 'Your application has been resubmitted.');
+            }
+
+            // Block reapplication for other statuses
+            return redirect('/accommodations')->with('error', 'You cannot reapply for this accommodation at this time.');
         }
 
-        // Create a new application
+        // Create a new application if none exists
         AccommodationApplication::create([
             'tenant_id' => $tenantId, // Use the authenticated user's ID
             'site_id' => $siteId,
@@ -79,17 +64,68 @@ class ApplicationController extends Controller
         // Redirect to the accommodations page
         return redirect('/accommodations')->with('success', 'Application submitted.');
     }
-    public function removeTenantFromAccommodation($applicationId)
+
+    public function update(Request $request, $applicationId)
     {
-        $application = AccommodationApplication::findOrFail($applicationId);
-
-        // Option 1: Mark as rejected or canceled
-        $application->status = 'rejected';
-        $application->save();
-
-        // Option 2: Delete the application if no longer relevant
-        // $application->delete();
-
-        return redirect()->route('landlord.applications')->with('success', 'Tenant removed from accommodation.');
+        // Log the incoming request
+        Log::info('Updating application with ID: ' . $applicationId, ['request' => $request->all()]);
+    
+        $application = AccommodationApplication::find($applicationId);
+    
+        if (!$application) {
+            Log::error('Application not found', ['applicationId' => $applicationId]);
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+    
+        $action = $request->input('action');
+        $reason = $request->input('reason');
+    
+        Log::info('Action: ' . $action . ', Reason: ' . $reason);
+    
+        switch ($action) {
+            case 'accept':
+                $application->status = 'accepted';
+                $application->termination_reason = null;
+                $application->termination_date = null;
+                $application->rejection_date = null;
+                $application->rejection_reason = null;
+                break;
+    
+            case 'reject':
+                if ($application->status !== 'pending') {
+                    Log::warning('Reject attempt on non-pending application', ['applicationId' => $applicationId]);
+                    return response()->json(['message' => 'Only pending applications can be rejected'], 400);
+                }
+                $application->status = 'rejected';
+                $application->rejection_reason = $reason;
+                $application->previously_rejected = true;
+                $application->rejection_date = now();
+                break;
+    
+            case 'terminate':
+                if ($application->status !== 'accepted') {
+                    Log::warning('Terminate attempt on non-accepted application', ['applicationId' => $applicationId]);
+                    return response()->json(['message' => 'Only accepted applications can be terminated'], 400);
+                }
+                $application->status = 'terminated';
+                $application->termination_reason = $reason;
+                $application->previously_terminated = true;
+                $application->termination_date = now();
+                break;
+    
+            default:
+                Log::error('Invalid action provided', ['action' => $action]);
+                return response()->json(['message' => 'Invalid action'], 400);
+        }
+    
+        try {
+            $application->save();
+            Log::info('Application status updated successfully', ['applicationId' => $applicationId]);
+        } catch (\Exception $e) {
+            Log::error('Error saving application status', ['exception' => $e->getMessage()]);
+            return response()->json(['message' => 'Internal server error'], 500);
+        }
+    
+        return response()->json(['message' => 'Application status updated successfully'], 200);
     }
 }
