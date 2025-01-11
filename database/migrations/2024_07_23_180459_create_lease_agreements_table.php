@@ -1,7 +1,4 @@
 <?php
-// database/migrations/xxxx_xx_xx_create_lease_agreements_table.php
-
-namespace App\Providers\database\migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
