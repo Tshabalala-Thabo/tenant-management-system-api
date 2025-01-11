@@ -42,5 +42,9 @@ class Site extends Model
         
         return implode(', ', $address_parts);
     }
+    public function accommodationApplications()
+    {
+        return $this->hasMany(AccommodationApplication::class);
+    }
 }
 

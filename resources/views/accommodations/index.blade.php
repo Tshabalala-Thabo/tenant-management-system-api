@@ -15,60 +15,57 @@
                     <h1 class="font-bold text-lg">Accommodations</h1>
                 </div>
             </x-header>
-            <div class="container mx-auto px-2">
+            <div class="px-3">
+
+                <!-- Display success or error messages -->
+                @if(session('success'))
+                    <div class="bg-green-500 text-white p-2 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="bg-red-500 text-white p-2 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- Greenwood Apartments Card -->
+                    @foreach ($sites as $site)
                     <div class="bg-white rounded-lg shadow-md p-6">
-                        <h2 class="text-2xl font-bold mb-2">Greenwood Apartments</h2>
+                        <h2 class="text-2xl font-bold mb-2">{{ ucfirst($site->name) }}</h2>
                         <p class="text-gray-600 mb-4">
-                            A modern apartment complex with spacious rooms and great amenities.
+                            {{ $site->description }}
                         </p>
-                        <p class="text-gray-500 mb-2">123 Oak Street, Building A, Springfield, 12345</p>
-                        <p class="text-gray-500 mb-4">Landlord: John Doe</p>
-                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
-                            Apply Now
-                        </button>
-                    </div>
+                        <p class="text-gray-500 mb-2">{{ $site->address_line1 }}</p>
+                        @if($site->address_line2)
+                        <p class="text-gray-500 mb-2">{{ $site->address_line2 }}</p>
+                        @endif
+                        <p class="text-gray-500 mb-4">{{ $site->city }}{{ $site->postal_code ? ', ' . $site->postal_code : '' }}</p>
+                        
+                        <!-- Check if the tenant has already applied -->
+                        @php
+                            $tenantId = auth()->user()->id;
+                            $application = \App\Models\AccommodationApplication::where('tenant_id', $tenantId)
+                                ->where('site_id', $site->id)
+                                ->first();
+                        @endphp
 
-                    <!-- Riverside Villas Card -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h2 class="text-2xl font-bold mb-2">Riverside Villas</h2>
-                        <p class="text-gray-600 mb-4">
-                            Exclusive riverside villas with scenic views and private gardens.
-                        </p>
-                        <p class="text-gray-500 mb-2">456 River Road, Unit 3, Riverdale, 67890</p>
-                        <p class="text-gray-500 mb-4">Landlord: Jane Smith</p>
-                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
-                            Apply Now
-                        </button>
+                        @if ($application)
+                            <p class="text-gray-700 mb-2">
+                                Application Status: <strong>{{ ucfirst($application->status) }}</strong>
+                            </p>
+                        @else
+                            <!-- Application Form -->
+                            <form action="{{ route('applications.apply', $site->id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="site_id" value="{{ $site->id }}">
+                                <button type="submit" class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                                    Apply Now
+                                </button>
+                            </form>
+                        @endif
                     </div>
-
-                    <!-- Sunny Acres Card -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h2 class="text-2xl font-bold mb-2">Sunny Acres</h2>
-                        <p class="text-gray-600 mb-4">
-                            A peaceful community with spacious yards and family-friendly amenities.
-                        </p>
-                        <p class="text-gray-500 mb-2">789 Meadow Lane, Hometown, 11223</p>
-                        <p class="text-gray-500 mb-4">Landlord: Michael Johnson</p>
-                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
-                            Apply Now
-                        </button>
-                    </div>
-
-                    <!-- City View Towers Card -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h2 class="text-2xl font-bold mb-2">City View Towers</h2>
-                        <p class="text-gray-600 mb-4">
-                            Luxury apartments with panoramic city views and state-of-the-art facilities.
-                        </p>
-                        <p class="text-gray-500 mb-2">321 High Street, Penthouse 5, Metroville, 44556</p>
-                        <p class="text-gray-500 mb-4">Landlord: Emily Davis</p>
-                        <button class="bg-primary-600 text-black font-semibold shadow-sm px-4 py-2 rounded-md hover:bg-primary-800">
-                            Apply Now
-                        </button>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

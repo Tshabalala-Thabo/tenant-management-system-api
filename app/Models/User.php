@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,59 +11,68 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-use HasRoles, HasApiTokens, HasFactory, Notifiable;
+    use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
-protected $fillable = [
-'name',
-'last_name',
-'email',
-'password',
-'id_number',
-'phone'
-];
+    protected $fillable = [
+        'name',
+        'last_name',
+        'email',
+        'password',
+        'id_number',
+        'phone'
+    ];
 
-protected $hidden = [
-'password',
-'remember_token',
-];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-protected $casts = [
-'email_verified_at' => 'datetime',
-];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
-public function sites()
-{
-return $this->hasMany(Site::class, 'landlord_id');
-}
+    public function sites()
+    {
+        return $this->hasMany(Site::class, 'landlord_id');
+    }
 
-public function leaseAgreements()
-{
-return $this->hasMany(LeaseAgreement::class, 'tenant_id');
-}
+    public function leaseAgreements()
+    {
+        return $this->hasMany(LeaseAgreement::class, 'tenant_id');
+    }
 
-public function providedTickets()
-{
-return $this->hasMany(Ticket::class, 'provider_id');
-}
+    public function providedTickets()
+    {
+        return $this->hasMany(Ticket::class, 'provider_id');
+    }
 
-public function invoices()
-{
-return $this->hasMany(Invoice::class, 'tenant_id');
-}
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'tenant_id');
+    }
 
-public function tenantTickets()
-{
-return $this->hasMany(Ticket::class, 'tenant_id');
-}
+    public function tenantTickets()
+    {
+        return $this->hasMany(Ticket::class, 'tenant_id');
+    }
 
-public function rooms()
-{
-return $this->hasMany(Room::class);
-}
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 
-// Relationship for many-to-many with sites
-public function serviceProviderSites()
-{
-return $this->belongsToMany(Site::class, 'service_provider_site', 'service_provider_id', 'site_id');
-}
+    // Relationship for many-to-many with sites
+    public function serviceProviderSites()
+    {
+        return $this->belongsToMany(Site::class, 'service_provider_site', 'service_provider_id', 'site_id');
+    }
+    public function accommodationApplications()
+    {
+        return $this->hasMany(AccommodationApplication::class, 'tenant_id');
+    }
+
+    public function roomAssignments()
+    {
+        return $this->hasMany(RoomAssignment::class);
+    }
 }
