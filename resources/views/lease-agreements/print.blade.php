@@ -12,6 +12,8 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            background-color: #FED361; /* System yellow color */
+            padding: 10px; /* Add some padding for better appearance */
         }
         .logo {
             width: 200px;

@@ -12,6 +12,8 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            background-color: #FED361; /* System yellow color */
+            padding: 10px; /* Add some padding for better appearance */
         }
         .logo {
             width: 200px;
@@ -83,23 +85,16 @@
                 <td>{{ Carbon\Carbon::parse($invoice->issue_date)->format('d M Y') }}</td>
             </tr>
             <tr>
-                <td><strong>Property:</strong></td>
-                <td>
-                    {{ $invoice->room->site->name }}<br>
-                    {{ $invoice->room->site->address_line1 }}<br>
-                    @if($invoice->room->site->address_line2)
-                        {{ $invoice->room->site->address_line2 }}<br>
-                    @endif
-                    {{ $invoice->room->site->city }}{{ $invoice->room->site->postal_code ? ', ' . $invoice->room->site->postal_code : '' }}
-                </td>
+                <td><strong>Room:</strong></td>
+                <td>{{ $invoice->room->name }} ({{ $invoice->room->site->name }})</td>
                 <td><strong>Due Date:</strong></td>
                 <td>{{ Carbon\Carbon::parse($invoice->due_date)->format('d M Y') }}</td>
             </tr>
             <tr>
-                <td><strong>Room:</strong></td>
-                <td>{{ $invoice->room->name }}</td>
                 <td><strong>Status:</strong></td>
                 <td>{{ ucfirst($invoice->status) }}</td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>
