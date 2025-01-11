@@ -70,9 +70,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(AccommodationApplication::class, 'tenant_id');
     }
-
-    public function roomAssignments()
-    {
-        return $this->hasMany(RoomAssignment::class);
-    }
 }
