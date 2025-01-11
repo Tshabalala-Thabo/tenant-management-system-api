@@ -8,6 +8,9 @@ use App\Models\LeaseAgreement;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Site;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class LeaseAgreementController extends Controller
 {
     public function index()
@@ -112,7 +115,17 @@ class LeaseAgreementController extends Controller
     public function print($id)
     {
         $leaseAgreement = LeaseAgreement::with(['room.site', 'tenant'])->findOrFail($id);
-        
-        return view('lease-agreements.print', compact('leaseAgreement'));
+
+        // Load the view and pass the lease agreement data
+        $pdf = new Dompdf();
+        $pdf->setOptions(new Options(['defaultFont' => 'Arial'])); // Set default font
+
+        $html = view('lease-agreements.print', compact('leaseAgreement'))->render();
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
+        $pdf->render();
+
+        // Output the generated PDF to Browser
+        return $pdf->stream("lease_agreement_{$leaseAgreement->id}.pdf", ["Attachment" => false]);
     }
 }
