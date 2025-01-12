@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex">
-        <x-side-nav activeLink="sites"/>
+        <x-side-nav activeLink="sites" />
 
         <div class="flex-grow flex-1 overflow-y-auto" style="height: calc(100vh - 4rem - 1px);">
             <x-header name="header">
@@ -18,7 +18,7 @@
                     <div class="text-sm text-gray-600">
                         {{ $site->address_line1 }}<br>
                         @if($site->address_line2)
-                            {{ $site->address_line2 }}<br>
+                        {{ $site->address_line2 }}<br>
                         @endif
                         {{ $site->city }}{{ $site->postal_code ? ', ' . $site->postal_code : '' }}
                     </div>
@@ -79,7 +79,7 @@
                         <div x-data="{ open: false }">
                             <!-- Button to trigger modal -->
                             <button @click="open = true"
-                                    class="bg-primary-600 mb-1 font-semibold text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                                class="bg-primary-600 mb-1 font-semibold text-black shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
                                 +
                                 Add
                                 room
@@ -87,12 +87,12 @@
 
                             <!-- Modal -->
                             <div x-show="open" x-transition:enter="transition ease-out duration-300"
-                                 x-transition:enter-start="opacity-0 transform scale-90"
-                                 x-transition:enter-end="opacity-100 transform scale-100"
-                                 x-transition:leave="transition ease-in duration-300"
-                                 x-transition:leave-start="opacity-100 transform scale-100"
-                                 x-transition:leave-end="opacity-0 transform scale-90"
-                                 class="fixed inset-0 flex items-center justify-center z-50">
+                                x-transition:enter-start="opacity-0 transform scale-90"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-300"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-90"
+                                class="fixed inset-0 flex items-center justify-center z-50">
                                 <!-- Modal content -->
                                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative z-50">
                                     <h2 class="text-xl font-bold mb-4">Add a new room</h2>
@@ -102,31 +102,31 @@
                                             <label for="name" class="block text-sm font-medium text-gray-700">Room
                                                 name</label>
                                             <input type="text" name="name" id="name"
-                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                                   required>
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                required>
                                         </div>
                                         <div class="mb-4">
                                             <label for="description" class="block text-sm font-medium text-gray-700">Room
                                                 description</label>
                                             <input type="text" name="description" id="description"
-                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                                   required>
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                required>
                                         </div>
                                         <div class="mb-4">
                                             <label for="description" class="block text-sm font-medium text-gray-700">Room
                                                 cost</label>
                                             <input type="number" name="cost" id="cost"
-                                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                                   required>
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                                required>
                                         </div>
                                         <input type="hidden" name="site_id" value="{{ $site->id }}">
                                         <div class="flex justify-end">
                                             <button @click="open = false" type="button"
-                                                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">
+                                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-2">
                                                 Cancel
                                             </button>
                                             <button type="submit"
-                                                    class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">
+                                                class="bg-primary-700 text-black px-4 py-2 rounded-md hover:bg-primary-800">
                                                 Create
                                                 room
                                             </button>
@@ -140,39 +140,39 @@
                     </div>
                     <table class="table-auto w-full mt-1 rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-400">
-                        <tr class="text-left">
-                            <th class="px-4 py-2">Room#</th>
-                            <th class="px-4 py-2">Tenant</th>
-                            <th class="px-4 py-2">Cost</th>
-                            <th class="px-4 py-2 w-32">Action</th> <!-- Set a fixed width here -->
-                        </tr>
+                            <tr class="text-left">
+                                <th class="px-4 py-2">Room#</th>
+                                <th class="px-4 py-2">Tenant</th>
+                                <th class="px-4 py-2">Cost</th>
+                                <th class="px-4 py-2 w-32">Action</th> <!-- Set a fixed width here -->
+                            </tr>
                         </thead>
                         <tbody class="bg-white">
-                        @foreach ($site->rooms as $room)
+                            @foreach ($site->rooms as $room)
                             <tr class="border-t border-gray-300 hover:bg-gray-100">
                                 <td class="px-4 py-2">{{ $room->name }} ( {{ $room->description }})</td>
                                 <td class="px-4 py-2">
                                     @if ($room->tenant)
-                                        {{ $room->tenant->name }} {{ $room->tenant->last_name }}
+                                    {{ $room->tenant->name }} {{ $room->tenant->last_name }}
                                     @else
-                                        N/A
+                                    N/A
                                     @endif
                                 </td>
                                 <td class="px-4 py-2">R{{ $room->cost }}</td>
                                 <td class="px-4 py-2 w-32 whitespace-nowrap"> <!-- Apply fixed width and nowrap -->
                                     <div class="flex space-x-1"> <!-- Adjust space between buttons -->
                                         @if ($room->tenant)
-                                            <button @click="openConfirmationModal({{ $room->id }})"
-                                                    class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
-                                                <ion-icon name="remove" class="text-black text-sm"></ion-icon>
-                                                Remove tenant
-                                            </button>
+                                        <button @click="openConfirmationModal({{ $room->id }})"
+                                            class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                            <ion-icon name="remove" class="text-black text-sm"></ion-icon>
+                                            Remove tenant
+                                        </button>
                                         @else
-                                            <button @click="openModal({{ $room->id }})"
-                                                    class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm">
-                                                <ion-icon name="add" class="text-black text-sm"></ion-icon>
-                                                Assign tenant
-                                            </button>
+                                        <button @click="openModal({{ $room->id }})"
+                                            class="bg-primary-600 flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                            <ion-icon name="add" class="text-black text-sm"></ion-icon>
+                                            Assign tenant
+                                        </button>
                                         @endif
 
                                         <button
@@ -182,14 +182,14 @@
                                             Edit
                                         </button>
                                         <button @click="openDeleteModal({{ $room->id }})"
-                                                class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
+                                            class="bg-danger flex items-center text-black px-2 py-1 rounded-md text-sm">
                                             <ion-icon name="trash" class="text-black text-sm"></ion-icon>
                                             Delete
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -198,34 +198,34 @@
                     <div class="w-full mb-2 flex justify-between items-end">
                         <h1 class="font-bold">Service providers</h1>
                         <button @click="openServiceProviderModal({{ $site->id }})"
-                                class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
+                            class="bg-primary-600 text-black font-semibold shadow-md px-4 py-2 rounded-md hover:bg-primary-800">
                             + Add Service Provider
                         </button>
 
                         <!-- Modal HTML -->
                         <!-- Modal HTML -->
                         <div x-show="isOpenSearchServiceProvider"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 transform scale-90"
-                             x-transition:enter-end="opacity-100 transform scale-100"
-                             x-transition:leave="transition ease-in duration-300"
-                             x-transition:leave-start="opacity-100 transform scale-100"
-                             x-transition:leave-end="opacity-0 transform scale-90"
-                             class="fixed z-50 inset-0 overflow-y-auto">
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 transform scale-90"
+                            x-transition:enter-end="opacity-100 transform scale-100"
+                            x-transition:leave="transition ease-in duration-300"
+                            x-transition:leave-start="opacity-100 transform scale-100"
+                            x-transition:leave-end="opacity-0 transform scale-90"
+                            class="fixed z-50 inset-0 overflow-y-auto">
                             <div
                                 class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                                     aria-hidden="true"></div>
+                                    aria-hidden="true"></div>
                                 <div
                                     class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                                     <div class="absolute top-0 right-0 pt-4 pr-4">
                                         <button @click="closeModal()"
-                                                class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             <span class="sr-only">Close</span>
                                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                    d="M6 18L18 6M6 6l12 12" />
                                             </svg>
                                         </button>
                                     </div>
@@ -237,14 +237,14 @@
                                             </h3>
                                             <div class="mt-2">
                                                 <input type="text" x-model="searchQuery" @input="searchServiceProviders"
-                                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                                       placeholder="Search service providers...">
+                                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                    placeholder="Search service providers...">
                                                 <ul class="mt-4">
                                                     <template x-for="provider in serviceProviders" :key="provider.id">
                                                         <li class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
                                                             <span x-text="provider.name"></span>
                                                             <button @click="assignProviderToSite(provider.id)"
-                                                                    class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">
+                                                                class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">
                                                                 Assign
                                                             </button>
                                                         </li>
@@ -285,7 +285,11 @@
                                         }
 
                                         try {
-                                            const response = await axios.get('/service-providers', {params: {search: this.searchQuery}});
+                                            const response = await axios.get('/service-providers', {
+                                                params: {
+                                                    search: this.searchQuery
+                                                }
+                                            });
                                             this.serviceProviders = response.data;
                                         } catch (error) {
                                             console.error('Error fetching service providers:', error);
@@ -294,7 +298,9 @@
 
                                     async assignProviderToSite(providerId) {
                                         try {
-                                            const response = await axios.post(`/sites/${this.selectedSiteId}/assign`, {service_provider_id: providerId});
+                                            const response = await axios.post(`/sites/${this.selectedSiteId}/assign`, {
+                                                service_provider_id: providerId
+                                            });
                                             if (response.status === 200) {
                                                 this.closeModal();
                                                 window.location.reload();
@@ -306,7 +312,9 @@
 
                                     async confirmRemoveProvider(providerId) {
                                         try {
-                                            const response = await axios.post(`/sites/${this.selectedSiteId}/unassign`, {service_provider_id: providerId});
+                                            const response = await axios.post(`/sites/${this.selectedSiteId}/unassign`, {
+                                                service_provider_id: providerId
+                                            });
                                             if (response.status === 200) {
                                                 this.isRemoveConfirmationModalOpen = false;
                                                 window.location.reload();
@@ -320,121 +328,121 @@
                         </script>
                     </div>
                     @forelse ($site->serviceProviders as $provider)
-                        <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
-                            <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
-                                @php
-                                    $profileImagePath = 'images/profile/' . $provider->id . '.jpg';
-                                    $defaultImagePath = 'images/profile/default.jpg';
-                                @endphp
-                                <img
-                                    src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
-                                    alt="Service provider Image"
-                                    class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h1 class="font-semibold text-lg">{{ $provider->name }} {{ $provider->last_name }}</h1>
-                                <p class="m-0 leading-none">{{ $provider->phone }}</p>
-                                <p class="leading-none mb-2">{{ $provider->email }}</p>
-                            </div>
-                            <div class="flex-1 h-16 pr-4 w-max flex flex-row justify-end">
-                                <div
-                                    x-data="{ isDropdownOpen: false, isRemoveConfirmationModalOpen: false, providerId: null }"
-                                    class="relative w-min">
-                                    <!-- Dropdown Button -->
-                                    <div @click="isDropdownOpen = !isDropdownOpen"
-                                         class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
-                                        <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
-                                    </div>
+                    <div class="bg-gray-300 mb-2 py-2 rounded-xl flex items-center w-full">
+                        <div class="size-16 aspect-w-1 aspect-h-1 rounded-full overflow-hidden mx-4">
+                            @php
+                            $profileImagePath = 'images/profile/' . $provider->id . '.jpg';
+                            $defaultImagePath = 'images/profile/default.jpg';
+                            @endphp
+                            <img
+                                src="{{ asset(file_exists(public_path($profileImagePath)) ? $profileImagePath : $defaultImagePath) }}"
+                                alt="Service provider Image"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h1 class="font-semibold text-lg">{{ $provider->name }} {{ $provider->last_name }}</h1>
+                            <p class="m-0 leading-none">{{ $provider->phone }}</p>
+                            <p class="leading-none mb-2">{{ $provider->email }}</p>
+                        </div>
+                        <div class="flex-1 h-16 pr-4 w-max flex flex-row justify-end">
+                            <div
+                                x-data="{ isDropdownOpen: false, isRemoveConfirmationModalOpen: false, providerId: null }"
+                                class="relative w-min">
+                                <!-- Dropdown Button -->
+                                <div @click="isDropdownOpen = !isDropdownOpen"
+                                    class="hover:bg-gray-400 flex items-center justify-center h-min py-1 px-1 rounded-full cursor-pointer">
+                                    <ion-icon class="size-5" name="ellipsis-horizontal"></ion-icon>
+                                </div>
 
-                                    <!-- Dropdown Menu -->
-                                    <div x-show="isDropdownOpen" @click.away="isDropdownOpen = false"
-                                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
-                                        <a href="javascript:void(0);"
-                                           @click="providerId = {{ $provider->id }}; isRemoveConfirmationModalOpen = true; isDropdownOpen = false"
-                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Remove from site</a>
-                                    </div>
+                                <!-- Dropdown Menu -->
+                                <div x-show="isDropdownOpen" @click.away="isDropdownOpen = false"
+                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                                    <a href="javascript:void(0);"
+                                        @click="providerId = {{ $provider->id }}; isRemoveConfirmationModalOpen = true; isDropdownOpen = false"
+                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Remove from site</a>
+                                </div>
 
-                                    <!-- Confirmation Modal -->
-                                    <div x-show="isRemoveConfirmationModalOpen"
-                                         class="fixed z-50 inset-0 flex items-center justify-center"
-                                         aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
-                                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                                             aria-hidden="true"></div>
+                                <!-- Confirmation Modal -->
+                                <div x-show="isRemoveConfirmationModalOpen"
+                                    class="fixed z-50 inset-0 flex items-center justify-center"
+                                    aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
+                                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                        aria-hidden="true"></div>
 
-                                        <div
-                                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                                            <!-- Close button -->
-                                            <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
-                                                <button @click="isRemoveConfirmationModalOpen = false"
-                                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                    <span class="sr-only">Close</span>
-                                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              stroke-width="2"
-                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                    <div
+                                        class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                                        <!-- Close button -->
+                                        <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                                            <button @click="isRemoveConfirmationModalOpen = false"
+                                                class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <span class="sr-only">Close</span>
+                                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
 
-                                            <!-- Modal content -->
-                                            <div class="text-center sm:mt-0 sm:text-left">
-                                                <h3 class="text-lg leading-6 font-medium text-gray-900"
-                                                    id="confirmation-modal-title">
-                                                    Remove Service Provider Confirmation
-                                                </h3>
-                                                <div class="mt-2">
-                                                    <p class="text-sm text-gray-500">
-                                                        Are you sure you want to remove this service provider from the
-                                                        site?
-                                                    </p>
-                                                    <div class="mt-4">
-                                                        <button @click="confirmRemoveProvider(providerId)"
-                                                                class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
-                                                            Confirm Removal
-                                                        </button>
-                                                        <button @click="isRemoveConfirmationModalOpen = false"
-                                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
-                                                            Cancel
-                                                        </button>
-                                                    </div>
+                                        <!-- Modal content -->
+                                        <div class="text-center sm:mt-0 sm:text-left">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                id="confirmation-modal-title">
+                                                Remove Service Provider Confirmation
+                                            </h3>
+                                            <div class="mt-2">
+                                                <p class="text-sm text-gray-500">
+                                                    Are you sure you want to remove this service provider from the
+                                                    site?
+                                                </p>
+                                                <div class="mt-4">
+                                                    <button @click="confirmRemoveProvider(providerId)"
+                                                        class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                                        Confirm Removal
+                                                    </button>
+                                                    <button @click="isRemoveConfirmationModalOpen = false"
+                                                        class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                                        Cancel
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+
                         </div>
+                    </div>
                     @empty
-                        <li>No service providers assigned.</li>
+                    <li>No service providers assigned.</li>
                     @endforelse
                 </div>
 
                 <!-- Edit Modal -->
                 <div x-show="isOpenEdit" x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 transform scale-90"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     x-transition:leave="transition ease-in duration-300"
-                     x-transition:leave-start="opacity-100 transform scale-100"
-                     x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
+                    x-transition:enter-start="opacity-0 transform scale-90"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                             aria-hidden="true"></div>
+                            aria-hidden="true"></div>
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                              aria-hidden="true">&#8203;</span>
+                            aria-hidden="true">&#8203;</span>
                         <div
                             class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="closeEditModal"
-                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor" aria-hidden="true">
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M6 18L18 6M6 6l12 12"/>
+                                            d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>
@@ -445,18 +453,18 @@
                                         Room</h3>
                                     <div class="mt-2">
                                         <input type="text" x-model="roomName"
-                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                               placeholder="Room Name">
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                            placeholder="Room Name">
                                         <input type="text" x-model="roomCost"
-                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                               placeholder="Room Cost">
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                            placeholder="Room Cost">
                                     </div>
                                     <div class="mt-4">
                                         <button @click="saveRoom"
-                                                class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save
+                                            class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm">Save
                                         </button>
                                         <button @click="closeEditModal"
-                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                            class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
                                             Cancel
                                         </button>
                                     </div>
@@ -468,29 +476,30 @@
 
                 <!-- Modal -->
                 <div x-show="isOpen" x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 transform scale-90"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     x-transition:leave="transition ease-in duration-300"
-                     x-transition:leave-start="opacity-100 transform scale-100"
-                     x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
+                    x-transition:enter-start="opacity-0 transform scale-90"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-90" class="fixed z-50 inset-0 overflow-y-auto">
                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div x-show="isOpen" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                             aria-hidden="true"></div>
+                            aria-hidden="true"></div>
 
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                              aria-hidden="true">&#8203;</span>
+                            aria-hidden="true">&#8203;</span>
 
                         <div x-show="isOpen"
-                             class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+                            style="max-height: 90vh; overflow-y: auto;">
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="isOpen = false"
-                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor" aria-hidden="true">
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M6 18L18 6M6 6l12 12"/>
+                                            d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>
@@ -501,15 +510,18 @@
                                         Tenant</h3>
                                     <div class="mt-2">
                                         <input type="text" x-model="searchQuery" @input="searchUsers"
-                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                               placeholder="Search users...">
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                            placeholder="Search users...">
                                         <ul class="mt-4">
-                                            <template x-for="user in users" :key="user . id">
-                                                <li
-                                                    class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
-                                                    <span x-text="user.name"></span>
+                                            <template x-for="user in filteredUsers" :key="user.id">
+                                                <li class="py-2 px-4 border-b border-gray-200 flex justify-between items-center">
+                                                    <div>
+                                                        <span x-text="user.name"></span> <span x-text="user.last_name"></span>
+                                                        <br>
+                                                        <span x-text="user.email" class="text-gray-500 text-sm"></span>
+                                                    </div>
                                                     <button @click="assignUserToRoom(user.id)"
-                                                            class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">
+                                                        class="bg-primary-600 text-white px-2 py-1 rounded-md text-sm">
                                                         Assign
                                                     </button>
                                                 </li>
@@ -524,26 +536,26 @@
 
                 <!-- Confirmation Modal -->
                 <div x-show="isConfirmationOpen" class="fixed flex z-50 inset-0 justify-center items-center"
-                     aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
+                    aria-labelledby="confirmation-modal-title" role="dialog" aria-modal="true">
                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <!-- Background overlay -->
                         <div x-show="isConfirmationOpen"
-                             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                             aria-hidden="true"></div>
+                            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                            aria-hidden="true"></div>
 
                         <!-- Modal panel -->
                         <div x-show="isConfirmationOpen"
-                             class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <!-- Close button -->
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="closeConfirmationModal"
-                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor" aria-hidden="true">
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M6 18L18 6M6 6l12 12"/>
+                                            d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>
@@ -562,12 +574,12 @@
                                             </p>
                                             <div class="mt-4">
                                                 <button @click="confirmRemoveTenant"
-                                                        class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                                    class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
                                                     Confirm
                                                     Removal
                                                 </button>
                                                 <button @click="closeConfirmationModal"
-                                                        class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
                                                     Cancel
                                                 </button>
                                             </div>
@@ -581,27 +593,27 @@
 
                 <!-- Delete Modal -->
                 <div x-show="isDeleteModalOpen" class="fixed z-10 inset-0 overflow-y-auto"
-                     aria-labelledby="delete-modal-title"
-                     role="dialog" aria-modal="true">
+                    aria-labelledby="delete-modal-title"
+                    role="dialog" aria-modal="true">
                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <!-- Background overlay -->
                         <div x-show="isDeleteModalOpen"
-                             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                             aria-hidden="true"></div>
+                            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                            aria-hidden="true"></div>
 
                         <!-- Modal panel -->
                         <div x-show="isDeleteModalOpen"
-                             class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <!-- Close button -->
                             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                                 <button @click="closeDeleteModal"
-                                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor" aria-hidden="true">
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M6 18L18 6M6 6l12 12"/>
+                                            d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>
@@ -619,12 +631,12 @@
                                             </p>
                                             <div class="mt-4">
                                                 <button @click="confirmDeleteRoom"
-                                                        class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                                    class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
                                                     Confirm
                                                     Deletion
                                                 </button>
                                                 <button @click="closeDeleteModal"
-                                                        class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
+                                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm ml-2">
                                                     Cancel
                                                 </button>
                                             </div>
@@ -642,14 +654,43 @@
                     Alpine.data('searchUsers', () => ({
                         isOpen: false,
                         searchQuery: '',
-                        users: [],
+                        allUsers: [], // Store all users
+                        filteredUsers: [], // Store filtered users
                         selectedRoomId: null,
                         isConfirmationOpen: false,
                         isDeleteModalOpen: false,
 
+                        // Initialize by fetching all users
+                        async init() {
+                            try {
+                                const response = await axios.get('/users');
+                                this.allUsers = response.data;
+                                this.filteredUsers = this.allUsers;
+                            } catch (error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        },
+
+                        // Filter users based on search query
+                        searchUsers() {
+                            if (!this.searchQuery.trim()) {
+                                this.filteredUsers = this.allUsers;
+                                return;
+                            }
+
+                            const query = this.searchQuery.toLowerCase();
+                            this.filteredUsers = this.allUsers.filter(user =>
+                                user.name.toLowerCase().includes(query) ||
+                                user.last_name.toLowerCase().includes(query) ||
+                                user.email.toLowerCase().includes(query)
+                            );
+                        },
+
                         openModal(roomId) {
                             this.selectedRoomId = roomId;
                             this.isOpen = true;
+                            this.searchQuery = '';
+                            this.filteredUsers = this.allUsers;
                         },
 
                         openConfirmationModal(roomId) {
@@ -674,7 +715,6 @@
                             try {
                                 const response = await axios.delete(`/rooms/${this.selectedRoomId}`);
                                 if (response.status === 200) {
-                                    console.log('Room deleted successfully.');
                                     this.closeDeleteModal();
                                     window.location.reload();
                                 }
@@ -687,9 +727,6 @@
                             try {
                                 const response = await axios.put(`/rooms/${this.selectedRoomId}/remove-tenant`);
                                 if (response.status === 200) {
-                                    console.log('Tenant removed successfully.');
-                                    // Optionally: Update UI or reload data after successful removal
-                                    // Example: window.location.reload();
                                     this.closeConfirmationModal();
                                     window.location.reload();
                                 }
@@ -697,22 +734,12 @@
                                 console.error('Error removing tenant:', error);
                             }
                         },
-                        async searchUsers() {
-                            if (this.searchQuery.length < 3) {
-                                this.users = [];
-                                return;
-                            }
 
-                            try {
-                                const response = await axios.get(`/users`, {params: {search: this.searchQuery}});
-                                this.users = response.data;
-                            } catch (error) {
-                                console.error('Error fetching users:', error);
-                            }
-                        },
                         async assignUserToRoom(userId) {
                             try {
-                                const response = await axios.post(`/rooms/${this.selectedRoomId}/assign`, {user_id: userId});
+                                const response = await axios.post(`/rooms/${this.selectedRoomId}/assign`, {
+                                    user_id: userId
+                                });
                                 if (response.status === 200) {
                                     this.isOpen = false;
                                     window.location.reload();
