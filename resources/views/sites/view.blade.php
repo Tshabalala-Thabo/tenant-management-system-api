@@ -72,6 +72,7 @@
                     }
                 }
             }" class=" flex flex-wrap gap-y-4 px-3">
+            <div id="site" data-site-id="{{ $site->id }}"></div>
                 <div class="w-8/12 pr-2">
                     <div class="flex items-end justify-between">
                         <h1 class="font-bold">Rooms</h1>
@@ -662,8 +663,15 @@
 
                         // Initialize by fetching all users
                         async init() {
+                            const siteId = document.getElementById('site').dataset.siteId; // Retrieve the site ID
+                            console.log('Current Site ID:', siteId); // Log the site ID to the console
+
                             try {
-                                const response = await axios.get('/users');
+                                const response = await axios.get('/users', {
+                                    params: {
+                                        site_id: siteId // Pass the current site ID
+                                    }
+                                });
                                 this.allUsers = response.data;
                                 this.filteredUsers = this.allUsers;
                             } catch (error) {

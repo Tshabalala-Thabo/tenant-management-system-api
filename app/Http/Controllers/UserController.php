@@ -12,11 +12,14 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('search');
-        $users = User::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('last_name', 'LIKE', "%{$query}%")
-            ->orWhere('email', 'LIKE', "%{$query}%")
+        $siteId = $request->input('site_id'); // Get the current site ID from the request
+    
+        $users = User::whereHas('accommodationApplications', function ($query) use ($siteId) {
+                $query->where('site_id', $siteId)
+                      ->where('status', 'accepted'); // Ensure the application is accepted
+            })
             ->get(['id', 'name', 'last_name', 'email']);
-
+    
         return response()->json($users);
     }
     public function show($id)
