@@ -8,7 +8,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('id_number')->unique(); // or ->unique() if you want it to be unique
+            $table->string('id_number')->unique()->nullable(); // or ->unique() if you want it to be unique
             $table->string('phone')->nullable();
         });
     }
