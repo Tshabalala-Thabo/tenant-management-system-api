@@ -29,9 +29,7 @@ use Illuminate\Http\Request;
 Route::get('/login', function () {
     return view('auth.login');
 });
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 
 // Route for viewing sites
 Route::middleware(['auth'])->group(function () {

@@ -15,13 +15,13 @@ class UserController extends Controller
     {
         $query = $request->input('search');
         $siteId = $request->input('site_id'); // Get the current site ID from the request
-    
+
         $users = User::whereHas('accommodationApplications', function ($query) use ($siteId) {
                 $query->where('site_id', $siteId)
                       ->where('status', 'accepted'); // Ensure the application is accepted
             })
             ->get(['id', 'name', 'last_name', 'email']);
-    
+
         return response()->json($users);
     }
     public function show($id)
@@ -29,7 +29,7 @@ class UserController extends Controller
         // Fetch the tenant with their tickets and lease agreements including room and site information
         $tenant = User::with([
             'invoices.room.site',  // This ensures we load the site with each invoice
-            'leaseAgreements.room.site', 
+            'leaseAgreements.room.site',
             'tenantTickets'
         ])->findOrFail($id);
 
@@ -71,6 +71,33 @@ class UserController extends Controller
         //return response()->json($tenants);
         //return view('tenants', ['tenants' => $tenants]);
         return view('tenants', ['groupedTenants' => $groupedTenants]);
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+        ]);
+
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+            'message' => 'Registration successful'
+        ], 201);
     }
 
     public function login(Request $request)

@@ -20,3 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
+Route::get('/', function () {
+    return response('Welcome to Tenant Management System API', 200)
+        ->header('Content-Type', 'text/plain');
+});
