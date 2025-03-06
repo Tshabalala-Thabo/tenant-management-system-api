@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,5 @@ Route::get('/', function () {
     return response('Welcome to Tenant Management System API', 200)
         ->header('Content-Type', 'text/plain');
 });
+
+Route::resource('/sites', SiteController::class);

@@ -10,9 +10,22 @@ class SiteController extends Controller
 {
     public function index()
     {
-        $sites = Site::where('landlord_id', Auth::id())->get();
-        return view('sites', compact('sites'));
+        try {
+            //$sites = Site::where('landlord_id', Auth::id())->get();
+            $sites = Site::all();
+            return response()->json([
+                'status' => 'success',
+                'data' => $sites
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to retrieve sites',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+    
     public function show(Site $site)
     {
         $this->authorize('view', $site);
